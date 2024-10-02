@@ -1,0 +1,50 @@
+### Retorna todas as disciplinas
+GET http://localhost:5050/disciplina
+
+### Retorna somente ativas
+GET http://localhost:5050/disciplina/actives
+
+### Retorna disciplina por id
+GET http://localhost:5050/disciplina/1
+
+### Cria disciplina 1
+POST http://localhost:5050/disciplina
+Content-Type: application/json
+
+{
+    "nome": "Disciplina 1",
+    "descricao": "Descrição 1"
+}
+
+### Cria disciplina 2
+POST http://localhost:5050/disciplina
+Content-Type: application/json
+
+{
+    "nome": "Disciplina 2",
+    "descricao": "Descrição 2"
+}
+
+### Cria disciplina 3
+POST http://localhost:5050/disciplina
+Content-Type: application/json
+
+{
+    "nome": "Disciplina 3",
+    "descricao": "Descrição 3"
+}
+
+### Atualiza disciplina 1
+PUT http://localhost:5050/disciplina/1
+Content-Type: application/json
+
+{
+    "nome": "Disciplina 1 Atualizada",
+    "descricao": "Descrição 1 Atualizada"
+}
+
+### Inativa disciplina 2
+PUT http://localhost:5050/disciplina/disable/2
+
+### Ativa disciplina 2
+PUT http://localhost:5050/disciplina/activate/2

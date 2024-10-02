@@ -1,0 +1,57 @@
+### Retorna todos professor
+GET http://localhost:5050/professor
+
+### Retorna somente ativos
+GET http://localhost:5050/professor/actives
+
+### Retorna professor por id
+GET http://localhost:5050/professor/1
+
+### Cria professor 1
+POST http://localhost:5050/professor
+Content-Type: application/json
+
+{
+    "nome": "Professor 1",
+    "cpf": "12345678901",
+    "endereco": "Rua 1",
+    "telefone": "123456789"
+}
+
+### Cria professor 2
+POST http://localhost:5050/professor
+Content-Type: application/json
+
+{
+    "nome": "Professor 2",
+    "cpf": "12345678902",
+    "endereco": "Rua 2",
+    "telefone": "123456789"
+}
+
+### Cria professor 3
+POST http://localhost:5050/professor
+Content-Type: application/json
+
+{
+    "nome": "Professor 3",
+    "cpf": "12345678903",
+    "endereco": "Rua 3",
+    "telefone": "123456789"
+}
+
+### Atualiza professor 1
+PUT http://localhost:5050/professor/1
+
+{
+    "nome": "Professor 1 Atualizado",
+    "cpf": "12345678901",
+    "endereco": "Rua 1 Atualizada",
+    "telefone": "123456789"
+}
+
+### Inativa professor 2
+PUT http://localhost:5050/professor/disable/2
+
+### Ativa professor 2
+PUT http://localhost:5050/professor/activate/2

@@ -1,4 +1,5 @@
 import Sala from '../models/sala.js';
+import Turma from '../models/turma.js';
 
 class ControllerSala {
     async store(req, res) {
@@ -7,17 +8,24 @@ class ControllerSala {
             nome,
             capacidade,
         });
+
         return res.json(sala);
     }
 
     async index(req, res) {
         const salas = await Sala.findAll();
+
         return res.json(salas);
     }
 
     async show(req, res) {
         const { id } = req.params;
         const sala = await Sala.findByPk(id);
+
+        if (!sala) {
+            return res.status(404).json({ erro: 'Sala não encontrada' });
+        }
+
         return res.json(sala);
     }
 
@@ -27,6 +35,7 @@ class ControllerSala {
                 status: 'ativo',
             },
         });
+
         return res.json(salas);
     }
 
@@ -34,25 +43,56 @@ class ControllerSala {
         const { id } = req.params;
         const { nome, capacidade } = req.body;
         const sala = await Sala.findByPk(id);
+
+        if (!sala) {
+            return res.status(404).json({ erro: 'Sala não encontrada' });
+        }
+
         sala.nome = nome;
         sala.capacidade = capacidade;
         await sala.save();
+
         return res.json(sala);
     }
 
-    async enable(req, res) {
+    async activate(req, res) {
         const { id } = req.params;
         const sala = await Sala.findByPk(id);
+
+        if (!sala) {
+            return res.status(404).json({ erro: 'Sala não encontrada' });
+        }
+
         sala.status = 'ativo';
         await sala.save();
+
         return res.json(sala);
     }
 
     async disable(req, res) {
         const { id } = req.params;
         const sala = await Sala.findByPk(id);
+
+        if (!sala) {
+            return res.status(404).json({ erro: 'Sala não encontrada' });
+        }
+
         sala.status = 'inativo';
         await sala.save();
+
+        const turmas = await Turma.findAll({
+            where: {
+                idSala: sala.idSala,
+            },
+        });
+
+        if (turmas) {
+            turmas.forEach(async (turma) => {
+                turma.status = 'inativo';
+                await turma.save();
+            });
+        }
+
         return res.json(sala);
     }
 }

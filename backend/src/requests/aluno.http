@@ -1,0 +1,58 @@
+### Retorna todos aluno
+GET http://localhost:5050/aluno
+
+### Retorna somente ativos
+GET http://localhost:5050/aluno/actives
+
+### Retorna aluno por id
+GET http://localhost:5050/aluno/1
+
+### Cria aluno 1
+POST http://localhost:5050/aluno
+Content-Type: application/json
+
+{
+    "nome": "Aluno 1",
+    "cpf": "12345678901",
+    "endereco": "Rua 1",
+    "telefone": "123456789"
+}
+
+### Cria aluno 2
+POST http://localhost:5050/aluno
+Content-Type: application/json
+
+{
+    "nome": "Aluno 2",
+    "cpf": "12345678902",
+    "endereco": "Rua 2",
+    "telefone": "123456789"
+}
+
+### Cria aluno 3
+POST http://localhost:5050/aluno
+Content-Type: application/json
+
+{
+    "nome": "Aluno 3",
+    "cpf": "12345678903",
+    "endereco": "Rua 3",
+    "telefone": "123456789"
+}
+
+### Atualiza aluno 1
+PUT http://localhost:5050/aluno/1
+Content-Type: application/json
+
+{
+    "nome": "Aluno 1 Atualizado",
+    "cpf": "12345678901",
+    "endereco": "Rua 1 Atualizada",
+    "telefone": "123456789"
+}
+
+### Inativa aluno 2
+PUT http://localhost:5050/aluno/disable/2
+
+### Ativa aluno 2
+PUT http://localhost:5050/aluno/activate/2
