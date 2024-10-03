@@ -6,9 +6,9 @@ const routerAluno = Router();
 routerAluno.get('/actives', ControllerAluno.showActives);
 routerAluno.put('/activate/:id', ControllerAluno.activate);
 routerAluno.put('/disable/:id', ControllerAluno.disable);
-routerAluno.get('/', ControllerAluno.index);
-routerAluno.post('/', ControllerAluno.store);
+routerAluno.put('/update/:id', ControllerAluno.update);
+routerAluno.post('/create', ControllerAluno.store);
 routerAluno.get('/:id', ControllerAluno.show);
-routerAluno.put('/:id', ControllerAluno.update);
+routerAluno.get('/', ControllerAluno.index);
 
 export default routerAluno;

@@ -23,9 +23,14 @@ class ControllerAlunoHasTurma {
         });
 
         if (alunoHasTurmaExists) {
-            return res
-                .status(400)
-                .json({ error: 'Aluno já cadastrado nesta turma' });
+            if (alunoHasTurmaExists.status === 'ativo') {
+                return res.status(400).json({ error: 'Aluno já cadastrado' });
+            }
+
+            alunoHasTurmaExists.status = 'ativo';
+            await alunoHasTurmaExists.save();
+
+            return res.json(alunoHasTurmaExists);
         }
 
         const alunoHasTurma = await AlunoHasTurma.create({

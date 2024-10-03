@@ -8,7 +8,7 @@ GET http://localhost:5050/aluno/actives
 GET http://localhost:5050/aluno/1
 
 ### Cria aluno 1
-POST http://localhost:5050/aluno
+POST http://localhost:5050/aluno/create
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### Cria aluno 2
-POST http://localhost:5050/aluno
+POST http://localhost:5050/aluno/create
 Content-Type: application/json
 
 {
@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ### Cria aluno 3
-POST http://localhost:5050/aluno
+POST http://localhost:5050/aluno/create
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 }
 
 ### Atualiza aluno 1
-PUT http://localhost:5050/aluno/1
+PUT http://localhost:5050/aluno/update/1
 Content-Type: application/json
 
 {

@@ -8,7 +8,7 @@ GET http://localhost:5050/professor/actives
 GET http://localhost:5050/professor/1
 
 ### Cria professor 1
-POST http://localhost:5050/professor
+POST http://localhost:5050/professor/create
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### Cria professor 2
-POST http://localhost:5050/professor
+POST http://localhost:5050/professor/create
 Content-Type: application/json
 
 {
@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ### Cria professor 3
-POST http://localhost:5050/professor
+POST http://localhost:5050/professor/create
 Content-Type: application/json
 
 {
@@ -41,7 +41,8 @@ Content-Type: application/json
 }
 
 ### Atualiza professor 1
-PUT http://localhost:5050/professor/1
+PUT http://localhost:5050/professor/update/1
+Content-Type: application/json
 
 {
     "nome": "Professor 1 Atualizado",

@@ -6,8 +6,9 @@ const routerTurma = Router();
 routerTurma.get('/actives', ControllerTurma.showActives);
 routerTurma.put('/activate/:id', ControllerTurma.activate);
 routerTurma.put('/disable/:id', ControllerTurma.disable);
-routerTurma.get('/', ControllerTurma.index);
-routerTurma.post('/', ControllerTurma.store);
+routerTurma.put('/update/:id', ControllerTurma.update);
+routerTurma.post('/create', ControllerTurma.store);
 routerTurma.get('/:id', ControllerTurma.show);
+routerTurma.get('/', ControllerTurma.index);
 
 export default routerTurma;

@@ -10,11 +10,11 @@ Content-Type: application/json
     "idTurma": 1
 }
 
-### Retorna alunoHasTurma por id
-GET http://localhost:5050/alunoHasTurma/1
+### Retorna someente ativos
+GET http://localhost:5050/alunoHasTurma/actives
 
 ### Cria alunoHasTurma 1
-POST http://localhost:5050/alunoHasTurma
+POST http://localhost:5050/alunoHasTurma/create
 Content-Type: application/json
 
 {
@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ### Cria alunoHasTurma 2
-POST http://localhost:5050/alunoHasTurma
+POST http://localhost:5050/alunoHasTurma/create
 Content-Type: application/json
 
 {
@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ### Cria alunoHasTurma 3
-POST http://localhost:5050/alunoHasTurma
+POST http://localhost:5050/alunoHasTurma/create
 Content-Type: application/json
 
 {
@@ -40,17 +40,20 @@ Content-Type: application/json
     "idTurma": 3
 }
 
-### Atualiza alunoHasTurma 1
-PUT http://localhost:5050/alunoHasTurma/1
+### Inativa alunoHasTurma
+PUT http://localhost:5050/alunoHasTurma/disable/
 Content-Type: application/json
 
 {
-    "idAluno": 1,
-    "idTurma": 1
+    "idAluno": 2,
+    "idTurma": 2
 }
 
-### Inativa alunoHasTurma
-PUT http://localhost:5050/alunoHasTurma/disable/2
-
 ### Ativa alunoHasTurma
-PUT http://localhost:5050/alunoHasTurma/activate/2
+PUT http://localhost:5050/alunoHasTurma/activate/
+Content-Type: application/json
+
+{
+    "idAluno": 2,
+    "idTurma": 2
+}

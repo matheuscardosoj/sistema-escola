@@ -2,6 +2,7 @@ import Turma from '../models/turma.js';
 import Disciplina from '../models/disciplina.js';
 import Professor from '../models/professor.js';
 import Sala from '../models/sala.js';
+import AlunoHasTurma from '../models/alunoHasTurma.js';
 
 class ControllerTurma {
     async store(req, res) {
@@ -10,17 +11,36 @@ class ControllerTurma {
             semestreAno,
             horarioInicio,
             horarioFim,
-            status,
             idSala,
             idDisciplina,
             idProfessor,
         } = req.body;
+
+        const disciplina = await Disciplina.findByPk(idDisciplina);
+        const professor = await Professor.findByPk(idProfessor);
+        const sala = await Sala.findByPk(idSala);
+
+        if (!disciplina || !professor || !sala) {
+            return res.status(400).json({
+                error: 'Disciplina, professor ou sala não encontrados',
+            });
+        }
+
+        if (
+            disciplina.status === 'inativo' ||
+            professor.status === 'inativo' ||
+            sala.status === 'inativo'
+        ) {
+            return res
+                .status(400)
+                .json({ error: 'Disciplina, professor ou sala inativos' });
+        }
+
         const turma = await Turma.create({
             nome,
             semestreAno,
             horarioInicio,
             horarioFim,
-            status,
             idSala,
             idDisciplina,
             idProfessor,
@@ -89,8 +109,10 @@ class ControllerTurma {
     }
 
     async activate(req, res) {
-        const { idTurma } = req.params;
-        const turma = await Turma.findByPk(idTurma);
+        const { id } = req.params;
+        console.log(id);
+
+        const turma = await Turma.findByPk(id);
 
         if (!turma) {
             return res.status(400).json({ error: 'Turma não encontrada' });
@@ -126,6 +148,19 @@ class ControllerTurma {
 
         turma.status = 'inativo';
         await turma.save();
+
+        const alunosHasTurma = await AlunoHasTurma.findAll({
+            where: {
+                idTurma: turma.idTurma,
+            },
+        });
+
+        if (alunosHasTurma) {
+            alunosHasTurma.forEach(async (alunoHasTurma) => {
+                alunoHasTurma.status = 'inativo';
+                await alunoHasTurma.save();
+            });
+        }
 
         return res.json(turma);
     }

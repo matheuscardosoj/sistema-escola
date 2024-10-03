@@ -8,7 +8,7 @@ GET http://localhost:5050/disciplina/actives
 GET http://localhost:5050/disciplina/1
 
 ### Cria disciplina 1
-POST http://localhost:5050/disciplina
+POST http://localhost:5050/disciplina/create
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Cria disciplina 2
-POST http://localhost:5050/disciplina
+POST http://localhost:5050/disciplina/create
 Content-Type: application/json
 
 {
@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 
 ### Cria disciplina 3
-POST http://localhost:5050/disciplina
+POST http://localhost:5050/disciplina/create
 Content-Type: application/json
 
 {
@@ -35,7 +35,7 @@ Content-Type: application/json
 }
 
 ### Atualiza disciplina 1
-PUT http://localhost:5050/disciplina/1
+PUT http://localhost:5050/disciplina/update/1
 Content-Type: application/json
 
 {

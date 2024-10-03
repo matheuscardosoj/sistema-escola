@@ -1,5 +1,6 @@
 import Sala from '../models/sala.js';
 import Turma from '../models/turma.js';
+import AlunoHasTurma from '../models/alunoHasTurma.js';
 
 class ControllerSala {
     async store(req, res) {
@@ -90,6 +91,19 @@ class ControllerSala {
             turmas.forEach(async (turma) => {
                 turma.status = 'inativo';
                 await turma.save();
+
+                const alunoHasTurma = await AlunoHasTurma.findAll({
+                    where: {
+                        idTurma: turma.idTurma,
+                    },
+                });
+
+                if (alunoHasTurma) {
+                    alunoHasTurma.forEach(async (aluno) => {
+                        aluno.status = 'inativo';
+                        await aluno.save();
+                    });
+                }
             });
         }
 
