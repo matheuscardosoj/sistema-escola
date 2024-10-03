@@ -1,0 +1,72 @@
+### Retorna todas as turmas
+GET http://localhost:5050/turma
+
+### Retorna somente ativas
+GET http://localhost:5050/turma/actives
+
+### Retorna turma por id
+GET http://localhost:5050/turma/1
+
+### Cria turma 1
+POST http://localhost:5050/turma/create
+Content-Type: application/json
+
+{
+    "nome": "Turma 1",
+    "semestreAno": "2021.1",
+    "horarioInicio": "19:00",
+    "horarioFim": "22:00",
+    "status": "Ativo",
+    "idSala": 1,
+    "idDisciplina": 1,
+    "idProfessor": 1
+}
+
+### Cria turma 2
+POST http://localhost:5050/turma/create
+Content-Type: application/json
+
+{
+    "nome": "Turma 2",
+    "semestreAno": "2021.1",
+    "horarioInicio": "19:00",
+    "horarioFim": "22:00",
+    "idSala": 2,
+    "idDisciplina": 2,
+    "idProfessor": 2
+}
+
+### Cria turma 3
+POST http://localhost:5050/turma/create
+Content-Type: application/json
+
+{
+    "nome": "Turma 3",
+    "semestreAno": "2021.1",
+    "horarioInicio": "19:00",
+    "horarioFim": "22:00",
+    "idSala": 3,
+    "idDisciplina": 3,
+    "idProfessor": 3
+}
+
+### Atualiza turma 1
+PUT http://localhost:5050/turma/update/1
+Content-Type: application/json
+
+{
+    "nome": "Turma 1 Atualizada",
+    "semestreAno": "2021.1",
+    "horarioInicio": "19:00",
+    "horarioFim": "22:00",
+    "idSala": 1,
+    "idDisciplina": 1,
+    "idProfessor": 1
+}
+
+### Inativa turma 2
+PUT http://localhost:5050/turma/disable/2
+
+### Ativa turma 2
+PUT http://localhost:5050/turma/activate/1
+

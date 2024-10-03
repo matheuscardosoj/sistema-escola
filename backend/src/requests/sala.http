@@ -1,0 +1,50 @@
+### Retorna todas as salas
+GET http://localhost:5050/sala
+
+### Retorna somente ativas
+GET http://localhost:5050/sala/actives
+
+### Retorna sala por id
+GET http://localhost:5050/sala/1
+
+### Cria sala 1
+POST http://localhost:5050/sala/create
+Content-Type: application/json
+
+{
+    "nome": "Sala 1",
+    "capacidade": 30
+}
+
+### Cria sala 2
+POST http://localhost:5050/sala/create
+Content-Type: application/json
+
+{
+    "nome": "Sala 2",
+    "capacidade": 40
+}
+
+### Cria sala 3
+POST http://localhost:5050/sala/create
+Content-Type: application/json
+
+{
+    "nome": "Sala 3",
+    "capacidade": 50
+}
+
+### Atualiza sala 1
+PUT http://localhost:5050/sala/update/1
+Content-Type: application/json
+
+{
+    "nome": "Sala 1 Atualizada",
+    "capacidade": 30
+}
+
+### Inativa sala 2
+PUT http://localhost:5050/sala/disable/2
+
+### Ativa sala 2
+PUT http://localhost:5050/sala/activate/2

@@ -4,10 +4,10 @@ import ControllerAlunoHasTurma from '../controllers/alunoHasTurma.js';
 const routerAlunoHasTurma = Router();
 
 routerAlunoHasTurma.get('/actives', ControllerAlunoHasTurma.showActives);
-routerAlunoHasTurma.put('/enable/:id', ControllerAlunoHasTurma.enable);
-routerAlunoHasTurma.put('/disable/:id', ControllerAlunoHasTurma.disable);
+routerAlunoHasTurma.put('/activate/', ControllerAlunoHasTurma.activate);
+routerAlunoHasTurma.put('/disable/', ControllerAlunoHasTurma.disable);
+routerAlunoHasTurma.post('/create', ControllerAlunoHasTurma.store);
+routerAlunoHasTurma.post('/', ControllerAlunoHasTurma.show);
 routerAlunoHasTurma.get('/', ControllerAlunoHasTurma.index);
-routerAlunoHasTurma.post('/', ControllerAlunoHasTurma.store);
-routerAlunoHasTurma.get('/:id', ControllerAlunoHasTurma.show);
 
 export default routerAlunoHasTurma;

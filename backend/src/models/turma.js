@@ -1,8 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../database/sequelize.js';
-import Disciplina from './Disciplina.js';
-import Professores from './Professor.js';
-import Salas from './Sala.js';
+import Disciplina from './disciplina.js';
+import Professores from './professor.js';
+import Salas from './sala.js';
 
 class Turma extends Model {}
 
@@ -24,7 +24,12 @@ Turma.init(
             allowNull: false,
         },
 
-        horario: {
+        horarioInicio: {
+            type: DataTypes.TIME,
+            allowNull: false,
+        },
+
+        horarioFim: {
             type: DataTypes.TIME,
             allowNull: false,
         },

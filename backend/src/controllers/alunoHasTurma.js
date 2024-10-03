@@ -15,6 +15,24 @@ class ControllerAlunoHasTurma {
                 .json({ error: 'Aluno ou turma não encontrados' });
         }
 
+        const alunoHasTurmaExists = await AlunoHasTurma.findOne({
+            where: {
+                idAluno,
+                idTurma,
+            },
+        });
+
+        if (alunoHasTurmaExists) {
+            if (alunoHasTurmaExists.status === 'ativo') {
+                return res.status(400).json({ error: 'Aluno já cadastrado' });
+            }
+
+            alunoHasTurmaExists.status = 'ativo';
+            await alunoHasTurmaExists.save();
+
+            return res.json(alunoHasTurmaExists);
+        }
+
         const alunoHasTurma = await AlunoHasTurma.create({
             idAluno,
             idTurma,
@@ -25,6 +43,7 @@ class ControllerAlunoHasTurma {
 
     async index(req, res) {
         const alunoHasTurma = await AlunoHasTurma.findAll();
+
         return res.json(alunoHasTurma);
     }
 
@@ -57,7 +76,7 @@ class ControllerAlunoHasTurma {
         return res.json(alunoHasTurma);
     }
 
-    async enable(req, res) {
+    async activate(req, res) {
         const { idAluno, idTurma } = req.body;
 
         const alunoHasTurma = await AlunoHasTurma.findOne({
@@ -71,6 +90,13 @@ class ControllerAlunoHasTurma {
             return res
                 .status(400)
                 .json({ error: 'Aluno não encontrado nesta turma' });
+        }
+
+        const aluno = await Aluno.findByPk(idAluno);
+        const turma = await Turma.findByPk(idTurma);
+
+        if (aluno.status === 'inativo' || turma.status === 'inativo') {
+            return res.status(400).json({ error: 'Aluno ou turma inativos' });
         }
 
         alunoHasTurma.status = 'ativo';
