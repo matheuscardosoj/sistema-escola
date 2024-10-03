@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Disciplinas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bloco__form">
+        <h1>Gerenciar Disciplinas</h1>
+
+        <form>
+            <div class="disciplinas__form">
+                <label for="id">Disciplinas:</label>
+                <select id="id-disciplinas" required></select>
+            </div>
+        </form>
+
+        <div class="botoes">
+            <button id="btnInserir">Inserir</button>
+            <button id="btnAlterar">Alterar</button>
+            <button id="btnExcluir">Desativar</button>
+            <button id="btnPesquisar">Pesquisar</button>
+        </div>
+    </div>
+
+    <script src="Disciplinas.js">
+        document.getElementById("btnInserir").addEventListener("click", function() {
+            window.location.href = "consultar.html"; // Substitua "outra_pagina.html" pelo caminho da sua nova página
+        });
+    </script>
+</body>
+</html>

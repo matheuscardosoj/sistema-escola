@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alteração Turma</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bloco__form">
+        <h1>altere a Turma</h1>
+
+        <form>
+            <div class="turmas__form">
+                <label for="nome-turma">Nome</label>
+                <input type="text" id="nome-turma" required>
+                <label for="semestre-turma">Semestre</label>
+                <input type="text" id="semestre-turma" required>
+                <label for="horario-turma">Horário</label>
+                <input type="text" id="horario-turma" required>
+            </div>
+        </form>
+
+        <div class="botoes">
+            <button id="btnInserir">Enviar</button>
+        </div>
+    </div>
+
+    <script src="Turmas.js">
+        document.getElementById("btnInserir").addEventListener("click", function() {
+            window.location.href = "consultar.html"; // Substitua "outra_pagina.html" pelo caminho da sua nova página
+        });
+    </script>
+</body>
+</html>
