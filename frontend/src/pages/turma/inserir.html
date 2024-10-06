@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Inserção Turma</title>
+        <link rel="stylesheet" href="../../styles/global.css">
+        <link rel="stylesheet" href="../../styles/pages/turma.css">
+    </head>
+
+    <body>
+        <a class="buttonVoltar button" href="gerenciar.html">Voltar</a>
+
+        <div class="container">
+            <h1 class="titulo">Insira a Turma</h1>
+
+            <form class="form">
+                <div class="form__container form__container--column">
+                    <div class="form__containerElement">
+                        <label for="nomeTurma">Nome</label>
+                        <input type="text" id="nomeTurma" required>
+                    </div>
+
+                    <div class="form__containerElement">
+                        <label for="semestreTurma">Ano: </label>
+                        <input type="text" id="semestreTurma" required>
+                    </div>
+
+                    <div class="form__containerElement">
+                        <label for="horaInicioTurma">Hora de inicio: </label>
+                        <input type="time" id="dataInicioTurma" required>
+                    </div>
+
+                    <div class="form__containerElement">
+                        <label for="horaTerminoTurma">Hora de termino: </label>
+                        <input type="time" id="horaTerminoTurma" required>
+                    </div>
+                </div>
+
+                <div class="buttons buttons--right">
+                    <button class="button" id="buttonInserir">Enviar</button>
+                </div>
+            </form>
+        </div>
+
+        <script src="/frontend/src/scripts/pages/turma.js" type="module"></script>
+    </body>
+</html>

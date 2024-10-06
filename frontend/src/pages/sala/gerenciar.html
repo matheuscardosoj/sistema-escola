@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CRUD Salas</title>
+        <link rel="stylesheet" href="../../styles/global.css">
+        <link rel="stylesheet" href="../../styles/pages/sala.css">
+    </head>
+
+    <body>
+        <a class="buttonVoltar button" href="../../../index.html">Voltar</a>
+
+        <div class="container">
+            <h1 class="titulo">Gerenciar Salas</h1>
+
+            <form class="form">
+                <div class="form__container">
+                    <div class="form__containerElement">
+                        <label for="idSala">Salas:</label>
+
+                        <select id="idSala" required>
+                            <option value="">Selecione uma sala</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button class="button" id="buttonInserir">Inserir</button>
+                    <button class="button" id="buttonAlterar">Alterar</button>
+                    <button class="button" id="buttonExcluir">Desativar</button>
+                    <button class="button" id="buttonConsultar">Consultar</button>
+                </div>
+            </form>
+        </div>
+
+        <script src="/frontend/src/scripts/pages/sala.js" type="module"></script>
+    </body>
+</html>

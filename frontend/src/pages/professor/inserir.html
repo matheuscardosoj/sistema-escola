@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Inserção Professore</title>
+        <link rel="stylesheet" href="../../styles/global.css">
+        <link rel="stylesheet" href="../../styles/pages/professor.css">
+    </head>
+
+    <body>
+        <a class="buttonVoltar button" href="gerenciar.html">Voltar</a>
+
+        <div class="container">
+            <h1 class="titulo">Insira o Professor</h1>
+
+            <form class="form">
+                <div class="form__container form__container--column">
+                    <div class="form__containerElement">
+                        <label for="nome-professor">Nome: </label>
+                        <input type="text" id="nome-professor" required>
+                    </div>
+                    
+                    <div class="form__containerElement">
+                        <label for="cpf-professor">Cpf: </label>
+                        <input type="text" id="cpf-professor" required>
+                    </div>
+
+                    <div class="form__containerElement">
+                        <label for="endereco-professor">Endereço: </label>
+                        <input type="text" id="endereco-professor" required>
+                    </div>
+
+                    <div class="form__containerElement">
+                        <label for="telefone-professor">Telefone: </label>
+                        <input type="text" id="telefone-professor" required>
+                    </div>
+                </div>
+            </form>
+
+            <div class="buttons buttons--right">
+                <button class="button" id="buttonInserir">Enviar</button>
+            </div>
+        </div>
+
+        <script src="/frontend/src/scripts/pages/professor.js" type="module"></script>
+    </body>
+</html>
