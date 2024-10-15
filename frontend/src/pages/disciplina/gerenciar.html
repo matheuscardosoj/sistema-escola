@@ -17,19 +17,24 @@
 
             <form class="form">
                 <div class="form__container">
-                    <div class="form__containerElement">
+                    <div class="form__containerSelect form__containerElement">
                         <label for="idDisciplina">Disciplinas:</label>
                         
                         <select id="idDisciplina" required>
                             <option value="">Selecione uma disciplina</option>
                         </select>
                     </div>
+
+                    <div class="form__containerCheckbox form__containerElement">
+                        <input id="checkboxInativos" type="checkbox">
+                        <label for="checkboxInativos">Mostrar Inativos</label>
+                    </div>
                 </div>
 
                 <div class="buttons">
                     <button class="button" id="buttonInserir">Inserir</button>
                     <button class="button" id="buttonAlterar">Alterar</button>
-                    <button class="button" id="buttonDesativar">Desativar</button>
+                    <button class="button" id="buttonAtivarDesativar"></button>
                     <button class="button" id="buttonConsultar">Consultar</button>
                 </div>
             </form>

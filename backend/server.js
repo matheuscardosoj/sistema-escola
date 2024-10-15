@@ -9,7 +9,7 @@ const hostname = process.env.SERVER_HOSTNAME || 'localhost';
 
 const app = express();
 
-sequelize.sync({ force: false });
+sequelize.sync({ force: true });
 
 app.use(cors());
 app.use(express.json());

@@ -3,6 +3,13 @@ class ApiDisciplina {
 
     async pegarDisciplinas() {
         const response = await fetch(this.#url);
+        
+        return response;
+    }
+
+    async pegarDisciplinasAtivas() {
+        const response = await fetch(`${this.#url}/actives`);
+
         return response;
     }
 
@@ -14,6 +21,12 @@ class ApiDisciplina {
             },
             body: JSON.stringify({nome, descricao})
         });
+
+        return response;
+    }
+
+    async pegarDisciplina(idDisciplina) {
+        const response = await fetch(`${this.#url}/${idDisciplina}`);
 
         return response;
     }
