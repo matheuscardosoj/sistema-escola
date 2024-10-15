@@ -6,6 +6,12 @@ class ControllerAlunoHasTurma {
     async store(req, res) {
         const { idAluno, idTurma } = req.body;
 
+        if (!idAluno || !idTurma) {
+            return res
+                .status(400)
+                .json({ error: 'Preencha todos os campos' });
+        }
+
         const aluno = await Aluno.findByPk(idAluno);
         const turma = await Turma.findByPk(idTurma);
 
@@ -49,6 +55,12 @@ class ControllerAlunoHasTurma {
 
     async show(req, res) {
         const { idAluno, idTurma } = req.body;
+        
+        if (!idAluno || !idTurma) {
+            return res
+                .status(400)
+                .json({ error: 'Preencha todos os campos' });
+        }
 
         const alunoHasTurma = await AlunoHasTurma.findOne({
             where: {
@@ -79,6 +91,12 @@ class ControllerAlunoHasTurma {
     async activate(req, res) {
         const { idAluno, idTurma } = req.body;
 
+        if (!idAluno || !idTurma) {
+            return res
+                .status(400)
+                .json({ error: 'Preencha todos os campos' });
+        }
+
         const alunoHasTurma = await AlunoHasTurma.findOne({
             where: {
                 idAluno,
@@ -107,6 +125,12 @@ class ControllerAlunoHasTurma {
 
     async disable(req, res) {
         const { idAluno, idTurma } = req.body;
+
+        if (!idAluno || !idTurma) {
+            return res
+                .status(400)
+                .json({ error: 'Preencha todos os campos' });
+        }
 
         const alunoHasTurma = await AlunoHasTurma.findOne({
             where: {

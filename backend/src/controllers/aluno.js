@@ -4,6 +4,11 @@ import AlunoHasTurma from '../models/alunoHasTurma.js';
 class ControllerAluno {
     async store(req, res) {
         const { nome, cpf, endereco, telefone } = req.body;
+
+        if (!nome || !cpf || !endereco || !telefone) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
+        }
+
         const aluno = await Aluno.create({
             nome,
             cpf,
@@ -44,6 +49,11 @@ class ControllerAluno {
     async update(req, res) {
         const { id } = req.params;
         const { nome, cpf, endereco, telefone } = req.body;
+
+        if (!nome || !cpf || !endereco || !telefone) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
+        }
+
         const aluno = await Aluno.findByPk(id);
 
         if (!aluno) {

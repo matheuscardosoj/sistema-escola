@@ -6,6 +6,10 @@ class ControllerDisciplina {
     async store(req, res) {
         const { nome, descricao } = req.body;
 
+        if (!nome || !descricao) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
+        }
+
         const disciplina = await Disciplina.create({
             nome,
             descricao,
@@ -44,6 +48,11 @@ class ControllerDisciplina {
     async update(req, res) {
         const { id } = req.params;
         const { nome, descricao } = req.body;
+
+        if (!nome || !descricao) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
+        }
+
         const disciplina = await Disciplina.findByPk(id);
 
         if (!disciplina) {

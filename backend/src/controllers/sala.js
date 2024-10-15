@@ -5,6 +5,13 @@ import AlunoHasTurma from '../models/alunoHasTurma.js';
 class ControllerSala {
     async store(req, res) {
         const { nome, capacidade } = req.body;
+
+        if (!nome || !capacidade) {
+            return res
+                .status(400)
+                .json({ erro: 'Preencha todos os campos' });
+        }
+
         const sala = await Sala.create({
             nome,
             capacidade,
@@ -43,6 +50,11 @@ class ControllerSala {
     async update(req, res) {
         const { id } = req.params;
         const { nome, capacidade } = req.body;
+
+        if (!nome || !capacidade) {
+            return res.status(400).json({ erro: 'Preencha todos os campos' });
+        }
+
         const sala = await Sala.findByPk(id);
 
         if (!sala) {

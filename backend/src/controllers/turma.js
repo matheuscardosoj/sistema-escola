@@ -16,6 +16,12 @@ class ControllerTurma {
             idProfessor,
         } = req.body;
 
+        if (!nome || !semestreAno || !horarioInicio || !horarioFim || !idSala || !idDisciplina || !idProfessor) {
+            return res
+                .status(400)
+                .json({ error: 'Preencha todos os campos' });
+        }
+
         const disciplina = await Disciplina.findByPk(idDisciplina);
         const professor = await Professor.findByPk(idProfessor);
         const sala = await Sala.findByPk(idSala);
@@ -88,6 +94,13 @@ class ControllerTurma {
             idDisciplina,
             idProfessor,
         } = req.body;
+
+        if (!nome || !semestreAno || !horarioInicio || !horarioFim || !status || !idSala || !idDisciplina || !idProfessor) {
+            return res
+                .status(400)
+                .json({ error: 'Preencha todos os campos' });
+        }
+
         const turma = await Turma.findByPk(id);
 
         if (!turma) {

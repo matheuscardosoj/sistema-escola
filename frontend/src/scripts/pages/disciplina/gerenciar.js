@@ -24,7 +24,7 @@ import ApiDisciplina from '../../api/apiDiciplina.js';
         });
 
         buttonInserir.addEventListener('click', async () => {
-            window.location.href = `http://localhost:5500/src/pages/disciplina/inserir.html`;
+            window.location.href = `http://localhost/src/pages/disciplina/inserir.html`;
         });
     }
 

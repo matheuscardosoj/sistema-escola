@@ -100,3 +100,24 @@ th, td {
     top: 20px;
     left: 20px;
 }
+
+.mensagem {
+    margin-top: 16px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #f5c6cb;
+}
+
+.mensagem--success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.mensagem--error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.mensagem--hidden {
+    display: none;
+}
