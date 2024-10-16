@@ -4,7 +4,7 @@ import ApiDisciplina from '../../api/apiDiciplina.js';
     const inputNomeDisciplina = document.getElementById('nomeDisciplina');
     const inputDescricaoDisciplina = document.getElementById('descricaoDisciplina');
     const divMensagem = document.getElementById('mensagem');
-    const buttonInserir = document.getElementById('buttonInserir');
+    const buttonEnviar = document.getElementById('buttonEnviar');
     const form = document.getElementsByClassName('form')[0];
     const apiDisciplina = new ApiDisciplina();
     
@@ -13,7 +13,7 @@ import ApiDisciplina from '../../api/apiDiciplina.js';
             event.preventDefault();
         });
 
-        buttonInserir.addEventListener('click', async () => {
+        buttonEnviar.addEventListener('click', async () => {
             const nome = inputNomeDisciplina.value;
             const descricao = inputDescricaoDisciplina.value;
 
@@ -23,6 +23,8 @@ import ApiDisciplina from '../../api/apiDiciplina.js';
             inputDescricaoDisciplina.value = '';
 
             inputNomeDisciplina.focus();
+
+            divMensagem.classList.remove('mensagem--hidden');
 
             if(response.status === 200) {
                 divMensagem.classList.add('mensagem--success');
@@ -34,10 +36,8 @@ import ApiDisciplina from '../../api/apiDiciplina.js';
                 divMensagem.innerHTML = 'Erro ao criar a disciplina';
             }
 
-            divMensagem.classList.toggle('mensagem--hidden');
-
-            setTimeout(() => {
-                divMensagem.classList.toggle('mensagem--hidden');
+            setTimeout(async () => {
+                divMensagem.classList.add('mensagem--hidden');
             }, 5000);
         });
     }

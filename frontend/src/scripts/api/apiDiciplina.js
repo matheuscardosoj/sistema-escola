@@ -19,7 +19,7 @@ class ApiDisciplina {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({nome, descricao})
+            body: JSON.stringify({ nome, descricao })
         });
 
         return response;
@@ -27,6 +27,34 @@ class ApiDisciplina {
 
     async pegarDisciplina(idDisciplina) {
         const response = await fetch(`${this.#url}/${idDisciplina}`);
+
+        return response;
+    }
+
+    async ativarDisciplina(idDisciplina) {
+        const response = await fetch(`${this.#url}/activate/${idDisciplina}`, {
+            method: 'PUT'
+        });
+
+        return response;
+    }
+
+    async desativarDisciplina(idDisciplina) {
+        const response = await fetch(`${this.#url}/disable/${idDisciplina}`, {
+            method: 'PUT'
+        });
+
+        return response;
+    }
+
+    async alterarDisciplina(idDisciplina, nome, descricao) {
+        const response = await fetch(`${this.#url}/update/${idDisciplina}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nome, descricao })
+        });
 
         return response;
     }
