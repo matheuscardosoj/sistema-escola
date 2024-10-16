@@ -1,4 +1,5 @@
 import ApiDisciplina from '../../api/apiDiciplina.js';
+import { mostrarMensagem, redirecionar, recarregarPagina } from '../../utils/helpers.js';
 
 (async function() {
     const selectDisciplinas = document.getElementById('idDisciplina');
@@ -12,45 +13,60 @@ import ApiDisciplina from '../../api/apiDiciplina.js';
     const apiDisciplina = new ApiDisciplina();
 
     async function inserirDisciplinasAtivas() {
-        const response = await apiDisciplina.pegarDisciplinasAtivas();
-        const disciplinas = await response.json();
+        try {
+            const response = await apiDisciplina.pegarDisciplinasAtivas();
 
-        disciplinas.forEach(disciplina => {
-            const option = document.createElement('option');
-            option.value = disciplina.idDisciplina;
-            option.text = `${disciplina.nome} - ${disciplina.status.toUpperCase()}`;
-            selectDisciplinas.appendChild(option);
-        });
+            const disciplinas = await response.json();
+
+            disciplinas.forEach(disciplina => {
+                const option = document.createElement('option');
+                option.value = disciplina.idDisciplina;
+                option.text = `${disciplina.nome} - ${disciplina.status.toUpperCase()}`;
+                selectDisciplinas.appendChild(option);
+            });
+        } catch(error) {
+            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+        }
     }
 
     async function inserirDisciplinas() {
-        const response = await apiDisciplina.pegarDisciplinas();
-        const disciplinas = await response.json();
+        try {
+            const response = await apiDisciplina.pegarDisciplinas();
 
-        disciplinas.forEach(disciplina => {
-            const option = document.createElement('option');
-            option.value = disciplina.idDisciplina;
-            option.text = `${disciplina.nome} - ${disciplina.status.toUpperCase()}`;
-            selectDisciplinas.appendChild(option);
-        });
+            if(response.status !== 200) {
+                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                return;
+            }
+
+            const disciplinas = await response.json();
+
+            disciplinas.forEach(disciplina => {
+                const option = document.createElement('option');
+                option.value = disciplina.idDisciplina;
+                option.text = `${disciplina.nome} - ${disciplina.status.toUpperCase()}`;
+                selectDisciplinas.appendChild(option);
+            });
+        } catch(error) {
+            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+        }
     }
 
     function executarListeners() {
-        form.addEventListener('submit', async (event) => {
+        form.addEventListener('submit', async (event) => {           
             event.preventDefault();
         });
 
         buttonInserir.addEventListener('click', () => {
-            window.location.href = `http://localhost/src/pages/disciplina/inserir.html`;
+            redirecionar('http://localhost/src/pages/disciplina/inserir.html');
         });
 
         buttonConsultar.addEventListener('click', () => {
             const idDisciplina = selectDisciplinas.value;
 
             if(idDisciplina) {
-                window.location.href = `http://localhost/src/pages/disciplina/consultar.html?idDisciplina=${idDisciplina}`;
+                redirecionar(`http://localhost/src/pages/disciplina/consultar.html?idDisciplina=${idDisciplina}`);
             } else {
-                window.location.href = `http://localhost/src/pages/disciplina/consultar.html`;
+                redirecionar(`http://localhost/src/pages/disciplina/consultar.html`);
             }
         });
 
@@ -72,15 +88,25 @@ import ApiDisciplina from '../../api/apiDiciplina.js';
         });
 
         selectDisciplinas.addEventListener('change', () => {
-            buttonAtivarDesativar.style.display = selectDisciplinas.value ? 'block' : 'none';
-            buttonAlterar.style.display = selectDisciplinas.value ? 'block' : 'none';
+            const buttons = buttonAtivarDesativar.parentElement;
 
-            if(selectDisciplinas.value) {
-                const option = selectDisciplinas.options[selectDisciplinas.selectedIndex];
-                const status = option.text.split(' - ')[1].toLowerCase();
+            console.log(buttons);
 
-                buttonAtivarDesativar.textContent = status === 'ativo' ? 'Desativar' : 'Ativar';
+            if(!selectDisciplinas.value) {
+                buttonAtivarDesativar.style.display = 'none';
+                buttonAlterar.style.display = 'none';
+
+                buttons.classList.add('buttons--right');
+                return;
             }
+            
+            const option = selectDisciplinas.options[selectDisciplinas.selectedIndex];
+            const status = option.text.split(' - ')[1].toLowerCase();
+            buttonAtivarDesativar.style.display = 'block';
+            buttonAlterar.style.display = 'block';
+
+            buttonAtivarDesativar.textContent = status === 'ativo' ? 'Desativar' : 'Ativar';
+            buttons.classList.remove('buttons--right'); 
         });
 
         buttonAtivarDesativar.addEventListener('click', async () => {
@@ -88,19 +114,30 @@ import ApiDisciplina from '../../api/apiDiciplina.js';
             const option = selectDisciplinas.options[selectDisciplinas.selectedIndex];
             const status = option.text.split(' - ')[1].toLowerCase();
 
-            if(status === 'ativo') {
-                await apiDisciplina.desativarDisciplina(idDisciplina);
-            } else {
-                await apiDisciplina.ativarDisciplina(idDisciplina);
-            }
+            let response;
 
-            window.location.reload();
+            try {
+                if(status === 'ativo') {
+                    response = await apiDisciplina.desativarDisciplina(idDisciplina);
+                } else {
+                    response = await apiDisciplina.ativarDisciplina(idDisciplina);
+                }
+
+                if(response.status !== 200) {
+                    await mostrarMensagem(divMensagem, 'Erro ao alterar status da disciplina', true);
+                    return;
+                }
+
+                recarregarPagina();
+            } catch(error) {
+                await mostrarMensagem(divMensagem, 'Erro ao alterar status da disciplina', true);
+            }
         });
 
         buttonAlterar.addEventListener('click', () => {
             const idDisciplina = selectDisciplinas.value;
 
-            window.location.href = `http://localhost/src/pages/disciplina/alterar.html?idDisciplina=${idDisciplina}`;
+            redirecionar(`http://localhost/src/pages/disciplina/alterar.html?idDisciplina=${idDisciplina}`);
         });
     }
 

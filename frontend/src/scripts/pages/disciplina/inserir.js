@@ -1,4 +1,5 @@
 import ApiDisciplina from '../../api/apiDiciplina.js';
+import { mostrarMensagem } from '../../utils/helpers.js';
 
 (async function() {
     const inputNomeDisciplina = document.getElementById('nomeDisciplina');
@@ -14,31 +15,27 @@ import ApiDisciplina from '../../api/apiDiciplina.js';
         });
 
         buttonEnviar.addEventListener('click', async () => {
-            const nome = inputNomeDisciplina.value;
-            const descricao = inputDescricaoDisciplina.value;
+            try {
+                const nome = inputNomeDisciplina.value;
+                const descricao = inputDescricaoDisciplina.value;
 
-            const response = await apiDisciplina.criarDisciplina(nome, descricao);
+                const response = await apiDisciplina.criarDisciplina(nome, descricao);
 
-            inputNomeDisciplina.value = '';
-            inputDescricaoDisciplina.value = '';
+                if(response.status !== 200) {
+                    await mostrarMensagem(divMensagem, 'Erro ao criar a disciplina', true);
+                    return;
+                }
 
-            inputNomeDisciplina.focus();
+                inputNomeDisciplina.value = '';
+                inputDescricaoDisciplina.value = '';
 
-            divMensagem.classList.remove('mensagem--hidden');
+                inputNomeDisciplina.focus();
+                
+                await mostrarMensagem(divMensagem, 'Disciplina criada com sucesso');
 
-            if(response.status === 200) {
-                divMensagem.classList.add('mensagem--success');
-                divMensagem.classList.remove('mensagem--error');
-                divMensagem.innerHTML = 'Disciplina criada com sucesso';
-            } else {
-                divMensagem.classList.remove('mensagem--success');
-                divMensagem.classList.add('mensagem--error');
-                divMensagem.innerHTML = 'Erro ao criar a disciplina';
+            } catch(error) {
+                await mostrarMensagem(divMensagem, 'Erro ao criar a disciplina', true);
             }
-
-            setTimeout(async () => {
-                divMensagem.classList.add('mensagem--hidden');
-            }, 5000);
         });
     }
 
