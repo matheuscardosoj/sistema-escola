@@ -4,12 +4,12 @@ import Turma from '../models/turma.js';
 
 class ControllerAlunoHasTurma {
     async store(req, res) {
+        console.log('Recebendo requisição POST em /alunoHasTurma/create');
+
         const { idAluno, idTurma } = req.body;
 
         if (!idAluno || !idTurma) {
-            return res
-                .status(400)
-                .json({ error: 'Preencha todos os campos' });
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
         const aluno = await Aluno.findByPk(idAluno);
@@ -48,18 +48,20 @@ class ControllerAlunoHasTurma {
     }
 
     async index(req, res) {
+        console.log('Recebendo requisição GET em /alunoHasTurma');
+
         const alunoHasTurma = await AlunoHasTurma.findAll();
 
         return res.json(alunoHasTurma);
     }
 
     async show(req, res) {
+        console.log('Recebendo requisição POST em /alunoHasTurma');
+
         const { idAluno, idTurma } = req.body;
-        
+
         if (!idAluno || !idTurma) {
-            return res
-                .status(400)
-                .json({ error: 'Preencha todos os campos' });
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
         const alunoHasTurma = await AlunoHasTurma.findOne({
@@ -79,6 +81,8 @@ class ControllerAlunoHasTurma {
     }
 
     async showActives(req, res) {
+        console.log('Recebendo requisição GET em /alunoHasTurma/actives');
+
         const alunoHasTurma = await AlunoHasTurma.findAll({
             where: {
                 status: 'ativo',
@@ -89,12 +93,12 @@ class ControllerAlunoHasTurma {
     }
 
     async activate(req, res) {
+        console.log('Recebendo requisição PUT em /alunoHasTurma/activate');
+
         const { idAluno, idTurma } = req.body;
 
         if (!idAluno || !idTurma) {
-            return res
-                .status(400)
-                .json({ error: 'Preencha todos os campos' });
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
         const alunoHasTurma = await AlunoHasTurma.findOne({
@@ -124,12 +128,12 @@ class ControllerAlunoHasTurma {
     }
 
     async disable(req, res) {
+        console.log('Recebendo requisição PUT em /alunoHasTurma/disable');
+
         const { idAluno, idTurma } = req.body;
 
         if (!idAluno || !idTurma) {
-            return res
-                .status(400)
-                .json({ error: 'Preencha todos os campos' });
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
         const alunoHasTurma = await AlunoHasTurma.findOne({

@@ -8,6 +8,7 @@ routerDisciplina.put('/activate/:id', ControllerDisciplina.activate);
 routerDisciplina.put('/disable/:id', ControllerDisciplina.disable);
 routerDisciplina.put('/update/:id', ControllerDisciplina.update);
 routerDisciplina.post('/create', ControllerDisciplina.store);
+routerDisciplina.post('/filter', ControllerDisciplina.showFilter);
 routerDisciplina.get('/:id', ControllerDisciplina.show);
 routerDisciplina.get('/', ControllerDisciplina.index);
 

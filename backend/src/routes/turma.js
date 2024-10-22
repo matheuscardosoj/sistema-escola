@@ -8,6 +8,7 @@ routerTurma.put('/activate/:id', ControllerTurma.activate);
 routerTurma.put('/disable/:id', ControllerTurma.disable);
 routerTurma.put('/update/:id', ControllerTurma.update);
 routerTurma.post('/create', ControllerTurma.store);
+routerTurma.post('/filter', ControllerTurma.showFilter);
 routerTurma.get('/:id', ControllerTurma.show);
 routerTurma.get('/', ControllerTurma.index);
 

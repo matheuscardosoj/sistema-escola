@@ -1,9 +1,12 @@
 import Disciplina from '../models/disciplina.js';
 import Turma from '../models/turma.js';
 import AlunoHasTurma from '../models/alunoHasTurma.js';
+import { Op } from 'sequelize';
 
 class ControllerDisciplina {
     async store(req, res) {
+        console.log('Recebendo requisição POST em /disciplina/create');
+
         const { nome, descricao } = req.body;
 
         if (!nome || !descricao) {
@@ -19,14 +22,22 @@ class ControllerDisciplina {
     }
 
     async index(req, res) {
-        const disciplina = await Disciplina.findAll();
+        console.log('Recebendo requisição GET em /disciplina');
+
+        const disciplina = await Disciplina.findAll({
+            order: ['idDisciplina'],
+        });
 
         return res.json(disciplina);
     }
 
     async show(req, res) {
+        console.log('Recebendo requisição GET em /disciplina/:id');
+
         const { id } = req.params;
-        const disciplina = await Disciplina.findByPk(id);
+        const disciplina = await Disciplina.findByPk(id, {
+            order: ['idDisciplina'],
+        });
 
         if (!disciplina) {
             return res.status(400).json({ error: 'Disciplina não encontrada' });
@@ -35,17 +46,80 @@ class ControllerDisciplina {
         return res.json(disciplina);
     }
 
+    async showFilter(req, res) {
+        console.log('Recebendo requisição POST em /disciplina/filter');
+
+        const { filtro, mostrarInativas } = req.body;
+
+        console.log(filtro, mostrarInativas);
+
+        let disciplinas;
+
+        if(mostrarInativas === undefined) {
+            res.status(400).json({ error: 'Preencha o campo mostrarInativas' });
+        }
+
+        if (!filtro) {
+            if(mostrarInativas) {
+                disciplinas = await Disciplina.findAll({
+                    order: ['idDisciplina'],
+                });
+            } else {
+                disciplinas = await Disciplina.findAll({
+                    where: {
+                        status: 'ativo',
+                    },
+                    order: ['idDisciplina'],
+                });
+            }
+
+            return res.json(disciplinas);
+        }
+
+        if(mostrarInativas) {
+            disciplinas = await Disciplina.findAll({
+                where: {
+                    [Op.or]: [
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { descricao: { [Op.iLike]: `%${filtro}%` } },
+                    ]
+                },
+                order: ['idDisciplina'],
+            });
+
+            return res.json(disciplinas);
+        }        
+
+        disciplinas = await Disciplina.findAll({
+            where: {
+                status: 'ativo',
+                [Op.or]: [
+                    { nome: { [Op.iLike]: `%${filtro}%` } },
+                    { descricao: { [Op.iLike]: `%${filtro}%` } },
+                ],
+            },
+            order: ['idDisciplina'],
+        });
+
+        return res.json(disciplinas);
+    }
+
     async showActives(req, res) {
+        console.log('Recebendo requisição GET em /disciplina/actives');
+
         const disciplina = await Disciplina.findAll({
             where: {
                 status: 'ativo',
             },
+            order: ['idDisciplina'],
         });
 
         return res.json(disciplina);
     }
 
     async update(req, res) {
+        console.log('Recebendo requisição PUT em /disciplina/update/:id');
+
         const { id } = req.params;
         const { nome, descricao } = req.body;
 
@@ -68,6 +142,8 @@ class ControllerDisciplina {
     }
 
     async activate(req, res) {
+        console.log('Recebendo requisição PUT em /disciplina/activate/:id');
+
         const { id } = req.params;
         const disciplina = await Disciplina.findByPk(id);
 
@@ -82,6 +158,8 @@ class ControllerDisciplina {
     }
 
     async disable(req, res) {
+        console.log('Recebendo requisição PUT em /disciplina/disable/:id');
+
         const { id } = req.params;
         const disciplina = await Disciplina.findByPk(id);
 

@@ -3,9 +3,12 @@ import Disciplina from '../models/disciplina.js';
 import Professor from '../models/professor.js';
 import Sala from '../models/sala.js';
 import AlunoHasTurma from '../models/alunoHasTurma.js';
+import { Op } from 'sequelize';
 
 class ControllerTurma {
     async store(req, res) {
+        console.log('Recebendo requisição POST em /turma/create');
+
         const {
             nome,
             semestreAno,
@@ -16,10 +19,16 @@ class ControllerTurma {
             idProfessor,
         } = req.body;
 
-        if (!nome || !semestreAno || !horarioInicio || !horarioFim || !idSala || !idDisciplina || !idProfessor) {
-            return res
-                .status(400)
-                .json({ error: 'Preencha todos os campos' });
+        if (
+            !nome ||
+            !semestreAno ||
+            !horarioInicio ||
+            !horarioFim ||
+            !idSala ||
+            !idDisciplina ||
+            !idProfessor
+        ) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
         const disciplina = await Disciplina.findByPk(idDisciplina);
@@ -56,14 +65,22 @@ class ControllerTurma {
     }
 
     async index(req, res) {
-        const turma = await Turma.findAll();
+        console.log('Recebendo requisição GET em /turma');
+
+        const turma = await Turma.findAll({
+            order: ['idTurma'],
+        });
 
         return res.json(turma);
     }
 
     async show(req, res) {
+        console.log('Recebendo requisição GET em /turma/:id');
+
         const { id } = req.params;
-        const turma = await Turma.findByPk(id);
+        const turma = await Turma.findByPk(id, {
+            order: ['idTurma'],
+        });
 
         if (!turma) {
             return res.status(400).json({ error: 'Turma não encontrada' });
@@ -72,17 +89,78 @@ class ControllerTurma {
         return res.json(turma);
     }
 
+    async showFilter(req, res) {
+        console.log('Recebendo requisição POST em /disciplina/filter');
+
+        const { filtro, mostrarInativas } = req.body;
+
+        console.log(filtro, mostrarInativas);
+
+        let turmas;
+
+        if(mostrarInativas === undefined) {
+            res.status(400).json({ error: 'Preencha o campo mostrarInativas' });
+        }
+
+        if (!filtro) {
+            if(mostrarInativas) {
+                turmas = await Turma.findAll({
+                    order: ['idTurma'],
+                });
+            } else {
+                turmas = await Turma.findAll({
+                    where: {
+                        status: 'ativo',
+                    },
+                    order: ['idTurma'],
+                });
+            }
+
+            return res.json(turmas);
+        }
+
+        if(mostrarInativas) {
+            turmas = await Turma.findAll({
+                where: {
+                    [Op.or]: [
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                    ]
+                },
+                order: ['idTurma'],
+            });
+
+            return res.json(turmas);
+        }        
+
+        turmas = await Turma.findAll({
+            where: {
+                status: 'ativo',
+                [Op.or]: [
+                    { nome: { [Op.iLike]: `%${filtro}%` } },
+                ]
+            },
+            order: ['idTurma'],
+        });
+
+        return res.json(turmas);
+    }
+
     async showActives(req, res) {
+        console.log('Recebendo requisição GET em /turma/actives');
+
         const turma = await Turma.findAll({
             where: {
                 status: 'ativo',
             },
+            order: ['idTurma'],
         });
 
         return res.json(turma);
     }
 
     async update(req, res) {
+        console.log('Recebendo requisição PUT em /turma/update/:id');
+
         const { id } = req.params;
         const {
             nome,
@@ -95,10 +173,17 @@ class ControllerTurma {
             idProfessor,
         } = req.body;
 
-        if (!nome || !semestreAno || !horarioInicio || !horarioFim || !status || !idSala || !idDisciplina || !idProfessor) {
-            return res
-                .status(400)
-                .json({ error: 'Preencha todos os campos' });
+        if (
+            !nome ||
+            !semestreAno ||
+            !horarioInicio ||
+            !horarioFim ||
+            !status ||
+            !idSala ||
+            !idDisciplina ||
+            !idProfessor
+        ) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
         const turma = await Turma.findByPk(id);
@@ -122,6 +207,8 @@ class ControllerTurma {
     }
 
     async activate(req, res) {
+        console.log('Recebendo requisição PUT em /turma/activate/:id');
+
         const { id } = req.params;
         console.log(id);
 
@@ -152,6 +239,8 @@ class ControllerTurma {
     }
 
     async disable(req, res) {
+        console.log('Recebendo requisição PUT em /turma/disable/:id');
+
         const { id } = req.params;
         const turma = await Turma.findByPk(id);
 

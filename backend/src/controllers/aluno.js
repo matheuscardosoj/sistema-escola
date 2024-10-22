@@ -1,8 +1,11 @@
 import Aluno from '../models/aluno.js';
 import AlunoHasTurma from '../models/alunoHasTurma.js';
+import { Op } from 'sequelize';
 
 class ControllerAluno {
     async store(req, res) {
+        console.log('Recebendo requisição POST em /aluno/create');
+
         const { nome, cpf, endereco, telefone } = req.body;
 
         if (!nome || !cpf || !endereco || !telefone) {
@@ -20,14 +23,24 @@ class ControllerAluno {
     }
 
     async index(req, res) {
-        const alunos = await Aluno.findAll();
+        console.log('Recebendo requisição GET em /aluno');
+
+        const alunos = await Aluno.findAll(
+            {
+                order: ['idAluno'],
+            }
+        );
 
         return res.json(alunos);
     }
 
     async show(req, res) {
+        console.log('Recebendo requisição GET em /aluno/:id');
+
         const { id } = req.params;
-        const aluno = await Aluno.findByPk(id);
+        const aluno = await Aluno.findByPk(id, {
+            order: ['idAluno'],
+        });
 
         if (!aluno) {
             return res.status(404).json({ error: 'Aluno não encontrado' });
@@ -36,17 +49,80 @@ class ControllerAluno {
         return res.json(aluno);
     }
 
+    async showFilter(req, res) {
+        console.log('Recebendo requisição POST em /disciplina/filter');
+
+        const { filtro, mostrarInativas } = req.body;
+
+        console.log(filtro, mostrarInativas);
+
+        let alunos;
+
+        if(mostrarInativas === undefined) {
+            res.status(400).json({ error: 'Preencha o campo mostrarInativas' });
+        }
+
+        if (!filtro) {
+            if(mostrarInativas) {
+                alunos = await Aluno.findAll({
+                    order: ['idAluno'],
+                });
+            } else {
+                alunos = await Aluno.findAll({
+                    where: {
+                        status: 'ativo',
+                    },
+                    order: ['idAluno'],
+                });
+            }
+
+            return res.json(alunos);
+        }
+
+        if(mostrarInativas) {
+            alunos = await Aluno.findAll({
+                where: {
+                    [Op.or]: [
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { endereco: { [Op.iLike]: `%${filtro}%` } },
+                    ]
+                },
+                order: ['idAluno'],
+            });
+
+            return res.json(alunos);
+        }        
+
+        alunos = await Aluno.findAll({
+            where: {
+                status: 'ativo',
+                [Op.or]: [
+                    { nome: { [Op.iLike]: `%${filtro}%` } },
+                    { endereco: { [Op.iLike]: `%${filtro}%` } },
+                ]
+            },
+            order: ['idAluno'],
+        });
+
+        return res.json(alunos);
+    }
+
     async showActives(req, res) {
+        console.log('Recebendo requisição GET em /aluno/actives');
+
         const alunos = await Aluno.findAll({
             where: {
                 status: 'ativo',
             },
+            order: ['idAluno'],
         });
 
         return res.json(alunos);
     }
 
     async update(req, res) {
+        console.log('Recebendo requisição PUT em /aluno/update/:id');
+
         const { id } = req.params;
         const { nome, cpf, endereco, telefone } = req.body;
 
@@ -70,6 +146,8 @@ class ControllerAluno {
     }
 
     async activate(req, res) {
+        console.log('Recebendo requisição PUT em /aluno/activate/:id');
+
         const { id } = req.params;
         const aluno = await Aluno.findByPk(id);
 
@@ -84,6 +162,8 @@ class ControllerAluno {
     }
 
     async disable(req, res) {
+        console.log('Recebendo requisição PUT em /aluno/disable/:id');
+
         const { id } = req.params;
         const aluno = await Aluno.findByPk(id);
 

@@ -8,6 +8,7 @@ routerProfessor.put('/activate/:id', ControllerProfessor.activate);
 routerProfessor.put('/disable/:id', ControllerProfessor.disable);
 routerProfessor.put('/update/:id', ControllerProfessor.update);
 routerProfessor.post('/create', ControllerProfessor.store);
+routerProfessor.post('/filter', ControllerProfessor.showFilter);
 routerProfessor.get('/:id', ControllerProfessor.show);
 routerProfessor.get('/', ControllerProfessor.index);
 
