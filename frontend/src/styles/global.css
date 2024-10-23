@@ -34,27 +34,42 @@ table, th, td {
 
 th, td {
     padding: 10px;
-    text-align: left;
+    text-align: center;
+}
+
+select {
+    width: 100%;
 }
 
 .container {
+    display: flex;
+    flex-direction: column;
     border: 1.5px solid #000000;
     border-radius: 5px;
     padding: 20px;
-    width: fit-content;
+    max-width: 500px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.185);
     padding: 30px;
+    gap: 20px;
 }
 
-.titulo {
-    margin-bottom: 16px;
+.container--flexivel {
+    max-width: unset;
+    width: fit-content;
+}
+
+.titulo {}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .form__container {
     display: flex;
     justify-content: space-between;
     gap: 0 40px;
-    margin-bottom: 16px;
 }
 
 .form__container--column {
@@ -66,6 +81,16 @@ th, td {
     display: flex;
     align-items: center;
     gap: 0 5px;
+}
+
+.form__containerElement--search {
+    position: relative;
+}
+
+.form__containerElement--search input {
+    padding: 5px 0;
+    padding-left: 30px;
+    padding-right: 10px;
 }
 
 .form__containerElement label {
@@ -107,8 +132,30 @@ th, td {
     left: 20px;
 }
 
+#buttonPesquisar {
+    position: absolute;
+    background-color: unset;
+    border: none;
+    width: 25px;
+    height: 25px;
+    left: 5px;
+    cursor: pointer;
+}
+
+#buttonAtivarDesativar {
+    display: none;
+}
+
+#buttonAlterar {
+    display: none;
+}
+
+#buttonPesquisar img {
+    width: 100%;
+    height: 100%;
+}
+
 .mensagem {
-    margin-top: 16px;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #f5c6cb;

@@ -11,9 +11,9 @@ class ControllerTurma {
 
         const {
             nome,
-            semestreAno,
-            horarioInicio,
-            horarioFim,
+            anoSemestre,
+            horaInicio,
+            horaTermino,
             idSala,
             idDisciplina,
             idProfessor,
@@ -21,9 +21,9 @@ class ControllerTurma {
 
         if (
             !nome ||
-            !semestreAno ||
-            !horarioInicio ||
-            !horarioFim ||
+            !anoSemestre ||
+            !horaInicio ||
+            !horaTermino ||
             !idSala ||
             !idDisciplina ||
             !idProfessor
@@ -53,9 +53,9 @@ class ControllerTurma {
 
         const turma = await Turma.create({
             nome,
-            semestreAno,
-            horarioInicio,
-            horarioFim,
+            anoSemestre,
+            horaInicio,
+            horaTermino,
             idSala,
             idDisciplina,
             idProfessor,
@@ -69,6 +69,23 @@ class ControllerTurma {
 
         const turma = await Turma.findAll({
             order: ['idTurma'],
+            attributes: {
+                exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+            },
+            include: [
+                {
+                    model: Disciplina, 
+                    as: 'disciplina',
+                },
+                {
+                    model: Professor,
+                    as: 'professor',
+                },
+                {
+                    model: Sala,
+                    as: 'sala',
+                },
+            ],
         });
 
         return res.json(turma);
@@ -80,6 +97,23 @@ class ControllerTurma {
         const { id } = req.params;
         const turma = await Turma.findByPk(id, {
             order: ['idTurma'],
+            attributes: {
+                exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+            },
+            include: [
+                {
+                    model: Disciplina,
+                    as: 'disciplina',
+                },
+                {
+                    model: Professor,
+                    as: 'professor',
+                },
+                {
+                    model: Sala,
+                    as: 'sala',
+                },
+            ],
         });
 
         if (!turma) {
@@ -106,6 +140,21 @@ class ControllerTurma {
             if(mostrarInativas) {
                 turmas = await Turma.findAll({
                     order: ['idTurma'],
+                    exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+                    include: [
+                        {
+                            model: Disciplina,
+                            as: 'disciplina',
+                        },
+                        {
+                            model: Professor,
+                            as: 'professor',
+                        },
+                        {
+                            model: Sala,
+                            as: 'sala',
+                        },
+                    ],
                 });
             } else {
                 turmas = await Turma.findAll({
@@ -113,6 +162,21 @@ class ControllerTurma {
                         status: 'ativo',
                     },
                     order: ['idTurma'],
+                    exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+                    include: [
+                        {
+                            model: Disciplina,
+                            as: 'disciplina',
+                        },
+                        {
+                            model: Professor,
+                            as: 'professor',
+                        },
+                        {
+                            model: Sala,
+                            as: 'sala',
+                        },
+                    ],
                 });
             }
 
@@ -127,6 +191,21 @@ class ControllerTurma {
                     ]
                 },
                 order: ['idTurma'],
+                exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+                include: [
+                    {
+                        model: Disciplina,
+                        as: 'disciplina',
+                    },
+                    {
+                        model: Professor,
+                        as: 'professor',
+                    },
+                    {
+                        model: Sala,
+                        as: 'sala',
+                    },
+                ],
             });
 
             return res.json(turmas);
@@ -140,6 +219,21 @@ class ControllerTurma {
                 ]
             },
             order: ['idTurma'],
+            exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+            include: [
+                {
+                    model: Disciplina,
+                    as: 'disciplina',
+                },
+                {
+                    model: Professor,
+                    as: 'professor',
+                },
+                {
+                    model: Sala,
+                    as: 'sala',
+                },
+            ],
         });
 
         return res.json(turmas);
@@ -153,6 +247,26 @@ class ControllerTurma {
                 status: 'ativo',
             },
             order: ['idTurma'],
+            attributes: {
+                exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+            },
+            include: [
+                {
+                    model: Disciplina,
+                    as: 'disciplina',
+                    required: true,
+                },
+                {
+                    model: Professor,
+                    as: 'professor',
+                    required: true,
+                },
+                {
+                    model: Sala,
+                    as: 'sala',
+                    required: true,
+                },
+            ],
         });
 
         return res.json(turma);
@@ -164,10 +278,9 @@ class ControllerTurma {
         const { id } = req.params;
         const {
             nome,
-            semestreAno,
-            horarioInicio,
-            horarioFim,
-            status,
+            anoSemestre,
+            horaInicio,
+            horaTermino,
             idSala,
             idDisciplina,
             idProfessor,
@@ -175,10 +288,9 @@ class ControllerTurma {
 
         if (
             !nome ||
-            !semestreAno ||
-            !horarioInicio ||
-            !horarioFim ||
-            !status ||
+            !anoSemestre ||
+            !horaInicio ||
+            !horaTermino ||
             !idSala ||
             !idDisciplina ||
             !idProfessor
@@ -193,10 +305,9 @@ class ControllerTurma {
         }
 
         turma.nome = nome;
-        turma.semestreAno = semestreAno;
-        turma.horarioInicio = horarioInicio;
-        turma.horarioFim = horarioFim;
-        turma.status = status;
+        turma.anoSemestre = anoSemestre;
+        turma.horaInicio = horaInicio;
+        turma.horaTermino = horaTermino;
         turma.idSala = idSala;
         turma.idDisciplina = idDisciplina;
         turma.idProfessor = idProfessor;

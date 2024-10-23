@@ -15,7 +15,13 @@
         <div class="container">
             <h1 class="titulo">Gerenciar Disciplinas</h1>
 
-            <form class="form">
+            <form class="form" autocomplete="off">
+                <div class="form__containerElement form__containerElement--search">
+                    <input type="search" id="inputPesquisar" >
+
+                    <button id="buttonPesquisar"><img src="../../assets/images/search.svg" alt="" srcset=""></button>
+                </div>
+
                 <div class="form__container">
                     <div class="form__containerSelect form__containerElement">
                         <label for="idDisciplina">Disciplinas:</label>
@@ -26,7 +32,7 @@
                     </div>
 
                     <div class="form__containerCheckbox form__containerElement">
-                        <input id="checkboxInativos" type="checkbox" autocomplete="off">
+                        <input id="checkboxInativos" type="checkbox">
                         <label for="checkboxInativos">Mostrar Inativos</label>
                     </div>
                 </div>

@@ -1,10 +1,10 @@
-import ApiDisciplina from '../../api/ApiDisciplina.js';
+import ApiTurma from '../../api/ApiTurma.js';
 import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../../utils/helpers.js';
 
 (async function () {
     const inputPesquisar = document.getElementById('inputPesquisar');
     const buttonPesquisar = document.getElementById('buttonPesquisar');
-    const selectDisciplinas = document.getElementById('idDisciplina');
+    const selectTurmas = document.getElementById('idTurma');
     const buttonInserir = document.getElementById('buttonInserir');
     const buttonAlterar = document.getElementById('buttonAlterar');
     const buttonAtivarDesativar = document.getElementById('buttonAtivarDesativar');
@@ -12,66 +12,66 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
     const checkboxInativos = document.getElementById('checkboxInativos');
     const divMensagem = document.getElementById('mensagem');
     const form = document.getElementsByClassName('form')[0];
-    const apiDisciplina = new ApiDisciplina();
+    const apiTurma = new ApiTurma();
 
-    function recarregarSelect(diciplinas) {
-        selectDisciplinas.innerHTML = '';
+    function recarregarSelect(turmas) {
+        selectTurmas.innerHTML = '';
         const option = document.createElement('option');
         option.value = '';
-        option.text = 'Selecione uma disciplina';
-        selectDisciplinas.appendChild(option);
+        option.text = 'Selecione uma turma';
+        selectTurmas.appendChild(option);
 
-        diciplinas.forEach(disciplina => {
+        turmas.forEach(turma => {
             const option = document.createElement('option');
-            option.value = disciplina.idDisciplina;
-            option.text = `${capitalize(disciplina.nome)} - ${capitalize(disciplina.status)}`;
-            selectDisciplinas.appendChild(option);
+            option.value = turma.idTurma;
+            option.text = `${capitalize(turma.nome)} - ${capitalize(turma.status)}`;
+            selectTurmas.appendChild(option);
         });
     }
 
-    async function inserirDisciplinasAtivas() {
+    async function inserirTurmasAtivas() {
         try {
-            const response = await apiDisciplina.pegarDisciplinasAtivas();
+            const response = await apiTurma.pegarTurmasAtivas();
 
-            const disciplinas = await response.json();           
-
-            recarregarSelect(disciplinas);
-        } catch(error) {       
-            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+            const turmas = await response.json(); 
+                      
+            recarregarSelect(turmas);
+        } catch(error) {                       
+            await mostrarMensagem(divMensagem, 'Erro ao buscar turmas', true);
         }
     }
 
-    async function inserirDisciplinas() {
+    async function inserirTurmas() {
         try {
-            const response = await apiDisciplina.pegarDisciplinas();
+            const response = await apiTurma.pegarTurmas();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                await mostrarMensagem(divMensagem, 'Erro ao buscar turmas', true);
                 return;
             }
 
-            const disciplinas = await response.json();
+            const turmas = await response.json();
 
-            recarregarSelect(disciplinas);
+            recarregarSelect(turmas);
         } catch(error) {
-            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+            await mostrarMensagem(divMensagem, 'Erro ao buscar turmas', true);
         }
     }
 
-    async function inserirDisciplinasFiltradas(filtro, mostrarInativas) {
+    async function inserirTurmasFiltradas(filtro, mostrarInativas) {
         try {
-            const response = await apiDisciplina.pegarDisciplinasFiltradas(filtro, mostrarInativas);
+            const response = await apiTurma.pegarTurmasFiltradas(filtro, mostrarInativas);
             
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                await mostrarMensagem(divMensagem, 'Erro ao buscar turmas', true);
                 return;
             }
             
-            const disciplinas = await response.json();
+            const turmas = await response.json();
 
-            recarregarSelect(disciplinas);
+            recarregarSelect(turmas);
         } catch(error) {
-            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+            await mostrarMensagem(divMensagem, 'Erro ao buscar turmas', true);
         }
     }
 
@@ -81,16 +81,16 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
         });
 
         buttonInserir.addEventListener('click', () => {
-            redirecionar('http://localhost/src/pages/disciplina/inserir.html');
+            redirecionar('http://localhost/src/pages/turma/inserir.html');
         });
 
         buttonConsultar.addEventListener('click', () => {
-            const idDisciplina = selectDisciplinas.value;
+            const idTurma = selectTurmas.value;
 
-            if(idDisciplina) {
-                redirecionar(`http://localhost/src/pages/disciplina/consultar.html?idDisciplina=${idDisciplina}`);
+            if(idTurma) {
+                redirecionar(`http://localhost/src/pages/turma/consultar.html?idTurma=${idTurma}`);
             } else {
-                redirecionar(`http://localhost/src/pages/disciplina/consultar.html`);
+                redirecionar(`http://localhost/src/pages/turma/consultar.html`);
             }
         });
 
@@ -98,9 +98,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const buttons = buttonAtivarDesativar.parentElement;
 
             if(checkboxInativos.checked) {
-                await inserirDisciplinas();
+                await inserirTurmas();
             } else {
-                await inserirDisciplinasAtivas();
+                await inserirTurmasAtivas();
             }
 
             buttonAtivarDesativar.style.display = 'none';
@@ -109,10 +109,10 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             buttons.classList.add('buttons--right');
         });
 
-        selectDisciplinas.addEventListener('change', () => {
+        selectTurmas.addEventListener('change', () => {
             const buttons = buttonAtivarDesativar.parentElement;
 
-            if(!selectDisciplinas.value) {
+            if(!selectTurmas.value) {
                 buttonAtivarDesativar.style.display = 'none';
                 buttonAlterar.style.display = 'none';
 
@@ -120,7 +120,7 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
                 return;
             }
             
-            const option = selectDisciplinas.options[selectDisciplinas.selectedIndex];
+            const option = selectTurmas.options[selectTurmas.selectedIndex];
             const status = option.text.split(' - ')[1].toLowerCase();
             buttonAtivarDesativar.style.display = 'block';
             buttonAlterar.style.display = 'block';
@@ -130,27 +130,29 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
         });
 
         buttonAtivarDesativar.addEventListener('click', async () => {
-            const idDisciplina = selectDisciplinas.value;
-            const option = selectDisciplinas.options[selectDisciplinas.selectedIndex];
+            const idTurma = selectTurmas.value;
+            const option = selectTurmas.options[selectTurmas.selectedIndex];
             const status = option.text.split(' - ')[1].toLowerCase();
 
             let response;
 
             try {
                 if(status === 'ativo') {
-                    response = await apiDisciplina.desativarDisciplina(idDisciplina);
+                    response = await apiTurma.desativarTurma(idTurma);
                 } else {
-                    response = await apiDisciplina.ativarDisciplina(idDisciplina);
+                    response = await apiTurma.ativarTurma(idTurma);
                 }
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao alterar status da disciplina', true);
+                    const { error } = await response.json();
+
+                    await mostrarMensagem(divMensagem, error || 'Erro ao alterar status da turma', true);
                     return;
                 }
 
                 recarregarPagina();
             } catch(error) {
-                await mostrarMensagem(divMensagem, 'Erro ao alterar status da disciplina', true);
+                await mostrarMensagem(divMensagem, 'Erro ao alterar status da turma', true);
             }
         });
 
@@ -158,18 +160,18 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const filtro = inputPesquisar.value ? inputPesquisar.value : '';
             const mostrarInativas = checkboxInativos.checked;
 
-            await inserirDisciplinasFiltradas(filtro, mostrarInativas);
+            await inserirTurmasFiltradas(filtro, mostrarInativas);
         });
 
         buttonAlterar.addEventListener('click', () => {
-            const idDisciplina = selectDisciplinas.value;
+            const idTurma = selectTurmas.value;
 
-            redirecionar(`http://localhost/src/pages/disciplina/alterar.html?idDisciplina=${idDisciplina}`);
+            redirecionar(`http://localhost/src/pages/turma/alterar.html?idTurma=${idTurma}`);
         });
     }
 
     async function main() {
-        await inserirDisciplinasAtivas();
+        await inserirTurmasAtivas();
         executarListeners();
     }
 

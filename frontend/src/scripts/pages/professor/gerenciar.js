@@ -1,10 +1,10 @@
-import ApiDisciplina from '../../api/ApiDisciplina.js';
+import ApiProfessor from '../../api/ApiProfessor.js';
 import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../../utils/helpers.js';
 
 (async function () {
     const inputPesquisar = document.getElementById('inputPesquisar');
     const buttonPesquisar = document.getElementById('buttonPesquisar');
-    const selectDisciplinas = document.getElementById('idDisciplina');
+    const selectProfessor = document.getElementById('idProfessor');
     const buttonInserir = document.getElementById('buttonInserir');
     const buttonAlterar = document.getElementById('buttonAlterar');
     const buttonAtivarDesativar = document.getElementById('buttonAtivarDesativar');
@@ -12,66 +12,66 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
     const checkboxInativos = document.getElementById('checkboxInativos');
     const divMensagem = document.getElementById('mensagem');
     const form = document.getElementsByClassName('form')[0];
-    const apiDisciplina = new ApiDisciplina();
+    const apiProfessor = new ApiProfessor();
 
-    function recarregarSelect(diciplinas) {
-        selectDisciplinas.innerHTML = '';
+    function recarregarSelect(professores) {
+        selectProfessor.innerHTML = '';
         const option = document.createElement('option');
         option.value = '';
-        option.text = 'Selecione uma disciplina';
-        selectDisciplinas.appendChild(option);
-
-        diciplinas.forEach(disciplina => {
+        option.text = 'Selecione um professor';
+        selectProfessor.appendChild(option);
+        
+        professores.forEach(professor => {
             const option = document.createElement('option');
-            option.value = disciplina.idDisciplina;
-            option.text = `${capitalize(disciplina.nome)} - ${capitalize(disciplina.status)}`;
-            selectDisciplinas.appendChild(option);
+            option.value = professor.idProfessor;
+            option.text = `${capitalize(professor.nome)} - ${capitalize(professor.status)}`;
+            selectProfessor.appendChild(option);
         });
     }
 
-    async function inserirDisciplinasAtivas() {
+    async function inserirProfessoresAtivos() {      
         try {
-            const response = await apiDisciplina.pegarDisciplinasAtivas();
+            const response = await apiProfessor.pegarProfessoresAtivos();
 
-            const disciplinas = await response.json();           
+            const professores = await response.json();           
 
-            recarregarSelect(disciplinas);
-        } catch(error) {       
-            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+            recarregarSelect(professores);
+        } catch(error) {            
+            await mostrarMensagem(divMensagem, 'Erro ao buscar professores', true);
         }
     }
 
-    async function inserirDisciplinas() {
+    async function inserirProfessores() {
         try {
-            const response = await apiDisciplina.pegarDisciplinas();
+            const response = await apiProfessor.pegarProfessores();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                await mostrarMensagem(divMensagem, 'Erro ao buscar professores', true);
                 return;
             }
 
-            const disciplinas = await response.json();
+            const professores = await response.json();
 
-            recarregarSelect(disciplinas);
+            recarregarSelect(professores);
         } catch(error) {
-            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+            await mostrarMensagem(divMensagem, 'Erro ao buscar professores', true);
         }
     }
 
-    async function inserirDisciplinasFiltradas(filtro, mostrarInativas) {
+    async function inserirProfessoresFiltrados(filtro, mostrarInativas) {
         try {
-            const response = await apiDisciplina.pegarDisciplinasFiltradas(filtro, mostrarInativas);
+            const response = await apiProfessor.pegarProfessoresFiltrados(filtro, mostrarInativas);
             
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                await mostrarMensagem(divMensagem, 'Erro ao buscar professores', true);
                 return;
             }
             
-            const disciplinas = await response.json();
+            const professores = await response.json();
 
-            recarregarSelect(disciplinas);
+            recarregarSelect(professores);
         } catch(error) {
-            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+            await mostrarMensagem(divMensagem, 'Erro ao buscar professores', true);
         }
     }
 
@@ -81,16 +81,16 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
         });
 
         buttonInserir.addEventListener('click', () => {
-            redirecionar('http://localhost/src/pages/disciplina/inserir.html');
+            redirecionar('http://localhost/src/pages/professor/inserir.html');
         });
 
         buttonConsultar.addEventListener('click', () => {
-            const idDisciplina = selectDisciplinas.value;
+            const idProfessor = selectProfessor.value;
 
-            if(idDisciplina) {
-                redirecionar(`http://localhost/src/pages/disciplina/consultar.html?idDisciplina=${idDisciplina}`);
+            if(idProfessor) {
+                redirecionar(`http://localhost/src/pages/professor/consultar.html?idProfessor=${idProfessor}`);
             } else {
-                redirecionar(`http://localhost/src/pages/disciplina/consultar.html`);
+                redirecionar(`http://localhost/src/pages/professor/consultar.html`);
             }
         });
 
@@ -98,21 +98,21 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const buttons = buttonAtivarDesativar.parentElement;
 
             if(checkboxInativos.checked) {
-                await inserirDisciplinas();
+                await inserirProfessores();
             } else {
-                await inserirDisciplinasAtivas();
+                await inserirProfessoresAtivos();
             }
 
             buttonAtivarDesativar.style.display = 'none';
             buttonAlterar.style.display = 'none';
-            
+
             buttons.classList.add('buttons--right');
         });
 
-        selectDisciplinas.addEventListener('change', () => {
+        selectProfessor.addEventListener('change', () => {
             const buttons = buttonAtivarDesativar.parentElement;
 
-            if(!selectDisciplinas.value) {
+            if(!selectProfessor.value) {
                 buttonAtivarDesativar.style.display = 'none';
                 buttonAlterar.style.display = 'none';
 
@@ -120,7 +120,7 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
                 return;
             }
             
-            const option = selectDisciplinas.options[selectDisciplinas.selectedIndex];
+            const option = selectProfessor.options[selectProfessor.selectedIndex];
             const status = option.text.split(' - ')[1].toLowerCase();
             buttonAtivarDesativar.style.display = 'block';
             buttonAlterar.style.display = 'block';
@@ -130,46 +130,47 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
         });
 
         buttonAtivarDesativar.addEventListener('click', async () => {
-            const idDisciplina = selectDisciplinas.value;
-            const option = selectDisciplinas.options[selectDisciplinas.selectedIndex];
+            const idProfessor = selectProfessor.value;
+            console.log(selectProfessor);
+            const option = selectProfessor.options[selectProfessor.selectedIndex];
             const status = option.text.split(' - ')[1].toLowerCase();
 
             let response;
 
             try {
                 if(status === 'ativo') {
-                    response = await apiDisciplina.desativarDisciplina(idDisciplina);
+                    response = await apiProfessor.desativarProfessor(idProfessor)
                 } else {
-                    response = await apiDisciplina.ativarDisciplina(idDisciplina);
+                    response = await apiProfessor.ativarProfessor(idProfessor);
                 }
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao alterar status da disciplina', true);
+                    await mostrarMensagem(divMensagem, 'Erro ao alterar status do professor', true);
                     return;
                 }
 
                 recarregarPagina();
             } catch(error) {
-                await mostrarMensagem(divMensagem, 'Erro ao alterar status da disciplina', true);
+                await mostrarMensagem(divMensagem, 'Erro ao alterar status do professor', true);
             }
         });
 
         buttonPesquisar.addEventListener('click', async () => {
             const filtro = inputPesquisar.value ? inputPesquisar.value : '';
             const mostrarInativas = checkboxInativos.checked;
-
-            await inserirDisciplinasFiltradas(filtro, mostrarInativas);
+            
+            await inserirProfessoresFiltrados(filtro, mostrarInativas);
         });
 
         buttonAlterar.addEventListener('click', () => {
-            const idDisciplina = selectDisciplinas.value;
+            const idProfessor = selectProfessor.value;
 
-            redirecionar(`http://localhost/src/pages/disciplina/alterar.html?idDisciplina=${idDisciplina}`);
+            redirecionar(`http://localhost/src/pages/professor/alterar.html?idProfessor=${idProfessor}`);
         });
     }
 
     async function main() {
-        await inserirDisciplinasAtivas();
+        await inserirProfessoresAtivos();
         executarListeners();
     }
 

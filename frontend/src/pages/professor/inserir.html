@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Inserção Professore</title>
+        <title>Inserção Professor</title>
         <link rel="stylesheet" href="../../styles/global.css">
         <link rel="stylesheet" href="../../styles/pages/professor.css">
     </head>
@@ -15,35 +15,41 @@
         <div class="container">
             <h1 class="titulo">Insira o Professor</h1>
 
-            <form class="form">
+            <form class="form" autocomplete="off">
                 <div class="form__container form__container--column">
                     <div class="form__containerElement">
-                        <label for="nome-professor">Nome: </label>
-                        <input type="text" id="nome-professor" required>
+                        <label for="nomeProfessor">Nome: </label>
+
+                        <input type="text" id="nomeProfessor">
                     </div>
                     
                     <div class="form__containerElement">
-                        <label for="cpf-professor">Cpf: </label>
-                        <input type="text" id="cpf-professor" required>
+                        <label for="cpfProfessor">Cpf: </label>
+
+                        <input type="text" id="cpfProfessor" >
                     </div>
 
                     <div class="form__containerElement">
-                        <label for="endereco-professor">Endereço: </label>
-                        <input type="text" id="endereco-professor" required>
+                        <label for="enderecoProfessor">Endereço: </label>
+
+                        <input type="text" id="enderecoProfessor">
                     </div>
 
                     <div class="form__containerElement">
-                        <label for="telefone-professor">Telefone: </label>
-                        <input type="text" id="telefone-professor" required>
+                        <label for="telefoneProfessor">Telefone: </label>
+                        
+                        <input type="text" id="telefoneProfessor">
                     </div>
                 </div>
+
+                <div class="buttons buttons--right">
+                    <button class="button" id="buttonEnviar">Enviar</button>
+                </div>                
             </form>
 
-            <div class="buttons buttons--right">
-                <button class="button" id="buttonInserir">Enviar</button>
-            </div>
+            <div id="mensagem" class="mensagem mensagem--hidden"></div>            
         </div>
 
-        <script src="/frontend/src/scripts/pages/professor.js" type="module"></script>
+        <script src="../../scripts/pages/professor/inserir.js" type="module"></script>
     </body>
 </html>

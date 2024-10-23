@@ -1,10 +1,10 @@
-import ApiDisciplina from '../../api/ApiDisciplina.js';
+import ApiSala from '../../api/ApiSala.js';
 import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../../utils/helpers.js';
 
 (async function () {
     const inputPesquisar = document.getElementById('inputPesquisar');
     const buttonPesquisar = document.getElementById('buttonPesquisar');
-    const selectDisciplinas = document.getElementById('idDisciplina');
+    const selectSalas = document.getElementById('idSala');
     const buttonInserir = document.getElementById('buttonInserir');
     const buttonAlterar = document.getElementById('buttonAlterar');
     const buttonAtivarDesativar = document.getElementById('buttonAtivarDesativar');
@@ -12,66 +12,66 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
     const checkboxInativos = document.getElementById('checkboxInativos');
     const divMensagem = document.getElementById('mensagem');
     const form = document.getElementsByClassName('form')[0];
-    const apiDisciplina = new ApiDisciplina();
+    const apiSala = new ApiSala();
 
-    function recarregarSelect(diciplinas) {
-        selectDisciplinas.innerHTML = '';
+    function recarregarSelect(salas) {
+        selectSalas.innerHTML = '';
         const option = document.createElement('option');
         option.value = '';
-        option.text = 'Selecione uma disciplina';
-        selectDisciplinas.appendChild(option);
+        option.text = 'Selecione uma sala';
+        selectSalas.appendChild(option);
 
-        diciplinas.forEach(disciplina => {
+        salas.forEach(sala => {
             const option = document.createElement('option');
-            option.value = disciplina.idDisciplina;
-            option.text = `${capitalize(disciplina.nome)} - ${capitalize(disciplina.status)}`;
-            selectDisciplinas.appendChild(option);
+            option.value = sala.idSala;
+            option.text = `${capitalize(sala.nome)} - ${capitalize(sala.status)}`;
+            selectSalas.appendChild(option);
         });
     }
 
-    async function inserirDisciplinasAtivas() {
+    async function inserirSalasAtivas() {
         try {
-            const response = await apiDisciplina.pegarDisciplinasAtivas();
+            const response = await apiSala.pegarSalasAtivas();
 
-            const disciplinas = await response.json();           
+            const salas = await response.json();           
 
-            recarregarSelect(disciplinas);
-        } catch(error) {       
-            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+            recarregarSelect(salas);
+        } catch(error) {            
+            await mostrarMensagem(divMensagem, 'Erro ao buscar salas', true);
         }
     }
 
-    async function inserirDisciplinas() {
+    async function inserirSalas() {
         try {
-            const response = await apiDisciplina.pegarDisciplinas();
+            const response = await apiSala.pegarSalas();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                await mostrarMensagem(divMensagem, 'Erro ao buscar salas', true);
                 return;
             }
 
-            const disciplinas = await response.json();
+            const salas = await response.json();
 
-            recarregarSelect(disciplinas);
+            recarregarSelect(salas);
         } catch(error) {
-            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+            await mostrarMensagem(divMensagem, 'Erro ao buscar salas', true);
         }
     }
 
-    async function inserirDisciplinasFiltradas(filtro, mostrarInativas) {
+    async function inserirSalasFiltradas(filtro, mostrarInativas) {
         try {
-            const response = await apiDisciplina.pegarDisciplinasFiltradas(filtro, mostrarInativas);
+            const response = await apiSala.pegarSalasFiltradas(filtro, mostrarInativas);
             
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                await mostrarMensagem(divMensagem, 'Erro ao buscar salas', true);
                 return;
             }
             
-            const disciplinas = await response.json();
+            const salas = await response.json();
 
-            recarregarSelect(disciplinas);
+            recarregarSelect(salas);
         } catch(error) {
-            await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+            await mostrarMensagem(divMensagem, 'Erro ao buscar salas', true);
         }
     }
 
@@ -81,16 +81,16 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
         });
 
         buttonInserir.addEventListener('click', () => {
-            redirecionar('http://localhost/src/pages/disciplina/inserir.html');
+            redirecionar('http://localhost/src/pages/sala/inserir.html');
         });
 
         buttonConsultar.addEventListener('click', () => {
-            const idDisciplina = selectDisciplinas.value;
+            const idSala = selectSalas.value;
 
-            if(idDisciplina) {
-                redirecionar(`http://localhost/src/pages/disciplina/consultar.html?idDisciplina=${idDisciplina}`);
+            if(idSala) {
+                redirecionar(`http://localhost/src/pages/sala/consultar.html?idSala=${idSala}`);
             } else {
-                redirecionar(`http://localhost/src/pages/disciplina/consultar.html`);
+                redirecionar(`http://localhost/src/pages/sala/consultar.html`);
             }
         });
 
@@ -98,9 +98,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const buttons = buttonAtivarDesativar.parentElement;
 
             if(checkboxInativos.checked) {
-                await inserirDisciplinas();
+                await inserirSalas();
             } else {
-                await inserirDisciplinasAtivas();
+                await inserirSalasAtivas();
             }
 
             buttonAtivarDesativar.style.display = 'none';
@@ -109,10 +109,10 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             buttons.classList.add('buttons--right');
         });
 
-        selectDisciplinas.addEventListener('change', () => {
+        selectSalas.addEventListener('change', () => {
             const buttons = buttonAtivarDesativar.parentElement;
 
-            if(!selectDisciplinas.value) {
+            if(!selectSalas.value) {
                 buttonAtivarDesativar.style.display = 'none';
                 buttonAlterar.style.display = 'none';
 
@@ -120,7 +120,7 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
                 return;
             }
             
-            const option = selectDisciplinas.options[selectDisciplinas.selectedIndex];
+            const option = selectSalas.options[selectSalas.selectedIndex];
             const status = option.text.split(' - ')[1].toLowerCase();
             buttonAtivarDesativar.style.display = 'block';
             buttonAlterar.style.display = 'block';
@@ -130,27 +130,28 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
         });
 
         buttonAtivarDesativar.addEventListener('click', async () => {
-            const idDisciplina = selectDisciplinas.value;
-            const option = selectDisciplinas.options[selectDisciplinas.selectedIndex];
+            const idSala = selectSalas.value;
+            const option = selectSalas.options[selectSalas.selectedIndex];
             const status = option.text.split(' - ')[1].toLowerCase();
 
             let response;
 
             try {
                 if(status === 'ativo') {
-                    response = await apiDisciplina.desativarDisciplina(idDisciplina);
+                    response = await apiSala.desativarSala(idSala);
                 } else {
-                    response = await apiDisciplina.ativarDisciplina(idDisciplina);
+                    response = await apiSala.ativarSala(idSala);
                 }
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao alterar status da disciplina', true);
+                    await mostrarMensagem(divMensagem, 'Erro ao alterar status da sala', true);
                     return;
                 }
 
                 recarregarPagina();
             } catch(error) {
-                await mostrarMensagem(divMensagem, 'Erro ao alterar status da disciplina', true);
+                console.log(error);
+                await mostrarMensagem(divMensagem, 'Erro ao alterar status da sala', true);
             }
         });
 
@@ -158,18 +159,18 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const filtro = inputPesquisar.value ? inputPesquisar.value : '';
             const mostrarInativas = checkboxInativos.checked;
 
-            await inserirDisciplinasFiltradas(filtro, mostrarInativas);
+            await inserirSalasFiltradas(filtro, mostrarInativas);
         });
 
         buttonAlterar.addEventListener('click', () => {
-            const idDisciplina = selectDisciplinas.value;
+            const idSala = selectSalas.value;
 
-            redirecionar(`http://localhost/src/pages/disciplina/alterar.html?idDisciplina=${idDisciplina}`);
+            redirecionar(`http://localhost/src/pages/sala/alterar.html?idSala=${idSala}`);
         });
     }
 
     async function main() {
-        await inserirDisciplinasAtivas();
+        await inserirSalasAtivas();
         executarListeners();
     }
 

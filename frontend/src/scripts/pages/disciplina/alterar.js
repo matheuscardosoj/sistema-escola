@@ -1,4 +1,4 @@
-import ApiDisciplina from "../../api/apiDiciplina.js";
+import ApiDisciplina from "../../api/ApiDisciplina.js";
 import { mostrarMensagem, redirecionar } from "../../utils/helpers.js";
 
 (async function() {

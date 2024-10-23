@@ -3,6 +3,7 @@ import cors from 'cors';
 import 'dotenv/config.js';
 import sequelize from './src/database/sequelize.js';
 import routes from './src/routes/routes.js';
+import './src/models/association.js';
 
 const port = process.env.SERVER_PORT || 5050;
 const hostname = process.env.SERVER_HOSTNAME || 'localhost';

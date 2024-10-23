@@ -13,9 +13,9 @@ Content-Type: application/json
 
 {
     "nome": "Turma 1",
-    "semestreAno": "2021.1",
-    "horarioInicio": "19:00",
-    "horarioFim": "22:00",
+    "anoSemestre": "2021/1",
+    "horaInicio": "19:00",
+    "horaTermino": "22:00",
     "status": "Ativo",
     "idSala": 1,
     "idDisciplina": 1,
@@ -28,9 +28,9 @@ Content-Type: application/json
 
 {
     "nome": "Turma 2",
-    "semestreAno": "2021.1",
-    "horarioInicio": "19:00",
-    "horarioFim": "22:00",
+    "anoSemestre": "2021/1",
+    "horaInicio": "19:00",
+    "horaTermino": "22:00",
     "idSala": 2,
     "idDisciplina": 2,
     "idProfessor": 2
@@ -42,9 +42,9 @@ Content-Type: application/json
 
 {
     "nome": "Turma 3",
-    "semestreAno": "2021.1",
-    "horarioInicio": "19:00",
-    "horarioFim": "22:00",
+    "anoSemestre": "2021/1",
+    "horaInicio": "19:00",
+    "horaTermino": "22:00",
     "idSala": 3,
     "idDisciplina": 3,
     "idProfessor": 3
@@ -55,10 +55,10 @@ PUT http://localhost:5050/turma/update/1
 Content-Type: application/json
 
 {
-    "nome": "Turma 1 Atualizada",
-    "semestreAno": "2021.1",
-    "horarioInicio": "19:00",
-    "horarioFim": "22:00",
+    "nome": "Turma 1",
+    "anoSemestre": "2021/1",
+    "horaInicio": "19:00",
+    "horaTermino": "22:00",
     "idSala": 1,
     "idDisciplina": 1,
     "idProfessor": 1

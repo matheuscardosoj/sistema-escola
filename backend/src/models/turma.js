@@ -1,8 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../database/sequelize.js';
-import Disciplina from './disciplina.js';
-import Professores from './professor.js';
-import Salas from './sala.js';
 
 class Turma extends Model {}
 
@@ -19,17 +16,17 @@ Turma.init(
             allowNull: false,
         },
 
-        semestreAno: {
+        anoSemestre: {
             type: DataTypes.STRING,
             allowNull: false,
         },
 
-        horarioInicio: {
+        horaInicio: {
             type: DataTypes.TIME,
             allowNull: false,
         },
 
-        horarioFim: {
+        horaTermino: {
             type: DataTypes.TIME,
             allowNull: false,
         },
@@ -40,37 +37,16 @@ Turma.init(
             defaultValue: 'ativo',
         },
 
-        idDisciplina: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
+        idDisciplina: { type: DataTypes.INTEGER },
 
-        idProfessor: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
+        idProfessor: { type: DataTypes.INTEGER },
 
-        idSala: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
+        idSala: { type: DataTypes.INTEGER },
     },
     {
         sequelize,
         modelName: 'turmas',
     },
 );
-
-Disciplina.hasMany(Turma, {
-    foreignKey: 'idDisciplina',
-});
-
-Professores.hasMany(Turma, {
-    foreignKey: 'idProfessor',
-});
-
-Salas.hasMany(Turma, {
-    foreignKey: 'idSala',
-});
 
 export default Turma;

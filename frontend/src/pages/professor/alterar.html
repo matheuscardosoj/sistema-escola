@@ -15,35 +15,41 @@
         <div class="container">
             <h1 class="titulo">Altere o Professor</h1>
 
-            <form class="form">
+            <form class="form" autocomplete="off">
                 <div class="form__container form__container--column">
                     <div class="form__containerElement">
                         <label for="nomeProfessor">Nome: </label>
-                        <input type="text" id="nomeProfessor" required>
+
+                        <input type="text" id="nomeProfessor">
                     </div>
                     
                     <div class="form__containerElement">
                         <label for="cpfProfessor">Cpf: </label>
-                        <input type="text" id="cpfProfessor" required>
+
+                        <input type="text" id="cpfProfessor">
                     </div>
 
                     <div class="form__containerElement">
                         <label for="enderecoProfessor">Endereço: </label>
-                        <input type="text" id="enderecoProfessor" required>
+
+                        <input type="text" id="enderecoProfessor">
                     </div>
 
                     <div class="form__containerElement">
                         <label for="telefoneProfessor">Telefone: </label>
-                        <input type="text" id="telefoneProfessor" required>
+                        
+                        <input type="text" id="telefoneProfessor">
                     </div>
+                </div>
+
+                <div class="buttons buttons--right">
+                    <button class="button" id="buttonEnviar">Enviar</button>
                 </div>
             </form>
 
-            <div class="buttons buttons--right">
-                <button class="button" id="buttonInserir">Enviar</button>
-            </div>
+            <div id="mensagem" class="mensagem mensagem--hidden"></div>
         </div>
 
-        <script src="/frontend/src/scripts/pages/professor.js" type="module"></script>
+        <script src="../../scripts/pages/professor/alterar.js" type="module"></script>
     </body>
 </html>

@@ -1,56 +1,56 @@
-import ApiDisciplina from "../../api/ApiDisciplina.js";
+import ApiSala from "../../api/ApiSala.js";
 import { capitalize } from "../../utils/helpers.js";
 
 (async function() {
-    const tableDisciplina = document.getElementById('tableDisciplina');
-    const apiDisciplina = new ApiDisciplina();
+    const tableSala = document.getElementById('tableSala');
+    const apiSala = new ApiSala();
     const searchParams = new URLSearchParams(window.location.search);
-    const idDisciplina = searchParams.get('idDisciplina');
+    const idSala = searchParams.get('idSala');
 
-    function carregarTabela(disciplinas, erro = false) {
+    function carregarTabela(salas, erro = false) {
         if(erro) {
-            const tbody = tableDisciplina.getElementsByTagName('tbody')[0];
+            const tbody = tableSala.getElementsByTagName('tbody')[0];
 
             const tr = document.createElement('tr');
             const td = document.createElement('td');
 
             td.colSpan = 4;
-            td.textContent = 'Erro ao buscar as disciplinas';
-
+            td.textContent = 'Erro ao buscar as salas';
+            
             tr.appendChild(td);
 
             tbody.appendChild(tr); 
         } else {
-            if(disciplinas.length === 0) {
-                const tbody = tableDisciplina.getElementsByTagName('tbody')[0];
+            if(salas.length === 0) {
+                const tbody = tableSala.getElementsByTagName('tbody')[0];
 
                 const tr = document.createElement('tr');
                 const td = document.createElement('td');
 
                 td.colSpan = 4;
-                td.textContent = 'Nenhuma disciplina encontrada';
+                td.textContent = 'Nenhuma sala encontrada';
 
                 tr.appendChild(td);
 
                 tbody.appendChild(tr);
             } else {
-                const tbody = tableDisciplina.getElementsByTagName('tbody')[0];
+                const tbody = tableSala.getElementsByTagName('tbody')[0];
 
-                disciplinas.forEach(disciplina => {
+                salas.forEach(sala => {
                     const tr = document.createElement('tr');
                     const tdId = document.createElement('td');
                     const tdNome = document.createElement('td');
-                    const tdDescricao = document.createElement('td');
+                    const tdCapacidade = document.createElement('td');
                     const tdStatus = document.createElement('td');
 
-                    tdId.textContent = disciplina.idDisciplina;
-                    tdNome.textContent = capitalize(disciplina.nome);
-                    tdDescricao.textContent = capitalize(disciplina.descricao);
-                    tdStatus.textContent = capitalize(disciplina.status);
+                    tdId.textContent = sala.idSala;
+                    tdNome.textContent = capitalize(sala.nome);
+                    tdCapacidade.textContent = sala.capacidade;
+                    tdStatus.textContent = capitalize(sala.status);
 
                     tr.appendChild(tdId);
                     tr.appendChild(tdNome);
-                    tr.appendChild(tdDescricao);
+                    tr.appendChild(tdCapacidade);
                     tr.appendChild(tdStatus);
 
                     tbody.appendChild(tr);
@@ -59,15 +59,15 @@ import { capitalize } from "../../utils/helpers.js";
         }
     }
 
-    async function inserirDisciplinas() {
-        if(!idDisciplina) {
+    async function inserirSalas() {
+        if(!idSala) {
             try {
-                const response = await apiDisciplina.pegarDisciplinas();
+                const response = await apiSala.pegarSalas();
 
                 if(response.status === 200) {
-                    const disciplinas = await response.json();
+                    const salas = await response.json();
 
-                    carregarTabela(disciplinas);
+                    carregarTabela(salas);
                 } else {
                     carregarTabela([], true);
                 }
@@ -76,7 +76,7 @@ import { capitalize } from "../../utils/helpers.js";
             }
         } else {
             try {
-                const response = await apiDisciplina.pegarDisciplina(idDisciplina);
+                const response = await apiSala.pegarSala(idSala);
 
                 if(response.status === 200) {
                     const disciplina = await response.json();
@@ -92,7 +92,7 @@ import { capitalize } from "../../utils/helpers.js";
     }
 
     async function main() {
-        await inserirDisciplinas();
+        await inserirSalas();
     } 
 
     main();

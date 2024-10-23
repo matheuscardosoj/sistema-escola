@@ -12,38 +12,74 @@
     <body>
         <a class="buttonVoltar button" href="gerenciar.html">Voltar</a>
 
-        <div class="container">
+        <div class="container" autocomplete="off">
             <h1 class="titulo">Insira a Turma</h1>
 
             <form class="form">
                 <div class="form__container form__container--column">
                     <div class="form__containerElement">
                         <label for="nomeTurma">Nome</label>
-                        <input type="text" id="nomeTurma" required>
+                        <input type="text" id="nomeTurma">
                     </div>
 
                     <div class="form__containerElement">
-                        <label for="semestreTurma">Ano: </label>
-                        <input type="text" id="semestreTurma" required>
+                        <label for="anoTurma">Ano: </label>
+                        <input type="text" id="anoTurma">
+                    </div>
+
+                    <div class="form__containerSelect form__containerElement">
+                        <label for="semestreTurma">Semestre</label>
+
+                        <select id="semestreTurma">
+                            <option value="">Selecione um semestre</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
                     </div>
 
                     <div class="form__containerElement">
                         <label for="horaInicioTurma">Hora de inicio: </label>
-                        <input type="time" id="dataInicioTurma" required>
+                        <input type="time" id="horaInicioTurma">
                     </div>
 
                     <div class="form__containerElement">
                         <label for="horaTerminoTurma">Hora de termino: </label>
-                        <input type="time" id="horaTerminoTurma" required>
+                        <input type="time" id="horaTerminoTurma">
+                    </div>
+
+                    <div class="form__containerSelect form__containerElement">
+                        <label for="idSala">Salas</label>
+
+                        <select id="idSala">
+                            <option value="">Selecione uma sala</option>
+                        </select>
+                    </div>
+
+                    <div class="form__containerSelect form__containerElement">
+                        <label for="idDisciplina">Disciplinas</label>
+
+                        <select id="idDisciplina">
+                            <option value="">Selecione uma disciplina</option>
+                        </select>
+                    </div>
+
+                    <div class="form__containerSelect form__containerElement">
+                        <label for="idProfessor">Professores</label>
+
+                        <select id="idProfessor">
+                            <option value="">Selecione um professor</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="buttons buttons--right">
-                    <button class="button" id="buttonInserir">Enviar</button>
+                    <button class="button" id="buttonEnviar">Enviar</button>
                 </div>
             </form>
+
+            <div id="mensagem" class="mensagem mensagem--hidden"></div>
         </div>
 
-        <script src="/frontend/src/scripts/pages/turma.js" type="module"></script>
+        <script src="../../scripts/pages/turma/inserir.js" type="module"></script>
     </body>
 </html>

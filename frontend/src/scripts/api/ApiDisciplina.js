@@ -13,6 +13,17 @@ class ApiDisciplina {
         return response;
     }
 
+    async pegarDisciplinasFiltradas(filtro, mostrarInativas) {
+        const response = await fetch(`${this.#url}/filter`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify({ filtro, mostrarInativas })
+        });
+
+        return response;
+    }
+
     async criarDisciplina(nome, descricao) {
         const response = await fetch(`${this.#url}/create`, {
             method: 'POST',

@@ -13,34 +13,25 @@
     <body>
         <a class="buttonVoltar button" href="gerenciar.html">Voltar</a>
 
-        <div class="container">
+        <div class="container container--flexivel">
             <h1 class="titulo">Informações do Professor</h1>
 
-            <table class="tableProfessor">
+            <table id="tableProfessor">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
-                        <th>Cpf</th>
+                        <th>CPF</th>
                         <th>Endereço</th>
                         <th>Telefone</th>
                         <th>Status</th>
                     </tr>
                 </thead>
 
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>João</td>
-                        <td>123.456.789-00</td>
-                        <td>Rua 1, 123</td>
-                        <td>(11) 1234-5678</td>
-                        <td>Ativo</td>
-                    </tr>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
 
-        <script src="/frontend/src/scripts/pages/professor.js" type="module"></script>
+        <script src="../../scripts/pages/professor/consultar.js" type="module"></script>
     </body>
 </html>
