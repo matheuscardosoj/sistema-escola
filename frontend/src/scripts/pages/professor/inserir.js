@@ -39,7 +39,9 @@ import { formataCpf, formataTelefone, mostrarMensagem, retirarMascaraCpf, retira
                 const response = await apiProfessor.criarProfessor(nome, cpf, endereco, telefone);
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao criar a disciplina', true);
+                    const { error } = await response.json();
+
+                    await mostrarMensagem(divMensagem, error || 'Erro ao criar a disciplina', true);
                     return;
                 }
 

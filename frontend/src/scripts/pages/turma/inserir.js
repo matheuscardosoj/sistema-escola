@@ -41,7 +41,9 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem } from
             const response = await apiSala.pegarSalas();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar salas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar salas', true);
                 return;
             }
 
@@ -58,7 +60,9 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem } from
             const response = await apiDisciplina.pegarDisciplinas();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar disciplinas', true);
                 return;
             }
 
@@ -75,7 +79,9 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem } from
             const response = await apiProfessor.pegarProfessores();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar professores', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar professores', true);
                 return;
             }
 
@@ -83,7 +89,7 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem } from
 
             recarregarSelect(professores, selectProfessores, 'idProfessor', 'Selecione um professor');
         } catch(error) {
-            await mostrarMensagem(divMensagem, 'Erro ao buscar professores', true);
+            await mostrarMensagem(divMensagem, error || 'Erro ao buscar professores', true);
         }
     }
     
@@ -121,7 +127,9 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem } from
                 const response = await apiTurma.criarTurma(nome, anoSemestre, horaInicio, horaTermino, idSala, idDisciplina, idProfessor);
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao criar a turma', true);
+                    const { error } = await response.json();
+
+                    await mostrarMensagem(divMensagem, error || 'Erro ao criar a turma', true);
                     return;
                 }
 

@@ -46,7 +46,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const response = await apiDisciplina.pegarDisciplinas();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar disciplinas', true);
                 return;
             }
 
@@ -63,7 +65,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const response = await apiDisciplina.pegarDisciplinasFiltradas(filtro, mostrarInativas);
             
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar disciplinas', true);
                 return;
             }
             
@@ -144,7 +148,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
                 }
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao alterar status da disciplina', true);
+                    const { error } = await response.json();
+
+                    await mostrarMensagem(divMensagem, error || 'Erro ao alterar status da disciplina', true);
                     return;
                 }
 

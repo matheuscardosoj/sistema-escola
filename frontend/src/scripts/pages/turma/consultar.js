@@ -79,8 +79,6 @@ import { capitalize } from "../../utils/helpers.js";
                 if(response.status === 200) {
                     const turmas = await response.json(); 
 
-                    console.log(turmas);
-
                     carregarTabela(turmas);
                 } else {
                     carregarTabela([], true);

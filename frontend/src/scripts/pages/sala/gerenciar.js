@@ -46,7 +46,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const response = await apiSala.pegarSalas();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar salas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar salas', true);
                 return;
             }
 
@@ -63,7 +65,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const response = await apiSala.pegarSalasFiltradas(filtro, mostrarInativas);
             
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar salas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar salas', true);
                 return;
             }
             
@@ -144,13 +148,14 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
                 }
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao alterar status da sala', true);
+                    const { error } = await response.json();
+
+                    await mostrarMensagem(divMensagem, error || 'Erro ao alterar status da sala', true);
                     return;
                 }
 
                 recarregarPagina();
             } catch(error) {
-                console.log(error);
                 await mostrarMensagem(divMensagem, 'Erro ao alterar status da sala', true);
             }
         });

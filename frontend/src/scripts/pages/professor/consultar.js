@@ -7,9 +7,6 @@ import { capitalize, formataCpf, formataTelefone } from "../../utils/helpers.js"
     const searchParams = new URLSearchParams(window.location.search);
     const idProfessor = searchParams.get('idProfessor');
 
-    console.log(tableProfessor);
-    
-
     function carregarTabela(professores, erro = false) {
         if(erro) {
             const tbody = tableProfessor.getElementsByTagName('tbody')[0];

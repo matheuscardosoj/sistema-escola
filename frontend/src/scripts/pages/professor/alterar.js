@@ -23,7 +23,9 @@ import { formataCpf, formataTelefone, mostrarMensagem, redirecionar, retirarMasc
             const response = await apiProfessor.pegarProfessor(idProfessor);
             
             if (response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar o professor', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar o professor', true);
                 return;
             }
 
@@ -65,18 +67,16 @@ import { formataCpf, formataTelefone, mostrarMensagem, redirecionar, retirarMasc
                 const response = await apiProfessor.alterarProfessor(idProfessor, nome, cpf, endereco, telefone);              
 
                 if(response.status !== 200) {
-                    console.log(response);
+                    const { error } = await response.json();
                     
-                    await mostrarMensagem(divMensagem, 'Erro ao alterar o professor', true);
+                    await mostrarMensagem(divMensagem, error || 'Erro ao alterar o professor', true);
                     return;
                 }
 
                 await mostrarMensagem(divMensagem, 'Professor alterado com sucesso');
 
                 redirecionar(`http://localhost/src/pages/professor/consultar.html?idProfessor=${idProfessor}`, 5000);
-            } catch(error) {
-                console.log(error);
-                
+            } catch(error) {           
                 await mostrarMensagem(divMensagem, 'Erro ao alterar o professor', true);
             }
         });

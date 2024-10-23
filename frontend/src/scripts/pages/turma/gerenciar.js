@@ -46,7 +46,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const response = await apiTurma.pegarTurmas();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar turmas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar turmas', true);
                 return;
             }
 
@@ -63,7 +65,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const response = await apiTurma.pegarTurmasFiltradas(filtro, mostrarInativas);
             
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar turmas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar turmas', true);
                 return;
             }
             

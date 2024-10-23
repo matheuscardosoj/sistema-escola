@@ -27,7 +27,9 @@ import { mostrarMensagem } from '../../utils/helpers.js';
                 const response = await apiSala.criarSala(nome, capacidade);
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao criar a sala', true);
+                    const { error } = await response.json();
+
+                    await mostrarMensagem(divMensagem, error || 'Erro ao criar a sala', true);
                     return;
                 }
 

@@ -21,7 +21,9 @@ import { mostrarMensagem, redirecionar } from "../../utils/helpers.js";
             const response = await apiSala.pegarSala(idSala);
             
             if (response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar a sala', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar a sala', true);
                 return;
             }
 
@@ -47,7 +49,9 @@ import { mostrarMensagem, redirecionar } from "../../utils/helpers.js";
                 const response = await apiSala.alterarSala(idSala, nome, capacidade);               
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao alterar a sala', true);
+                    const { error } = await response.json();
+
+                    await mostrarMensagem(divMensagem, error || 'Erro ao alterar a sala', true);
                     return;
                 }
 

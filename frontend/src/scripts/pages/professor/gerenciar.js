@@ -46,7 +46,9 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
             const response = await apiProfessor.pegarProfessores();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar professores', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar professores', true);
                 return;
             }
 
@@ -131,7 +133,6 @@ import { mostrarMensagem, redirecionar, recarregarPagina, capitalize } from '../
 
         buttonAtivarDesativar.addEventListener('click', async () => {
             const idProfessor = selectProfessor.value;
-            console.log(selectProfessor);
             const option = selectProfessor.options[selectProfessor.selectedIndex];
             const status = option.text.split(' - ')[1].toLowerCase();
 

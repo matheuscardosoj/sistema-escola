@@ -21,7 +21,9 @@ import { mostrarMensagem, redirecionar } from "../../utils/helpers.js";
             const response = await apiDisciplina.pegarDisciplina(idDisciplina);
             
             if (response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar a disciplina', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar a disciplina', true);
                 return;
             }
 
@@ -46,7 +48,9 @@ import { mostrarMensagem, redirecionar } from "../../utils/helpers.js";
                 const response = await apiDisciplina.alterarDisciplina(idDisciplina, nome, descricao);               
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao alterar a disciplina', true);
+                    const { error } = await response.json();
+
+                    await mostrarMensagem(divMensagem, error || 'Erro ao alterar a disciplina', true);
                     return;
                 }
 

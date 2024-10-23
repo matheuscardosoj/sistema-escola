@@ -33,7 +33,9 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem, redir
             const response = await apiTurma.pegarTurma(idTurma);
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar a turma', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar a turma', true);
                 return;
             }
 
@@ -77,7 +79,9 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem, redir
             const response = await apiSala.pegarSalas();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar salas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar salas', true);
                 return;
             }
 
@@ -94,7 +98,9 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem, redir
             const response = await apiDisciplina.pegarDisciplinas();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar disciplinas', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar disciplinas', true);
                 return;
             }
 
@@ -111,7 +117,9 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem, redir
             const response = await apiProfessor.pegarProfessores();
 
             if(response.status !== 200) {
-                await mostrarMensagem(divMensagem, 'Erro ao buscar professores', true);
+                const { error } = await response.json();
+
+                await mostrarMensagem(divMensagem, error || 'Erro ao buscar professores', true);
                 return;
             }
 
@@ -157,7 +165,9 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem, redir
                 const response = await apiTurma.alterarTurma(idTurma, nome, anoSemestre, horaInicio, horaTermino, idSala, idDisciplina, idProfessor);
 
                 if(response.status !== 200) {
-                    await mostrarMensagem(divMensagem, 'Erro ao alterar a turma', true);
+                    const { error } = await response.json();
+                    
+                    await mostrarMensagem(divMensagem, error || 'Erro ao alterar a turma', true);
                     return;
                 }
 
@@ -174,6 +184,7 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem, redir
 
                 await mostrarMensagem(divMensagem, 'Turma alterada com sucesso');
 
+                redirecionar(`http://localhost/src/pages/sala/consultar.html?idTurma=${idTurma}`, 5000);
             } catch(error) {
                 await mostrarMensagem(divMensagem, 'Erro ao alterar a turma', true);
             }
