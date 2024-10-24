@@ -38,7 +38,7 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem } from
 
     async function inserirSalas() {
         try {
-            const response = await apiSala.pegarSalas();
+            const response = await apiSala.pegarSalasAtivas();
 
             if(response.status !== 200) {
                 const { error } = await response.json();
@@ -57,7 +57,7 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem } from
 
     async function inserirDisciplinas() {
         try {
-            const response = await apiDisciplina.pegarDisciplinas();
+            const response = await apiDisciplina.pegarDisciplinasAtivas();
 
             if(response.status !== 200) {
                 const { error } = await response.json();
@@ -76,7 +76,7 @@ import { deixarApenasDigitos, formataDataParaAnoSemestre, mostrarMensagem } from
 
     async function inserirProfessores() {                       
         try {
-            const response = await apiProfessor.pegarProfessores();
+            const response = await apiProfessor.pegarProfessoresAtivos();
 
             if(response.status !== 200) {
                 const { error } = await response.json();
