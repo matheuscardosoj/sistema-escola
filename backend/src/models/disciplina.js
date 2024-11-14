@@ -16,6 +16,16 @@ Disciplina.init(
             allowNull: false,
         },
 
+        codigo: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
+        periodo: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+
         descricao: {
             type: DataTypes.STRING,
             allowNull: false,

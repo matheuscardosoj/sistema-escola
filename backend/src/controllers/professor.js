@@ -7,15 +7,16 @@ class ControllerProfessor {
     async store(req, res) {
         console.log('Recebendo requisição POST em /professor/create');
 
-        const { nome, cpf, endereco, telefone } = req.body;
+        const { nome, cpf, titulo, endereco, telefone } = req.body;
 
-        if (!nome || !cpf || !endereco || !telefone) {
+        if (!nome || !cpf || !titulo || !endereco || !telefone) {
             return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
         const professor = await Professor.create({
             nome,
             cpf,
+            titulo,
             endereco,
             telefone,
         });
@@ -51,59 +52,122 @@ class ControllerProfessor {
     async showFilter(req, res) {
         console.log('Recebendo requisição POST em /disciplina/filter');
 
-        const { filtro, mostrarInativas } = req.body;
+        const { filtro, mostrar } = req.body;
 
-        console.log(filtro, mostrarInativas);
-
-        let professores;
-
-        if(mostrarInativas === undefined) {
-            res.status(400).json({ error: 'Preencha o campo mostrarInativas' });
+        if (!filtro || !mostrar) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
-        if (!filtro) {
-            if(mostrarInativas) {
-                professores = await Professor.findAll({
-                    order:['idProfessor']
-                });
-            } else {
-                professores = await Professor.findAll({
-                    where: {
-                        status: 'ativo',
-                    },
-                    order:['idProfessor']
-                });
-            }
-
-            return res.json(professores);
-        }
-
-        if(mostrarInativas) {
-            professores = await Professor.findAll({
+        if (mostrar === 'ativo') {
+            const professores = await Professor.findAll({
                 where: {
+                    status: 'ativo',
                     [Op.or]: [
-                        { nome: { [Op.iLike]: `%${filtro}%` } },
-                        { endereco: { [Op.iLike]: `%${filtro}%` } },
-                    ]
+                        {
+                            nome: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            cpf: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            titulo: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            endereco: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            telefone: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                    ],
                 },
                 order:['idProfessor']
             });
 
             return res.json(professores);
-        }        
+        } else if (mostrar === 'inativo') {
+            const professores = await Professor.findAll({
+                where: {
+                    status: 'inativo',
+                    [Op.or]: [
+                        {
+                            nome: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            cpf: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            titulo: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            endereco: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            telefone: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                    ],
+                },
+                order:['idProfessor']
+            });
 
-        professores = await Professor.findAll({
-            where: {
-                status: 'ativo',
-                [Op.or]: [
-                    { nome: { [Op.iLike]: `%${filtro}%` } },
-                    { endereco: { [Op.iLike]: `%${filtro}%` } },
-                ]
-            },
-            order:['idProfessor']
-        });
+            return res.json(professores);
+        } else if (mostrar === 'todos') {
+            const professores = await Professor.findAll({
+                where: {
+                    [Op.or]: [
+                        {
+                            nome: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            cpf: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            titulo: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            endereco: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            telefone: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                    ],
+                },
+                order:['idProfessor']
+            });
 
-        return res.json(professores);
+            return res.json(professores);
+        } else {
+            return res.status(400).json({ error: 'Mostrar deve ser "ativo", "inativo" ou "todos"' });
+        }
     }
 
     async showActives(req, res) {
@@ -119,19 +183,30 @@ class ControllerProfessor {
         return res.json(professor);
     }
 
+    async showInactives(req, res) {
+        console.log('Recebendo requisição GET em /professor/inactives');
+
+        const professor = await Professor.findAll({
+            where: {
+                status: 'inativo',
+            },
+            order:['idProfessor']
+        });
+
+        return res.json(professor);
+    }
+
     async update(req, res) {
         console.log('Recebendo requisição PUT em /professor/update/:id');
 
         const { id } = req.params;
-        const { nome, cpf, endereco, telefone } = req.body;
+        const { nome, cpf, titulo, endereco, telefone } = req.body;
 
-        if (!nome || !cpf || !endereco || !telefone) {
+        if (!nome || !cpf || !titulo || !endereco || !telefone) {
             return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
         const professor = await Professor.findByPk(id);
-
-        console.log(req.body, id);
 
         if (!professor) {
             return res.status(404).json({ error: 'Professor não encontrado.' });
@@ -139,6 +214,7 @@ class ControllerProfessor {
 
         professor.nome = nome;
         professor.cpf = cpf;
+        professor.titulo = titulo;
         professor.endereco = endereco;
         professor.telefone = telefone;
         await professor.save();
@@ -157,6 +233,7 @@ class ControllerProfessor {
         }
 
         professor.status = 'ativo';
+        
         await professor.save();
 
         return res.json(professor);

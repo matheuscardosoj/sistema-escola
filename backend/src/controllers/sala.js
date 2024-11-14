@@ -7,14 +7,15 @@ class ControllerSala {
     async store(req, res) {
         console.log('Recebendo requisição POST em /sala/create');
 
-        const { nome, capacidade } = req.body;
+        const { nome, local, capacidade } = req.body;
 
-        if (!nome || !capacidade) {
+        if (!nome || !local || !capacidade) {
             return res.status(400).json({ erro: 'Preencha todos os campos' });
         }
 
         const sala = await Sala.create({
             nome,
+            local,
             capacidade,
         });
 
@@ -46,6 +47,55 @@ class ControllerSala {
         return res.json(sala);
     }
 
+    async showFilter(req, res) {
+        console.log('Recebendo requisição POST em /disciplina/filter');
+
+        const { filtro, mostrar } = req.body;
+        
+        if (!filtro || !mostrar) {
+            return res.status(400).json({ erro: 'Preencha todos os campos' });
+        }
+
+        if (mostrar === 'ativo') {
+            const salas = await Sala.findAll({
+                where: {
+                    status: 'ativo',
+                    [Op.or]: [
+                        { nome: { [Op.like]: `%${filtro}%` } },
+                        { local: { [Op.like]: `%${filtro}%` } },
+                    ],
+                },
+            });
+
+            return res.json(salas);
+        } else if (mostrar === 'inativo') {
+            const salas = await Sala.findAll({
+                where: {
+                    status: 'inativo',
+                    [Op.or]: [
+                        { nome: { [Op.like]: `%${filtro}%` } },
+                        { local: { [Op.like]: `%${filtro}%` } },
+                    ],
+                },
+            });
+
+            return res.json(salas);
+        } else if (mostrar === 'todos') {
+            const salas = await Sala.findAll({
+                where: {
+                    [Op.or]: [
+                        { nome: { [Op.like]: `%${filtro}%` } },
+                        { local: { [Op.like]: `%${filtro}%` } },
+                    ],
+                },
+            });
+
+            return res.json(salas);
+        } else {
+            return res.status(400).json({ erro: 'Mostrar deve ser "ativo", "inativo" ou "todos"' });
+        }
+    }
+
     async showActives(req, res) {
         console.log('Recebendo requisição GET em /sala/actives');
 
@@ -59,55 +109,12 @@ class ControllerSala {
         return res.json(salas);
     }
 
-    async showFilter(req, res) {
-        console.log('Recebendo requisição POST em /disciplina/filter');
+    async showInactives(req, res) {
+        console.log('Recebendo requisição GET em /sala/inactives');
 
-        const { filtro, mostrarInativas } = req.body;
-
-        console.log(filtro, mostrarInativas);
-
-        let salas;
-
-        if(mostrarInativas === undefined) {
-            res.status(400).json({ error: 'Preencha o campo mostrarInativas' });
-        }
-
-        if (!filtro) {
-            if(mostrarInativas) {
-                salas = await Sala.findAll({
-                    order: ['idSala'],
-                });
-            } else {
-                salas = await Sala.findAll({
-                    where: {
-                        status: 'ativo',
-                    },
-                    order: ['idSala'],
-                });
-            }
-
-            return res.json(salas);
-        }
-
-        if(mostrarInativas) {
-            salas = await Sala.findAll({
-                where: {
-                    [Op.or]: [
-                        { nome: { [Op.iLike]: `%${filtro}%` } },
-                    ]
-                },
-                order: ['idSala'],
-            });
-
-            return res.json(salas);
-        }        
-
-        salas = await Sala.findAll({
+        const salas = await Sala.findAll({
             where: {
-                status: 'ativo',
-                [Op.or]: [
-                    { nome: { [Op.iLike]: `%${filtro}%` } },
-                ]
+                status: 'inativo',
             },
             order: ['idSala'],
         });
@@ -119,9 +126,9 @@ class ControllerSala {
         console.log('Recebendo requisição PUT em /sala/update/:id');
 
         const { id } = req.params;
-        const { nome, capacidade } = req.body;
+        const { nome, local, capacidade } = req.body;
 
-        if (!nome || !capacidade) {
+        if (!nome || !local || !capacidade) {
             return res.status(400).json({ erro: 'Preencha todos os campos' });
         }
 
@@ -132,7 +139,9 @@ class ControllerSala {
         }
 
         sala.nome = nome;
+        sala.local = local;
         sala.capacidade = capacidade;
+        
         await sala.save();
 
         return res.json(sala);

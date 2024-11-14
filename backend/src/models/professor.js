@@ -21,6 +21,11 @@ Professor.init(
             allowNull: false,
         },
 
+        titulo: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
         endereco: {
             type: DataTypes.STRING,
             allowNull: false,

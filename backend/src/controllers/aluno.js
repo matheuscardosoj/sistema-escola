@@ -52,59 +52,107 @@ class ControllerAluno {
     async showFilter(req, res) {
         console.log('Recebendo requisição POST em /disciplina/filter');
 
-        const { filtro, mostrarInativas } = req.body;
+        const { filtro, mostrar } = req.body;
 
-        console.log(filtro, mostrarInativas);
-
-        let alunos;
-
-        if(mostrarInativas === undefined) {
-            res.status(400).json({ error: 'Preencha o campo mostrarInativas' });
+        if (!filtro || !mostrar) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
-        if (!filtro) {
-            if(mostrarInativas) {
-                alunos = await Aluno.findAll({
-                    order: ['idAluno'],
-                });
-            } else {
-                alunos = await Aluno.findAll({
-                    where: {
-                        status: 'ativo',
-                    },
-                    order: ['idAluno'],
-                });
-            }
-
-            return res.json(alunos);
-        }
-
-        if(mostrarInativas) {
-            alunos = await Aluno.findAll({
+        if (mostrar === 'ativo') {
+            const alunos = await Aluno.findAll({
                 where: {
+                    status: 'ativo',
                     [Op.or]: [
-                        { nome: { [Op.iLike]: `%${filtro}%` } },
-                        { endereco: { [Op.iLike]: `%${filtro}%` } },
-                    ]
+                        {
+                            nome: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            cpf: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            endereco: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            telefone: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        }
+                    ],
                 },
                 order: ['idAluno'],
             });
 
             return res.json(alunos);
-        }        
+        } else if (mostrar === 'inativo') {
+            const alunos = await Aluno.findAll({
+                where: {
+                    status: 'inativo',
+                    [Op.or]: [
+                        {
+                            nome: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            cpf: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            endereco: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            telefone: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        }
+                    ],
+                },
+                order: ['idAluno'],
+            });
 
-        alunos = await Aluno.findAll({
-            where: {
-                status: 'ativo',
-                [Op.or]: [
-                    { nome: { [Op.iLike]: `%${filtro}%` } },
-                    { endereco: { [Op.iLike]: `%${filtro}%` } },
-                ]
-            },
-            order: ['idAluno'],
-        });
+            return res.json(alunos);
+        } else if (mostrar === 'todos') {
+            const alunos = await Aluno.findAll({
+                where: {
+                    [Op.or]: [
+                        {
+                            nome: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            cpf: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            endereco: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        },
+                        {
+                            telefone: {
+                                [Op.like]: `%${filtro}%`,
+                            },
+                        }
+                    ],
+                },
+                order: ['idAluno'],
+            });
 
-        return res.json(alunos);
+            return res.json(alunos);
+        } else {
+            return res.status(400).json({ error: 'Mostrar deve ser "ativo", "inativo" ou "todos"' });
+        }
     }
 
     async showActives(req, res) {
@@ -113,6 +161,19 @@ class ControllerAluno {
         const alunos = await Aluno.findAll({
             where: {
                 status: 'ativo',
+            },
+            order: ['idAluno'],
+        });
+
+        return res.json(alunos);
+    }
+
+    async showInactives(req, res) {
+        console.log('Recebendo requisição GET em /aluno/inactives');
+
+        const alunos = await Aluno.findAll({
+            where: {
+                status: 'inativo',
             },
             order: ['idAluno'],
         });

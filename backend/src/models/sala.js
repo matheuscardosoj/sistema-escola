@@ -16,6 +16,11 @@ Sala.init(
             allowNull: false,
         },
 
+        local: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
         capacidade: {
             type: DataTypes.INTEGER,
             allowNull: false,

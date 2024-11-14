@@ -4,6 +4,7 @@ import ControllerDisciplina from '../controllers/disciplina.js';
 const routerDisciplina = Router();
 
 routerDisciplina.get('/actives', ControllerDisciplina.showActives);
+routerDisciplina.get('/inactives', ControllerDisciplina.showInactives);
 routerDisciplina.put('/activate/:id', ControllerDisciplina.activate);
 routerDisciplina.put('/disable/:id', ControllerDisciplina.disable);
 routerDisciplina.put('/update/:id', ControllerDisciplina.update);

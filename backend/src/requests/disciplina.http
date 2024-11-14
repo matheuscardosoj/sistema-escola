@@ -13,6 +13,8 @@ Content-Type: application/json
 
 {
     "nome": "Disciplina 1",
+    "codigo": "DISC1",
+    "periodo": 1,
     "descricao": "Descrição 1"
 }
 
@@ -22,6 +24,8 @@ Content-Type: application/json
 
 {
     "nome": "Disciplina 2",
+    "codigo": "DISC2",
+    "periodo": 2,
     "descricao": "Descrição 2"
 }
 
@@ -31,16 +35,53 @@ Content-Type: application/json
 
 {
     "nome": "Disciplina 3",
+    "codigo": "DISC3",
+    "periodo": 3,
     "descricao": "Descrição 3"
 }
 
-### Atualiza disciplina 1
-PUT http://localhost:5050/disciplina/update/1
+### Cria disciplina 4
+POST http://localhost:5050/disciplina/create
 Content-Type: application/json
 
 {
-    "nome": "Disciplina 1 Atualizada",
-    "descricao": "Descrição 1 Atualizada"
+    "nome": "Disciplina 4",
+    "codigo": "DISC4",
+    "periodo": 4,
+    "descricao": "Descrição 4"
+}
+
+### Cria disciplina 5
+POST http://localhost:5050/disciplina/create
+Content-Type: application/json
+
+{
+    "nome": "Disciplina 5",
+    "codigo": "DISC5",
+    "periodo": 5,
+    "descricao": "Descrição 5"
+}
+
+### Cria disciplina 7
+POST http://localhost:5050/disciplina/create
+Content-Type: application/json
+
+{
+    "nome": "Disciplina 7",
+    "codigo": "DISC7",
+    "periodo": 7,
+    "descricao": "Descrição 7"
+}
+
+### Atualiza disciplina 1
+PUT http://localhost:5050/disciplina/update/2
+Content-Type: application/json
+
+{
+    "nome": "Disciplina 2",
+    "codigo": "DISC2",
+    "periodo": 1,
+    "descricao": "Descrição 2"
 }
 
 ### Inativa disciplina 2

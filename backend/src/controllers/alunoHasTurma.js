@@ -92,6 +92,18 @@ class ControllerAlunoHasTurma {
         return res.json(alunoHasTurma);
     }
 
+    async showInactives(req, res) {
+        console.log('Recebendo requisição GET em /alunoHasTurma/inactives');
+
+        const alunoHasTurma = await AlunoHasTurma.findAll({
+            where: {
+                status: 'inativo',
+            },
+        });
+
+        return res.json(alunoHasTurma);
+    }
+
     async activate(req, res) {
         console.log('Recebendo requisição PUT em /alunoHasTurma/activate');
 

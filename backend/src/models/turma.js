@@ -16,17 +16,17 @@ Turma.init(
             allowNull: false,
         },
 
-        anoSemestre: {
+        diaSemana: {
             type: DataTypes.STRING,
             allowNull: false,
         },
 
-        horaInicio: {
+        horarioInicio: {
             type: DataTypes.TIME,
             allowNull: false,
         },
 
-        horaTermino: {
+        horarioTermino: {
             type: DataTypes.TIME,
             allowNull: false,
         },

@@ -11,9 +11,9 @@ class ControllerTurma {
 
         const {
             nome,
-            anoSemestre,
-            horaInicio,
-            horaTermino,
+            diaSemana,
+            horarioInicio,
+            horarioTermino,
             idSala,
             idDisciplina,
             idProfessor,
@@ -21,9 +21,9 @@ class ControllerTurma {
 
         if (
             !nome ||
-            !anoSemestre ||
-            !horaInicio ||
-            !horaTermino ||
+            !diaSemana ||
+            !horarioInicio ||
+            !horarioTermino ||
             !idSala ||
             !idDisciplina ||
             !idProfessor
@@ -53,9 +53,9 @@ class ControllerTurma {
 
         const turma = await Turma.create({
             nome,
-            anoSemestre,
-            horaInicio,
-            horaTermino,
+            diaSemana,
+            horarioInicio,
+            horarioTermino,
             idSala,
             idDisciplina,
             idProfessor,
@@ -126,72 +126,27 @@ class ControllerTurma {
     async showFilter(req, res) {
         console.log('Recebendo requisição POST em /disciplina/filter');
 
-        const { filtro, mostrarInativas } = req.body;
+        const { filtro, mostrar } = req.body;
 
-        console.log(filtro, mostrarInativas);
-
-        let turmas;
-
-        if(mostrarInativas === undefined) {
-            res.status(400).json({ error: 'Preencha o campo mostrarInativas' });
+        if (!filtro || !mostrar) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
-        if (!filtro) {
-            if(mostrarInativas) {
-                turmas = await Turma.findAll({
-                    order: ['idTurma'],
-                    exclude: ['idDisciplina', 'idProfessor', 'idSala'],
-                    include: [
-                        {
-                            model: Disciplina,
-                            as: 'disciplina',
-                        },
-                        {
-                            model: Professor,
-                            as: 'professor',
-                        },
-                        {
-                            model: Sala,
-                            as: 'sala',
-                        },
-                    ],
-                });
-            } else {
-                turmas = await Turma.findAll({
-                    where: {
-                        status: 'ativo',
-                    },
-                    order: ['idTurma'],
-                    exclude: ['idDisciplina', 'idProfessor', 'idSala'],
-                    include: [
-                        {
-                            model: Disciplina,
-                            as: 'disciplina',
-                        },
-                        {
-                            model: Professor,
-                            as: 'professor',
-                        },
-                        {
-                            model: Sala,
-                            as: 'sala',
-                        },
-                    ],
-                });
-            }
-
-            return res.json(turmas);
-        }
-
-        if(mostrarInativas) {
-            turmas = await Turma.findAll({
+        if (mostrar === 'ativo') {
+            const turma = await Turma.findAll({
                 where: {
+                    status: 'ativo',
                     [Op.or]: [
-                        { nome: { [Op.iLike]: `%${filtro}%` } },
-                    ]
+                        { nome: { [Op.like]: `%${filtro}%` } },
+                        { diaSemana: { [Op.like]: `%${filtro}%` } },
+                        { horarioInicio: { [Op.like]: `%${filtro}%` } },
+                        { horarioTermino: { [Op.like]: `%${filtro}%` } },
+                    ],
                 },
                 order: ['idTurma'],
-                exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+                attributes: {
+                    exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+                },
                 include: [
                     {
                         model: Disciplina,
@@ -208,35 +163,75 @@ class ControllerTurma {
                 ],
             });
 
-            return res.json(turmas);
-        }        
+            return res.json(turma);
+        } else if (mostrar === 'inativo') {
+            const turma = await Turma.findAll({
+                where: {
+                    status: 'inativo',
+                    [Op.or]: [
+                        { nome: { [Op.like]: `%${filtro}%` } },
+                        { diaSemana: { [Op.like]: `%${filtro}%` } },
+                        { horarioInicio: { [Op.like]: `%${filtro}%` } },
+                        { horarioTermino: { [Op.like]: `%${filtro}%` } },
+                    ],
+                },
+                order: ['idTurma'],
+                attributes: {
+                    exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+                },
+                include: [
+                    {
+                        model: Disciplina,
+                        as: 'disciplina',
+                    },
+                    {
+                        model: Professor,
+                        as: 'professor',
+                    },
+                    {
+                        model: Sala,
+                        as: 'sala',
+                    },
+                ],
+            });
 
-        turmas = await Turma.findAll({
-            where: {
-                status: 'ativo',
-                [Op.or]: [
-                    { nome: { [Op.iLike]: `%${filtro}%` } },
-                ]
-            },
-            order: ['idTurma'],
-            exclude: ['idDisciplina', 'idProfessor', 'idSala'],
-            include: [
-                {
-                    model: Disciplina,
-                    as: 'disciplina',
+            return res.json(turma);
+        } else if (mostrar === 'todos') {
+            const turma = await Turma.findAll({
+                where: {
+                    [Op.or]: [
+                        { nome: { [Op.like]: `%${filtro}%` } },
+                        { diaSemana: { [Op.like]: `%${filtro}%` } },
+                        { horarioInicio: { [Op.like]: `%${filtro}%` } },
+                        { horarioTermino: { [Op.like]: `%${filtro}%` } },
+                    ],
                 },
-                {
-                    model: Professor,
-                    as: 'professor',
+                order: ['idTurma'],
+                attributes: {
+                    exclude: ['idDisciplina', 'idProfessor', 'idSala'],
                 },
-                {
-                    model: Sala,
-                    as: 'sala',
-                },
-            ],
-        });
+                include: [
+                    {
+                        model: Disciplina,
+                        as: 'disciplina',
+                    },
+                    {
+                        model: Professor,
+                        as: 'professor',
+                    },
+                    {
+                        model: Sala,
+                        as: 'sala',
+                    },
+                ],
+            });
 
-        return res.json(turmas);
+            return res.json(turma);
+        } else {
+            return res
+                .status(400)
+                .json({ error: 'Mostrar deve ser "ativo", "inativo" ou "todos"' });
+        }
     }
 
     async showActives(req, res) {
@@ -272,15 +267,48 @@ class ControllerTurma {
         return res.json(turma);
     }
 
+    async showInactives(req, res) {
+        console.log('Recebendo requisição GET em /turma/inactives');
+
+        const turma = await Turma.findAll({
+            where: {
+                status: 'inativo',
+            },
+            order: ['idTurma'],
+            attributes: {
+                exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+            },
+            include: [
+                {
+                    model: Disciplina,
+                    as: 'disciplina',
+                    required: true,
+                },
+                {
+                    model: Professor,
+                    as: 'professor',
+                    required: true,
+                },
+                {
+                    model: Sala,
+                    as: 'sala',
+                    required: true,
+                },
+            ],
+        });
+
+        return res.json(turma);
+    }
+
     async update(req, res) {
         console.log('Recebendo requisição PUT em /turma/update/:id');
 
         const { id } = req.params;
         const {
             nome,
-            anoSemestre,
-            horaInicio,
-            horaTermino,
+            diaSemana,
+            horarioInicio,
+            horarioTermino,
             idSala,
             idDisciplina,
             idProfessor,
@@ -288,9 +316,9 @@ class ControllerTurma {
 
         if (
             !nome ||
-            !anoSemestre ||
-            !horaInicio ||
-            !horaTermino ||
+            !diaSemana ||
+            !horarioInicio ||
+            !horarioTermino ||
             !idSala ||
             !idDisciplina ||
             !idProfessor
@@ -305,9 +333,9 @@ class ControllerTurma {
         }
 
         turma.nome = nome;
-        turma.anoSemestre = anoSemestre;
-        turma.horaInicio = horaInicio;
-        turma.horaTermino = horaTermino;
+        turma.diaSemana = diaSemana;
+        turma.horarioInicio = horarioInicio;
+        turma.horarioTermino = horarioTermino;
         turma.idSala = idSala;
         turma.idDisciplina = idDisciplina;
         turma.idProfessor = idProfessor;
@@ -321,8 +349,7 @@ class ControllerTurma {
         console.log('Recebendo requisição PUT em /turma/activate/:id');
 
         const { id } = req.params;
-        console.log(id);
-
+        
         const turma = await Turma.findByPk(id);
 
         if (!turma) {

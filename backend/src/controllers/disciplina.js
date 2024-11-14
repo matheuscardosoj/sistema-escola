@@ -7,14 +7,16 @@ class ControllerDisciplina {
     async store(req, res) {
         console.log('Recebendo requisição POST em /disciplina/create');
 
-        const { nome, descricao } = req.body;
+        const { nome, codigo, periodo, descricao } = req.body;
 
-        if (!nome || !descricao) {
+        if (!nome || !codigo || !periodo || !descricao) {
             return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
         const disciplina = await Disciplina.create({
             nome,
+            codigo,
+            periodo,
             descricao,
         });
 
@@ -49,54 +51,64 @@ class ControllerDisciplina {
     async showFilter(req, res) {
         console.log('Recebendo requisição POST em /disciplina/filter');
 
-        const { filtro, mostrarInativas } = req.body;
+        const { filtro, mostrar } = req.body;
 
-        console.log(filtro, mostrarInativas);
-
-        let disciplinas;
-
-        if(mostrarInativas === undefined) {
-            res.status(400).json({ error: 'Preencha o campo mostrarInativas' });
+        if (!filtro || !mostrar) {
+            return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
-        if (!filtro) {
-            if(mostrarInativas) {
-                disciplinas = await Disciplina.findAll({
-                    order: ['idDisciplina'],
-                });
-            } else {
-                disciplinas = await Disciplina.findAll({
-                    where: {
-                        status: 'ativo',
-                    },
-                    order: ['idDisciplina'],
-                });
-            }
-
-            return res.json(disciplinas);
-        }
-
-        if(mostrarInativas) {
-            disciplinas = await Disciplina.findAll({
+        if (mostrar === 'ativo') {
+            const disciplinas = await Disciplina.findAll({
                 where: {
+                    status: 'ativo',
                     [Op.or]: [
-                        { nome: { [Op.iLike]: `%${filtro}%` } },
-                        { descricao: { [Op.iLike]: `%${filtro}%` } },
-                    ]
+                        { nome: { [Op.like]: `%${filtro}%` } },
+                        { codigo: { [Op.like]: `%${filtro}%` } },
+                        { descricao: { [Op.like]: `%${filtro}%` } },
+                    ],
                 },
                 order: ['idDisciplina'],
             });
 
             return res.json(disciplinas);
-        }        
+        } else if (mostrar === 'inativo') {
+            const disciplinas = await Disciplina.findAll({
+                where: {
+                    status: 'inativo',
+                    [Op.or]: [
+                        { nome: { [Op.like]: `%${filtro}%` } },
+                        { codigo: { [Op.like]: `%${filtro}%` } },
+                        { descricao: { [Op.like]: `%${filtro}%` } },
+                    ],
+                },
+                order: ['idDisciplina'],
+            });
 
-        disciplinas = await Disciplina.findAll({
+            return res.json(disciplinas);
+        } else if (mostrar === 'todos') {
+            const disciplinas = await Disciplina.findAll({
+                where: {
+                    [Op.or]: [
+                        { nome: { [Op.like]: `%${filtro}%` } },
+                        { codigo: { [Op.like]: `%${filtro}%` } },
+                        { descricao: { [Op.like]: `%${filtro}%` } },
+                    ],
+                },
+                order: ['idDisciplina'],
+            });
+
+            return res.json(disciplinas);
+        } else {
+            return res.status(400).json({ error: 'Mostrar deve ser "ativo", "inativo" ou "todos"' });
+        }
+    }
+
+    async showActives(req, res) {
+        console.log('Recebendo requisição GET em /disciplina/actives');
+
+        const disciplinas = await Disciplina.findAll({
             where: {
                 status: 'ativo',
-                [Op.or]: [
-                    { nome: { [Op.iLike]: `%${filtro}%` } },
-                    { descricao: { [Op.iLike]: `%${filtro}%` } },
-                ],
             },
             order: ['idDisciplina'],
         });
@@ -104,26 +116,28 @@ class ControllerDisciplina {
         return res.json(disciplinas);
     }
 
-    async showActives(req, res) {
-        console.log('Recebendo requisição GET em /disciplina/actives');
+    async showInactives(req, res) {
+        console.log('Recebendo requisição GET em /disciplina/inactives');
 
-        const disciplina = await Disciplina.findAll({
+        const disciplinas = await Disciplina.findAll({
             where: {
-                status: 'ativo',
+                status: 'inativo',
             },
             order: ['idDisciplina'],
         });
 
-        return res.json(disciplina);
+        return res.json(disciplinas);
     }
 
     async update(req, res) {
         console.log('Recebendo requisição PUT em /disciplina/update/:id');
 
         const { id } = req.params;
-        const { nome, descricao } = req.body;
+        const { nome, codigo, periodo, descricao } = req.body;
 
-        if (!nome || !descricao) {
+        console.log(req.body);        
+
+        if (!nome || !codigo || !periodo || !descricao) {
             return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
@@ -134,6 +148,8 @@ class ControllerDisciplina {
         }
 
         disciplina.nome = nome;
+        disciplina.codigo = codigo;
+        disciplina.periodo = periodo;
         disciplina.descricao = descricao;
 
         await disciplina.save();

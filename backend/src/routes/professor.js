@@ -4,6 +4,7 @@ import ControllerProfessor from '../controllers/professor.js';
 const routerProfessor = Router();
 
 routerProfessor.get('/actives', ControllerProfessor.showActives);
+routerProfessor.get('/inactives', ControllerProfessor.showInactives);
 routerProfessor.put('/activate/:id', ControllerProfessor.activate);
 routerProfessor.put('/disable/:id', ControllerProfessor.disable);
 routerProfessor.put('/update/:id', ControllerProfessor.update);
