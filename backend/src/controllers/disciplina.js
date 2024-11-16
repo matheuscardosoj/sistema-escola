@@ -62,9 +62,9 @@ class ControllerDisciplina {
                 where: {
                     status: 'ativo',
                     [Op.or]: [
-                        { nome: { [Op.like]: `%${filtro}%` } },
-                        { codigo: { [Op.like]: `%${filtro}%` } },
-                        { descricao: { [Op.like]: `%${filtro}%` } },
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { codigo: { [Op.iLike]: `%${filtro}%` } },
+                        { descricao: { [Op.iLike]: `%${filtro}%` } },
                     ],
                 },
                 order: ['idDisciplina'],
@@ -76,9 +76,9 @@ class ControllerDisciplina {
                 where: {
                     status: 'inativo',
                     [Op.or]: [
-                        { nome: { [Op.like]: `%${filtro}%` } },
-                        { codigo: { [Op.like]: `%${filtro}%` } },
-                        { descricao: { [Op.like]: `%${filtro}%` } },
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { codigo: { [Op.iLike]: `%${filtro}%` } },
+                        { descricao: { [Op.iLike]: `%${filtro}%` } },
                     ],
                 },
                 order: ['idDisciplina'],
@@ -89,9 +89,9 @@ class ControllerDisciplina {
             const disciplinas = await Disciplina.findAll({
                 where: {
                     [Op.or]: [
-                        { nome: { [Op.like]: `%${filtro}%` } },
-                        { codigo: { [Op.like]: `%${filtro}%` } },
-                        { descricao: { [Op.like]: `%${filtro}%` } },
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { codigo: { [Op.iLike]: `%${filtro}%` } },
+                        { descricao: { [Op.iLike]: `%${filtro}%` } },
                     ],
                 },
                 order: ['idDisciplina'],

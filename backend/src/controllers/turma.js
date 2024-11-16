@@ -137,10 +137,8 @@ class ControllerTurma {
                 where: {
                     status: 'ativo',
                     [Op.or]: [
-                        { nome: { [Op.like]: `%${filtro}%` } },
-                        { diaSemana: { [Op.like]: `%${filtro}%` } },
-                        { horarioInicio: { [Op.like]: `%${filtro}%` } },
-                        { horarioTermino: { [Op.like]: `%${filtro}%` } },
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { diaSemana: { [Op.iLike]: `%${filtro}%` } },
                     ],
                 },
                 order: ['idTurma'],
@@ -169,10 +167,8 @@ class ControllerTurma {
                 where: {
                     status: 'inativo',
                     [Op.or]: [
-                        { nome: { [Op.like]: `%${filtro}%` } },
-                        { diaSemana: { [Op.like]: `%${filtro}%` } },
-                        { horarioInicio: { [Op.like]: `%${filtro}%` } },
-                        { horarioTermino: { [Op.like]: `%${filtro}%` } },
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { diaSemana: { [Op.iLike]: `%${filtro}%` } },
                     ],
                 },
                 order: ['idTurma'],
@@ -200,10 +196,8 @@ class ControllerTurma {
             const turma = await Turma.findAll({
                 where: {
                     [Op.or]: [
-                        { nome: { [Op.like]: `%${filtro}%` } },
-                        { diaSemana: { [Op.like]: `%${filtro}%` } },
-                        { horarioInicio: { [Op.like]: `%${filtro}%` } },
-                        { horarioTermino: { [Op.like]: `%${filtro}%` } },
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { diaSemana: { [Op.iLike]: `%${filtro}%` } },
                     ],
                 },
                 order: ['idTurma'],

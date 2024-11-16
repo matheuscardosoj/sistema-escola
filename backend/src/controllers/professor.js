@@ -65,27 +65,27 @@ class ControllerProfessor {
                     [Op.or]: [
                         {
                             nome: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             cpf: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             titulo: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             endereco: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             telefone: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                     ],
@@ -101,27 +101,27 @@ class ControllerProfessor {
                     [Op.or]: [
                         {
                             nome: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             cpf: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             titulo: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             endereco: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             telefone: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                     ],
@@ -136,27 +136,27 @@ class ControllerProfessor {
                     [Op.or]: [
                         {
                             nome: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             cpf: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             titulo: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             endereco: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                         {
                             telefone: {
-                                [Op.like]: `%${filtro}%`,
+                                [Op.iLike]: `%${filtro}%`,
                             },
                         },
                     ],

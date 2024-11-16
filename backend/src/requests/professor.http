@@ -14,6 +14,7 @@ Content-Type: application/json
 {
     "nome": "Professor 1",
     "cpf": "12345678901",
+    "titulo": "Doutor",
     "endereco": "Rua 1",
     "telefone": "123456789"
 }
@@ -25,6 +26,7 @@ Content-Type: application/json
 {
     "nome": "Professor 2",
     "cpf": "12345678902",
+    "titulo": "Mestre",
     "endereco": "Rua 2",
     "telefone": "123456789"
 }
@@ -36,6 +38,7 @@ Content-Type: application/json
 {
     "nome": "Professor 3",
     "cpf": "12345678903",
+    "titulo": "Doutor",
     "endereco": "Rua 3",
     "telefone": "123456789"
 }
@@ -47,6 +50,7 @@ Content-Type: application/json
 {
     "nome": "Professor 1 Atualizado",
     "cpf": "12345678901",
+    "titulo": "Doutor",
     "endereco": "Rua 1 Atualizada",
     "telefone": "123456789"
 }

@@ -7,7 +7,7 @@ import CustomTable from './CustomTable';
 function Gerenciar({ titulo, columns, data, handleEditClick, handleDisableClick, handleInsertClick, handleShowInactiveClick, handlePesquisar, divMensagem }) {
     return (
         <>
-            <Link className="buttonVoltar button text-decoration-none" to="/">
+            <Link className="buttonVoltar button" to="/">
                 Voltar
             </Link>
 

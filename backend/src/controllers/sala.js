@@ -61,8 +61,8 @@ class ControllerSala {
                 where: {
                     status: 'ativo',
                     [Op.or]: [
-                        { nome: { [Op.like]: `%${filtro}%` } },
-                        { local: { [Op.like]: `%${filtro}%` } },
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { local: { [Op.iLike]: `%${filtro}%` } },
                     ],
                 },
             });
@@ -73,8 +73,8 @@ class ControllerSala {
                 where: {
                     status: 'inativo',
                     [Op.or]: [
-                        { nome: { [Op.like]: `%${filtro}%` } },
-                        { local: { [Op.like]: `%${filtro}%` } },
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { local: { [Op.iLike]: `%${filtro}%` } },
                     ],
                 },
             });
@@ -84,8 +84,8 @@ class ControllerSala {
             const salas = await Sala.findAll({
                 where: {
                     [Op.or]: [
-                        { nome: { [Op.like]: `%${filtro}%` } },
-                        { local: { [Op.like]: `%${filtro}%` } },
+                        { nome: { [Op.iLike]: `%${filtro}%` } },
+                        { local: { [Op.iLike]: `%${filtro}%` } },
                     ],
                 },
             });

@@ -7,6 +7,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DisciplinaInserir from './pages/DisciplinaInserir.jsx';
 import DisciplinaMostrarInativos from './pages/DisciplinaMostrarInativos.jsx';
 import DisciplinaEditar from './pages/DisciplinaEditar.jsx';
+import ProfessorGerenciar from './pages/ProfessorGerenciar.jsx';
+import NotFould from './pages/NotFould.jsx';
+import ProfessorInserir from './pages/ProfessorInserir.jsx';
+import ProfessorEditar from './pages/ProfessorEditar.jsx';
+import ProfessorMostrarInativos from './pages/ProfessorMostrarInativos.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -17,6 +22,13 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/disciplina/inserir" element={<DisciplinaInserir title={'Inserir Disciplina'} />} />
                 <Route path="/disciplina/inativos" element={<DisciplinaMostrarInativos title={'Disciplinas Inativas'} />} />
                 <Route path='/disciplina/editar/:id' element={<DisciplinaEditar title={'Editar Disciplina'} />} />
+
+                <Route path='/professor' element={<ProfessorGerenciar title={'Gerenciar Professores'} />} />
+                <Route path='/professor/inserir' element={<ProfessorInserir title={'Inserir Professor'} />} />
+                <Route path='professor/inativos' element={<ProfessorMostrarInativos title={'Professores Inativos'} />} />
+                <Route path='professor/editar/:id' element={<ProfessorEditar title={'Editar Professor'} />} />
+
+                <Route path='*' element={<NotFould title={'404 Not Found'} />} />
             </Routes>
       </Router>
   </StrictMode>

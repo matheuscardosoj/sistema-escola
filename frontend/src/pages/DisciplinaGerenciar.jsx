@@ -98,7 +98,7 @@ function DisciplinaGerenciar({ title }) {
                 periodo: diciplina.periodo,
                 descricao: diciplina.descricao,
             };
-        }) : []
+        }) : [];
     }
 
     return (
