@@ -3,52 +3,51 @@
 import { Link, useParams } from "react-router-dom";
 import { formataCPF, formataTelefone, insertMensagem, insertMensagemWithNavigate, removeMask, useDocumentTitle } from "../utils/helpers";
 import Editar from "../components/Editar";
-import ApiProfessor from "../api/ApiProfessor";
+import ApiAluno from "../api/ApiAluno";
 import { useEffect, useRef, useState } from "react";
 
-const apiProfessor = new ApiProfessor();
+const apiAluno = new ApiAluno();
 
-function ProfessorEditar({ title }) {
+function AlunoEditar({ title }) {
     useDocumentTitle(title);
 
     const { id } = useParams();
 
     useEffect(() => {
-        async function getProfessor() {
+        async function getAluno() {
             try {
-                const response = await apiProfessor.pegarProfessor(id);
+                const response = await apiAluno.pegarAluno(id);
 
                 if (response.status !== 200) {
                     const { error } = await response.json();
 
                     setDisabled(true);
 
-                    console.error("Erro ao buscar professor:", error);
-                    insertMensagemWithNavigate(refMensagem, "Erro ao buscar professor.", false, "/professor");
-                    
+                    console.error("Erro ao buscar aluno:", error);
+                    insertMensagemWithNavigate(refMensagem, "Erro ao buscar aluno.", false, "/aluno");
+
                     return;
                 }
 
-                const professor = await response.json();
+                const aluno = await response.json();
                 
                 setFormValues({
-                    nome: professor.nome,
-                    cpf: formataCPF(professor.cpf),
-                    titulo: professor.titulo,
-                    endereco: professor.endereco,
-                    telefone: formataTelefone(professor.telefone)
+                    nome: aluno.nome,
+                    cpf: formataCPF(aluno.cpf),
+                    endereco: aluno.endereco,
+                    telefone: formataTelefone(aluno.telefone)
                 });
 
                 setDisabled(false);
             } catch (error) {
                 setDisabled(true);
 
-                console.error("Erro ao buscar professor:", error);
-                insertMensagemWithNavigate(refMensagem, "Erro ao buscar professor.", false, "/professor");
+                console.error("Erro ao buscar aluno:", error);
+                insertMensagemWithNavigate(refMensagem, "Erro ao buscar aluno.", false, "/aluno");
             }
         }
 
-        getProfessor();
+        getAluno();
     }, []);
 
     const [disabled, setDisabled] = useState(true);
@@ -56,7 +55,6 @@ function ProfessorEditar({ title }) {
     const inputRefs = {
         nome: useRef(null),
         cpf: useRef(null),
-        titulo: useRef(null),
         endereco: useRef(null),
         telefone: useRef(null)
     };
@@ -64,7 +62,6 @@ function ProfessorEditar({ title }) {
     const [formValues, setFormValues] = useState({
         nome: "",
         cpf: "",
-        titulo: "",
         endereco: "",
         telefone: ""
     });
@@ -94,18 +91,17 @@ function ProfessorEditar({ title }) {
         });
     };
 
-    function validaInputs(nome, cpf, titulo, endereco, telefone) {
+    function validaInputs(nome, cpf, endereco, telefone) {
         let mensagens = [];
         let valido = true;
 
         nome = String(nome);
         cpf = String(cpf);
-        titulo = String(titulo);
         endereco = String(endereco);
         telefone = String(telefone);
 
-        if (nome.trim() === "" || cpf.trim() === "" || titulo.trim() === "" || endereco.trim() === "" || telefone.trim() === "") {
-            mensagens.push("Todos os campos devem ser preenchidos.");
+        if (nome.trim() === "" || cpf.trim() === "" || endereco.trim() === "" || telefone.trim() === "") {
+            mensagens.push("Preencha todos os campos.");
             valido = false;
         }
 
@@ -114,13 +110,8 @@ function ProfessorEditar({ title }) {
             valido = false;
         }
 
-        if (cpf.length !== 11) {
+        if (cpf.length < 11) {
             mensagens.push("O CPF deve conter 11 dígitos.");
-            valido = false;
-        }
-
-        if (titulo.length < 3) {
-            mensagens.push("O título deve conter no mínimo 3 caracteres.");
             valido = false;
         }
 
@@ -130,7 +121,7 @@ function ProfessorEditar({ title }) {
         }
 
         if (telefone.length < 10) {
-            mensagens.push("O telefone deve conter no mínimo 10 dígitos.");
+            mensagens.push("O telefone deve conter 10 ou 11 dígitos.");
             valido = false;
         }
 
@@ -138,42 +129,41 @@ function ProfessorEditar({ title }) {
     }
 
     async function handleEnviarClick() {
-        const { nome, cpf, titulo, endereco, telefone } = formValues;
+        const { nome, cpf, endereco, telefone } = formValues;
         const formattedCpf = removeMask(cpf);
         const formattedTelefone = removeMask(telefone);
 
-        const { valido, mensagens } = validaInputs(nome, formattedCpf, titulo, endereco, formattedTelefone);
+        const { valido, mensagens } = validaInputs(nome, cpf, endereco, telefone);
 
         if (!valido) {
-            insertMensagem(refMensagem, mensagens, false);
+            insertMensagem(refMensagem, mensagens.join("<br>"), false);
             return;
         }
 
         try {
-            const response = await apiProfessor.alterarProfessor(id, nome, formattedCpf, titulo, endereco, formattedTelefone);
+            const response = await apiAluno.alterarAluno(id, nome, formattedCpf, endereco, formattedTelefone);
 
             if (response.status !== 200) {
                 const { error } = await response.json();
 
-                console.error("Erro ao atualizar professor:", error);
-                insertMensagemWithNavigate(refMensagem, "Erro ao atualizar professor.", false, "/professor");
+                console.error("Erro ao atualizar aluno:", error);
+                insertMensagemWithNavigate(refMensagem, "Erro ao atualizar aluno.", false, "/aluno");
 
                 return;
             }
 
-            insertMensagemWithNavigate(refMensagem, "Professor atualizado com sucesso.", true, "/professor");
+            insertMensagemWithNavigate(refMensagem, "Aluno atualizado com sucesso.", true, "/aluno");
         } catch (error) {
-            console.error("Erro ao atualizar professor:", error);
-            insertMensagemWithNavigate(refMensagem, "Erro ao atualizar professor.", false, "/professor");
+            console.error("Erro ao atualizar aluno:", error);
+            insertMensagemWithNavigate(refMensagem, "Erro ao atualizar aluno.", false, "/aluno");
         }
 
         setDisabled(true);
     }
 
-
     return (
         <Editar
-            titulo="Editar Professor"
+            titulo="Editar Aluno"
             buttonVoltar={<Link to="/professor" className="buttonVoltar button">Voltar</Link>}
             buttonEditar={<button className="button" id="buttonEnviar" onClick={handleEnviarClick} disabled={disabled}>Enviar</button>}
             inputs={[
@@ -185,11 +175,6 @@ function ProfessorEditar({ title }) {
                 <div className="form__containerElement" key="cpf">
                     <label htmlFor="cpf">CPF:</label>
                     <input type="text" id="cpf" ref={inputRefs.cpf} onChange={handleInputChange} value={formValues.cpf} disabled={disabled}/>
-                </div>,
-
-                <div className="form__containerElement" key="titulo">
-                    <label htmlFor="titulo">Título:</label>
-                    <input type="text" id="titulo" ref={inputRefs.titulo} onChange={handleInputChange} value={formValues.titulo} disabled={disabled}/>
                 </div>,
 
                 <div className="form__containerElement" key="endereco">
@@ -207,4 +192,4 @@ function ProfessorEditar({ title }) {
     );
 }
 
-export default ProfessorEditar;
+export default AlunoEditar;

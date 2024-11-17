@@ -35,8 +35,10 @@ function ProfessorMostrarInativos({ title }) {
             
             if (response.status !== 200) {
                 const { error } = await response.json();
+
                 console.error("Erro ao buscar professores inativos:", error);
                 insertMensagem(refMensagem, "Erro ao buscar professores inativos.", false);
+
                 setProfessoresInativos([]);
                 return;
             }
@@ -69,8 +71,10 @@ function ProfessorMostrarInativos({ title }) {
 
             if (response.status !== 200) {
                 const { error } = await response.json();
+
                 console.error("Erro ao ativar professor:", error);
                 insertMensagem(refMensagem, "Erro ao ativar professor.", false);
+                
                 return;
             }
 

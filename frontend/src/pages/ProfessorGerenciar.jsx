@@ -68,6 +68,7 @@ function ProfessorGerenciar({ title }) {
             setProfessores(professores);
         } catch (error) {
             console.error("Erro ao buscar professores filtrados:", error);
+            insertMensagem(refMensagem, "Erro ao buscar professores filtrados.", false);
         }
     }
 

@@ -62,7 +62,7 @@ POST http://localhost:5050/sala/create
 Content-Type: application/json
 
 {
-    "nome": "Sala 6",
+    "nome": "Sala 6",""
     "local": "Bloco 6",
     "capacidade": 6
 }

@@ -97,14 +97,12 @@ function SalaGerenciar({ title }) {
     }
 
     function getData() {
-        return salas.map(sala => {
-            return {
-                id: sala.idSala,
-                nome: sala.nome,
-                local: sala.local,
-                capacidade: sala.capacidade
-            };
-        });
+        return Array.isArray(salas) ? salas.map(sala => ({
+            id: sala.idSala,
+            nome: sala.nome,
+            local: sala.local,
+            capacidade: sala.capacidade
+        })) : [];
     }
 
     return (

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Link } from 'react-router-dom';
+import { Link,  Outlet } from 'react-router-dom';
 import '../assets/styles/global.css';
 import { useDocumentTitle } from '../utils/helpers';
 
@@ -17,6 +17,8 @@ function Home({ title }) {
                 <Link className="button" to="/turma">Gerenciamento da turma</Link>
                 <Link className="button" to="/aluno">Gerenciamento do aluno</Link>
             </div>
+
+            <Outlet />
         </div>
     );
 };
