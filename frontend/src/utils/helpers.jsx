@@ -14,6 +14,7 @@ export function insertMensagem(refMensagem, mensagens, success = true) {
     }
 
     refMensagem.current.classList.add(success ? "mensagem--success" : "mensagem--error");
+    refMensagem.current.classList.remove(success ? "mensagem--error" : "mensagem--success");
 
     setTimeout(() => {
         refMensagem.current.textContent = "";

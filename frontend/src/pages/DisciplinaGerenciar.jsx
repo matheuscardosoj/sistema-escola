@@ -32,7 +32,7 @@ function DisciplinaGerenciar({ title }) {
         const response = await apiDisciplina.pegarDisciplinasAtivas();
 
         if (response.status !== 200) {
-            const error = await response.json();
+            const { error } = await response.json();
             console.error("Erro ao buscar disciplinas:", error);
             return;
         }
@@ -51,6 +51,16 @@ function DisciplinaGerenciar({ title }) {
 
         try {
             const response = await apiDisciplina.pegarDisciplinasFiltradas(pesquisa, 'ativo');
+
+            if (response.status !== 200) {
+                const { error } = await response.json();
+
+                console.error("Erro ao buscar disciplinas filtradas:", error);
+                insertMensagem(refMensagem, "Erro ao buscar disciplinas filtradas.", false);
+
+                return;
+            }
+
             const disciplinas = await response.json();
 
             setDisciplinas(disciplinas);
@@ -68,8 +78,11 @@ function DisciplinaGerenciar({ title }) {
             const response = await apiDisciplina.desativarDisciplina(id);
 
             if (response.status !== 200) {
-                console.error("Erro ao desativar disciplina:", response);
+                const { error } = await response.json();
+
+                console.error("Erro ao desativar disciplina:", error);
                 insertMensagem(refMensagem, "Erro ao desativar disciplina", false);
+
                 return;
             }
 

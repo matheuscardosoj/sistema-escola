@@ -16,7 +16,6 @@ function CustomTable({ rows, columns, buttons }) {
     const [orderBys, setOrderBys] = useState(columns.reduce((acc) => {
         acc.push(null);
         return acc;
-
     }, []));
 
     useEffect(() => {
@@ -84,7 +83,8 @@ function CustomTable({ rows, columns, buttons }) {
         const columnIndex = columns.findIndex((column) => column.id === columnId);
         const currentOrder = orders[columnIndex];
 
-        const newOrder = currentOrder === 'asc' ? 'desc' : currentOrder === 'desc' ? null : 'asc';
+        // const newOrder = currentOrder === 'asc' ? 'desc' : currentOrder === 'desc' ? null : 'asc';
+        const newOrder = currentOrder === 'desc' ? 'asc' : currentOrder === 'asc' ? null : 'desc';
 
         const newOrders = [...orders];
         const newOrderBys = [...orderBys];
@@ -121,40 +121,41 @@ function CustomTable({ rows, columns, buttons }) {
         <Paper>
             <TableContainer>
                 <Table>
-                    <TableHead>
+                    <TableHead key={'cabecalho'}>
                         <TableRow>
                             {columns.map((column, index) => (
-                                <TableCell key={column.id}>
+                                <TableCell key={`cabecalho-${column.id}`} >
                                     <TableSortLabel
                                         active={orderBys[index] === column.id}
                                         onClick={() => {
                                             handleRequestSort(column.id);
                                         }}
-                                        direction={orderBys[index] === column.id ? orders[index] : "asc"}
+                                        // direction={orderBys[index] === column.id ? orders[index] : "asc"}
+                                        direction={orderBys[index] === column.id ? orders[index] : "desc"}
                                     >
                                         {column.label}
                                     </TableSortLabel>
                                 </TableCell>
                             ))}
                             {buttons && buttons.length > 0 && (
-                                <TableCell>Ações</TableCell>
+                                <TableCell key={`cabecalho-buttons`}>Ações</TableCell>
                             )}
                         </TableRow>
                     </TableHead>
 
-                    <TableBody>
+                    <TableBody key={'corpo'}>
                         {data.length > 0 ? (
                             data
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => (
                                     <TableRow key={row.id} >
                                         {columns.map((column) => (
-                                            <TableCell key={column.id}>{row[column.id]}</TableCell>
+                                            <TableCell key={`${row.id}-${column.id}`}>{row[column.id]}</TableCell>
                                         ))}
                                         <TableCell style={{ display: "flex", gap: "0 1rem", height: "fit-content" }}>
                                             {buttons.map((button, index) => {
                                                 return (
-                                                    <button className="button" key={index} onClick={() => button.onClick(row.id)}>
+                                                    <button className="button" key={`button-${row.id}-${index}`} onClick={() => button.onClick(row.id)}>
                                                         {button.label}
                                                     </button>
                                                 );
@@ -164,9 +165,7 @@ function CustomTable({ rows, columns, buttons }) {
                                 ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={columns.length + 1} style={{ textAlign: 'center' }}>
-                                    Sem dados
-                                </TableCell>
+                                <TableCell colSpan={columns.length + 1} style={{ textAlign: 'center' }} key={'row-empty'}>Sem dados</TableCell>
                             </TableRow>
                         )}
                     </TableBody>

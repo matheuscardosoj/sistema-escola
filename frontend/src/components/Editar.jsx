@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-function Editar({ titulo, buttonVoltar, inputs, handleEnviarClick, divMensagem }) {
+function Editar({ titulo, buttonVoltar, buttonEditar, inputs, divMensagem }) {
   return (
     <>
         {buttonVoltar}
@@ -13,9 +13,7 @@ function Editar({ titulo, buttonVoltar, inputs, handleEnviarClick, divMensagem }
                 </div>
 
                 <div className="buttons buttons--right">
-                    <button className="button" id="buttonEnviar" onClick={handleEnviarClick}>
-                        Enviar
-                    </button>
+                    {buttonEditar}
                 </div>
             </form>
 

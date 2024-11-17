@@ -13,7 +13,8 @@ Content-Type: application/json
 
 {
     "nome": "Sala 1",
-    "capacidade": 30
+    "local": "Bloco 1",
+    "capacidade": 1
 }
 
 ### Cria sala 2
@@ -22,7 +23,8 @@ Content-Type: application/json
 
 {
     "nome": "Sala 2",
-    "capacidade": 40
+    "local": "Bloco 2",
+    "capacidade": 2
 }
 
 ### Cria sala 3
@@ -31,7 +33,48 @@ Content-Type: application/json
 
 {
     "nome": "Sala 3",
-    "capacidade": 50
+    "local": "Bloco 3",
+    "capacidade": 3
+}
+
+### Cria sala 4
+POST http://localhost:5050/sala/create
+Content-Type: application/json
+
+{
+    "nome": "Sala 4",
+    "local": "Bloco 4",
+    "capacidade": 4
+}
+
+### Cria sala 5
+POST http://localhost:5050/sala/create
+Content-Type: application/json
+
+{
+    "nome": "Sala 5",
+    "local": "Bloco 5",
+    "capacidade": 5
+}
+
+### Cria sala 6
+POST http://localhost:5050/sala/create
+Content-Type: application/json
+
+{
+    "nome": "Sala 6",
+    "local": "Bloco 6",
+    "capacidade": 6
+}
+
+### Cria sala 7
+POST http://localhost:5050/sala/create
+Content-Type: application/json
+
+{
+    "nome": "Sala 7",
+    "local": "Bloco 7",
+    "capacidade": 7
 }
 
 ### Atualiza sala 1

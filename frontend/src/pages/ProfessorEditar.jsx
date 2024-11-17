@@ -19,7 +19,7 @@ function ProfessorEditar({ title }) {
                 const response = await apiProfessor.pegarProfessor(id);
 
                 if (response.status !== 200) {
-                    const error = await response.json();
+                    const { error } = await response.json();
 
                     setDisabled(true);
 
@@ -29,6 +29,7 @@ function ProfessorEditar({ title }) {
                 }
 
                 const professor = await response.json();
+                
                 setFormValues({
                     nome: professor.nome,
                     cpf: formataCPF(professor.cpf),
@@ -146,19 +147,21 @@ function ProfessorEditar({ title }) {
             const response = await apiProfessor.alterarProfessor(id, nome, cpf, titulo, endereco, telefone);
 
             if (response.status !== 200) {
-                const error = await response.json();
+                const { error } = await response.json();
+
                 console.error("Erro ao atualizar professor:", error);
-                insertMensagem(refMensagem, "Erro ao atualizar professor.", false);
+                insertMensagemWithNavigate(refMensagem, "Erro ao atualizar professor.", false, "/professor");
+
                 return;
             }
-
-            setDisabled(true);
 
             insertMensagemWithNavigate(refMensagem, "Professor atualizado com sucesso.", true, "/professor");
         } catch (error) {
             console.error("Erro ao atualizar professor:", error);
-            insertMensagem(refMensagem, "Erro ao atualizar professor.", false);
+            insertMensagemWithNavigate(refMensagem, "Erro ao atualizar professor.", false, "/professor");
         }
+
+        setDisabled(true);
     }
 
 
@@ -166,6 +169,7 @@ function ProfessorEditar({ title }) {
         <Editar
             titulo="Editar Professor"
             buttonVoltar={<Link to="/professor" className="buttonVoltar button">Voltar</Link>}
+            buttonEditar={<button className="button" id="buttonEnviar" onClick={handleEnviarClick} disabled={disabled}>Enviar</button>}
             inputs={[
                 <div className="form__containerElement" key="nome">
                     <label htmlFor="nome">Nome:</label>
@@ -192,7 +196,6 @@ function ProfessorEditar({ title }) {
                     <input type="text" id="telefone" ref={inputRefs.telefone} onChange={handleInputChange} value={formValues.telefone} disabled={disabled}/>
                 </div>
             ]}
-            handleEnviarClick={handleEnviarClick}
             divMensagem={<div className="mensagem mensagem--hidden" ref={ refMensagem }></div>}
         />
     );

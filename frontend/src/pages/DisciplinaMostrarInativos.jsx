@@ -33,10 +33,12 @@ function DisciplinaMostrarInativos({ title }) {
             const response = await apiDisciplina.pegarDisciplinasInativas();
             
             if (response.status !== 200) {
-                const error = await response.json();
+                const { error } = await response.json();
+
                 console.error("Erro ao buscar disciplinas inativas:", error);
                 insertMensagem(refMensagem, "Erro ao buscar disciplinas inativas.", false);
                 setDisciplinasInativas([]);
+
                 return;
             }
 
@@ -67,6 +69,7 @@ function DisciplinaMostrarInativos({ title }) {
 
             if (response.status !== 200) {
                 const { error } = await response.json();
+
                 console.error("Erro ao ativar disciplina:", error);
                 insertMensagem(refMensagem, "Erro ao ativar disciplina.", false);
                 return;
@@ -90,7 +93,15 @@ function DisciplinaMostrarInativos({ title }) {
 
         try {
             const response = await apiDisciplina.pegarDisciplinasFiltradas(pesquisa, 'inativo');
-            const disciplinasInativas = await response.json();
+            
+            if (response.status !== 200) {
+                const { error } = await response.json();
+
+                console.error("Erro ao buscar disciplinas filtradas:", error);
+                insertMensagem(refMensagem, "Erro ao buscar disciplinas filtradas.", false);
+
+                return;
+            }
 
             setDisciplinasInativas(disciplinasInativas);
         } catch (error) {
@@ -102,7 +113,7 @@ function DisciplinaMostrarInativos({ title }) {
     return (
         <MostrarInativos
             titulo="Mostrar disciplinas inativas"
-            buttonVoltar={<Link to="/disciplina/" className="buttonVoltar button">Voltar</Link>}
+            buttonVoltar={<Link to="/disciplina" className="buttonVoltar button">Voltar</Link>}
             columns={columns}
             data={getData()}
             handleEnableClick={handleEnableClick}

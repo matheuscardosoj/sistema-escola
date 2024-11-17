@@ -19,16 +19,18 @@ function DisciplinaEditar({ title }) {
                 const response = await apiDisciplina.pegarDisciplina(id);
 
                 if (response.status !== 200) {
-                    const error = await response.json();
+                    const { error } = await response.json();
 
                     setDisabled(true);
 
                     console.error("Erro ao buscar disciplina:", error);
                     insertMensagemWithNavigate(refMensagem, "Erro ao buscar disciplina.", false, "/disciplina");
+
                     return;
                 }
 
                 const disciplina = await response.json();
+
                 setFormValues({
                     nome: disciplina.nome,
                     codigo: disciplina.codigo,
@@ -116,32 +118,35 @@ function DisciplinaEditar({ title }) {
             const { valido, mensagens } = validaInputs(nome, codigo, periodo, descricao);
 
             if (!valido) {
-                insertMensagem(refMensagem, mensagens.join(" "), false);
+                insertMensagem(refMensagem, mensagens, false);
                 return;
             }
             
             const response = await apiDisciplina.alterarDisciplina(id, nome, codigo, periodo, descricao);
 
             if (response.status !== 200) {
-                const error = await response.json();
+                const { error } = await response.json();
+
                 console.error("Erro ao inserir disciplina:", error);
-                insertMensagem(refMensagem, "Erro ao editar disciplina.", false);
+                insertMensagemWithNavigate(refMensagem, "Erro ao editar disciplina.", false, "/disciplina");
+
                 return;
             }
-
-            setDisabled(true);
 
             insertMensagemWithNavigate(refMensagem, "Disciplina editada com sucesso.", true, "/disciplina");
         } catch (error) {
             console.error("Erro ao inserir disciplina:", error);
-            insertMensagem(refMensagem, "Erro ao editar disciplina.", false);
+            insertMensagemWithNavigate(refMensagem, "Erro ao editar disciplina.", false, "/disciplina");
         }
+
+        setDisabled(true);
     };
 
     return (
         <Editar 
             titulo="Editar Disciplina"
             buttonVoltar={<Link to="/disciplina" className="buttonVoltar button">Voltar</Link>}
+            buttonEditar={<button className="button" id="buttonEnviar" onClick={handleEnviarClick} disabled={disabled}>Enviar</button>}
             inputs={[
                 <div className="form__containerElement" key="nome">
                     <label htmlFor="nome">Nome:</label>
@@ -163,7 +168,6 @@ function DisciplinaEditar({ title }) {
                     <input type="text" id="descricao" ref={inputRefs.descricao} value={formValues.descricao} onChange={handleInputChange} disabled={disabled}/>
                 </div>
             ]}
-            handleEnviarClick={handleEnviarClick}
             divMensagem={<div className="mensagem mensagem--hidden" ref={ refMensagem }></div>}
         />
     );

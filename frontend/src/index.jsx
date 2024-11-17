@@ -12,6 +12,10 @@ import NotFould from './pages/NotFould.jsx';
 import ProfessorInserir from './pages/ProfessorInserir.jsx';
 import ProfessorEditar from './pages/ProfessorEditar.jsx';
 import ProfessorMostrarInativos from './pages/ProfessorMostrarInativos.jsx';
+import SalaGerenciar from './pages/SalaGerenciar.jsx';
+import SalaInserir from './pages/SalaInserir.jsx';
+import SalaMostrarInativos from './pages/SalaMostrarInativos.jsx';
+import SalaEditar from './pages/SalaEditar.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -27,6 +31,11 @@ createRoot(document.getElementById('root')).render(
                 <Route path='/professor/inserir' element={<ProfessorInserir title={'Inserir Professor'} />} />
                 <Route path='professor/inativos' element={<ProfessorMostrarInativos title={'Professores Inativos'} />} />
                 <Route path='professor/editar/:id' element={<ProfessorEditar title={'Editar Professor'} />} />
+
+                <Route path='/sala' element={<SalaGerenciar title={'Gerenciar Salas'} />} />
+                <Route path='/sala/inserir' element={<SalaInserir title={'Inserir Sala'} />} />
+                <Route path='sala/inativos' element={<SalaMostrarInativos title={'Salas Inativas'} />} />
+                <Route path='sala/editar/:id' element={<SalaEditar title={'Editar Sala'} />} />
 
                 <Route path='*' element={<NotFould title={'404 Not Found'} />} />
             </Routes>

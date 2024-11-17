@@ -34,7 +34,7 @@ function ProfessorGerenciar({ title }) {
         const response = await apiProfessor.pegarProfessoresAtivos();
 
         if (response.status !== 200) {
-            const error = await response.json();
+            const { error } = await response.json();
             console.error("Erro ao buscar professores:", error);
             return;
         }
@@ -53,6 +53,16 @@ function ProfessorGerenciar({ title }) {
 
         try {
             const response = await apiProfessor.pegarProfessoresFiltrados(pesquisa, 'ativo');
+
+            if (response.status !== 200) {
+                const { error } = await response.json();
+
+                console.error("Erro ao buscar professores filtrados:", error);
+                insertMensagem(refMensagem, "Erro ao buscar professores filtrados.", false);
+
+                return;
+            }
+
             const professores = await response.json();
 
             setProfessores(professores);
@@ -70,8 +80,11 @@ function ProfessorGerenciar({ title }) {
             const response = await apiProfessor.desativarProfessor(id);
 
             if (response.status !== 200) {
-                console.error("Erro ao desativar professor:", response);
+                const { error } = await response.json();
+
+                console.error("Erro ao desativar professor:", error);
                 insertMensagem(refMensagem, "Erro ao desativar professor.", false);
+                
                 return;
             }
 

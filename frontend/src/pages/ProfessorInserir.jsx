@@ -120,7 +120,7 @@ function ProfessorInserir({ title }) {
             const response = await apiProfessor.criarProfessor(nome, formattedCpf, titulo, endereco, formattedTelefone);
 
             if (response.status !== 200) {
-                const error = await response.json();
+                const { error } = await response.json();
                 console.error("Erro ao inserir professor:", error);
                 insertMensagem(refMensagem, "Erro ao inserir professor.", false);
                 return;

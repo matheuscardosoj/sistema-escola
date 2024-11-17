@@ -34,7 +34,7 @@ function ProfessorMostrarInativos({ title }) {
             const response = await apiProfessor.pegarProfessoresInativos();
             
             if (response.status !== 200) {
-                const error = await response.json();
+                const { error } = await response.json();
                 console.error("Erro ao buscar professores inativos:", error);
                 insertMensagem(refMensagem, "Erro ao buscar professores inativos.", false);
                 setProfessoresInativos([]);
@@ -68,7 +68,7 @@ function ProfessorMostrarInativos({ title }) {
             const response = await apiProfessor.ativarProfessor(id);
 
             if (response.status !== 200) {
-                const error = await response.json();
+                const { error } = await response.json();
                 console.error("Erro ao ativar professor:", error);
                 insertMensagem(refMensagem, "Erro ao ativar professor.", false);
                 return;
@@ -92,6 +92,16 @@ function ProfessorMostrarInativos({ title }) {
 
         try {
             const response = await apiProfessor.pegarProfessoresFiltrados(pesquisa, 'inativo');
+
+            if (response.status !== 200) {
+                const { error } = await response.json();
+
+                console.error("Erro ao buscar professores filtrados:", error);
+                insertMensagem(refMensagem, "Erro ao buscar professores filtrados.", false);
+
+                return;
+            }
+
             const professores = await response.json();
 
             setProfessoresInativos(professores);

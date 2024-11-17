@@ -96,7 +96,7 @@ function DisciplinaInserir({ title }) {
             const response = await apiDisciplina.criarDisciplina(nome, codigo, periodo, descricao);
 
             if (response.status !== 200) {
-                const error = await response.json();
+                const { error } = await response.json();
                 console.error("Erro ao inserir disciplina:", error);
                 insertMensagem(refMensagem, "Erro ao inserir disciplina.", false);
                 return;
@@ -136,7 +136,7 @@ function DisciplinaInserir({ title }) {
                 </div>
             ]}
             handleEnviarClick={handleEnviarClick}
-            divMensagem={<div className="mensagem mensagem--hidden" ref={ refMensagem }></div>}
+            divMensagem={<div className="mensagem mensagem--hidden" ref={refMensagem}></div>}
         />
     );
 }
