@@ -1,5 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../database/sequelize.js';
+import Aluno from './aluno.js';
+import AlunoHasTurma from './alunoHasTurma.js';
 
 class Turma extends Model {}
 
@@ -48,5 +50,7 @@ Turma.init(
         modelName: 'turmas',
     },
 );
+
+Turma.belongsToMany(Aluno, { through: AlunoHasTurma, foreignKey: 'idTurma' });
 
 export default Turma;

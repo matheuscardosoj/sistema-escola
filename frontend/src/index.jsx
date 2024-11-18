@@ -20,6 +20,7 @@ import AlunoGerenciar from './pages/AlunoGerenciar.jsx';
 import AlunoInserir from './pages/AlunoInserir.jsx';
 import AlunoMostrarInativos from './pages/AlunoMostrarInativos.jsx';
 import AlunoEditar from './pages/AlunoEditar.jsx';
+import TurmaGerenciar from './pages/TurmaGerenciar.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -41,7 +42,7 @@ createRoot(document.getElementById('root')).render(
                 <Route path='sala/inativos' element={<SalaMostrarInativos title={'Salas Inativas'} />} />
                 <Route path='sala/editar/:id' element={<SalaEditar title={'Editar Sala'} />} />
 
-                {/* <Route path='/turma' element={<TurmaGerenciar title={'Gerenciar Turmas'} />} /> */}
+                <Route path='/turma' element={<TurmaGerenciar title={'Gerenciar Turmas'} />} />
                 {/* <Route path='/turma/inserir' element={<TurmaInserir title={'Inserir Turma'} />} /> */}
                 {/* <Route path='turma/inativos' element={<TurmaMostrarInativos title={'Turmas Inativas'} />} /> */}
                 {/* <Route path='turma/editar/:id' element={<TurmaEditar title={'Editar Turma'} />} /> */}

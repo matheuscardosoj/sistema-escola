@@ -4,6 +4,7 @@ import Professor from '../models/professor.js';
 import Sala from '../models/sala.js';
 import AlunoHasTurma from '../models/alunoHasTurma.js';
 import { Op } from 'sequelize';
+import Aluno from '../models/aluno.js';
 
 class ControllerTurma {
     async store(req, res) {
@@ -16,7 +17,7 @@ class ControllerTurma {
             horarioTermino,
             idSala,
             idDisciplina,
-            idProfessor,
+            idProfessor
         } = req.body;
 
         if (
@@ -85,6 +86,11 @@ class ControllerTurma {
                     model: Sala,
                     as: 'sala',
                 },
+                {
+                    model: Aluno,
+                    as: 'alunos',
+                    required: true,
+                }
             ],
         });
 
@@ -113,6 +119,11 @@ class ControllerTurma {
                     model: Sala,
                     as: 'sala',
                 },
+                {
+                    model: Aluno,
+                    as: 'alunos',
+                    required: true,
+                }
             ],
         });
 
@@ -158,6 +169,14 @@ class ControllerTurma {
                         model: Sala,
                         as: 'sala',
                     },
+                    {
+                        model: Aluno,
+                        as: 'alunos',
+                        required: true,
+                        where: {
+                            status: 'ativo',
+                        }
+                    }
                 ],
             });
 
@@ -188,6 +207,11 @@ class ControllerTurma {
                         model: Sala,
                         as: 'sala',
                     },
+                    {
+                        model: Aluno,
+                        as: 'alunos',
+                        required: true,
+                    }
                 ],
             });
 
@@ -217,6 +241,11 @@ class ControllerTurma {
                         model: Sala,
                         as: 'sala',
                     },
+                    {
+                        model: Aluno,
+                        as: 'alunos',
+                        required: true,
+                    }
                 ],
             });
 
@@ -255,6 +284,14 @@ class ControllerTurma {
                     as: 'sala',
                     required: true,
                 },
+                {
+                    model: Aluno,
+                    as: 'alunos',
+                    required: true,
+                    where: {
+                        status: 'ativo',
+                    }
+                }
             ],
         });
 
@@ -288,6 +325,11 @@ class ControllerTurma {
                     as: 'sala',
                     required: true,
                 },
+                {
+                    model: Aluno,
+                    as: 'alunos',
+                    required: true
+                }
             ],
         });
 

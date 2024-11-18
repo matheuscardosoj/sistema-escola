@@ -1,7 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../database/sequelize.js';
-import Aluno from '../models/aluno.js';
-import Turma from '../models/turma.js';
 
 class AlunoHasTurma extends Model {}
 
@@ -16,32 +14,28 @@ AlunoHasTurma.init(
         idAluno: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true,
+            references: {
+                model: 'alunos',
+                key: 'idAluno',
+            },
         },
 
         idTurma: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true,
+            references: {
+                model: 'turmas',
+                key: 'idTurma',
+            },
         },
     },
     {
         sequelize,
-        modelName: 'alunos_has_turmas',
+        modelName: 'aluno_has_turma',
         id: false,
     },
 );
 
 AlunoHasTurma.removeAttribute('id');
-
-Aluno.belongsToMany(Turma, {
-    through: AlunoHasTurma,
-    foreignKey: 'idAluno',
-});
-
-Turma.belongsToMany(Aluno, {
-    through: AlunoHasTurma,
-    foreignKey: 'idTurma',
-});
 
 export default AlunoHasTurma;

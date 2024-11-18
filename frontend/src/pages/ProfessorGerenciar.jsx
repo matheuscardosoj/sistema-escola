@@ -35,7 +35,9 @@ function ProfessorGerenciar({ title }) {
 
         if (response.status !== 200) {
             const { error } = await response.json();
+
             console.error("Erro ao buscar professores:", error);
+            
             return;
         }
 

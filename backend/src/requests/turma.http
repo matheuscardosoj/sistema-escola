@@ -13,9 +13,9 @@ Content-Type: application/json
 
 {
     "nome": "Turma 1",
-    "anoSemestre": "2021/1",
-    "horaInicio": "19:00",
-    "horaTermino": "22:00",
+    "diaSemana": "Segunda",
+    "horarioInicio": "19:00",
+    "horarioTermino": "22:00",
     "status": "Ativo",
     "idSala": 1,
     "idDisciplina": 1,
