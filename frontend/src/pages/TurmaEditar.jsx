@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ApiTurma from '../api/ApiTurma';
 import '../assets/styles/global.css';
 import Inserir from '../components/Inserir';
@@ -13,6 +13,8 @@ const apiTurma = new ApiTurma();
 
 function TurmaInserir({ title }) {
     useDocumentTitle(title);
+
+    const { id } = useParams();
 
     const refMensagem = useRef(null);
     const inputRefs = {
@@ -48,6 +50,19 @@ function TurmaInserir({ title }) {
 
         async function fetchData() {
             try {
+                const responseTurma = await apiTurma.pegarTurma(id);
+
+                if (responseTurma.status !== 200) {
+                    setDisable(true);
+
+                    console.log("Erro ao buscar turma.");
+                    insertMensagemWithNavigate(refMensagem, "Erro ao buscar turma.", false, "/turma");
+
+                    return;
+                }
+
+                const turma = await responseTurma.json();
+
                 const responseDisciplina = await apiDisciplina.pegarDisciplinasAtivas();
                 const responseProfessor = await apiProfessor.pegarProfessoresAtivos();
                 const responseSala = await apiSala.pegarSalasAtivas();
@@ -56,7 +71,6 @@ function TurmaInserir({ title }) {
                     setDisable(true);
 
                     console.log("Erro ao buscar disciplinas, professores ou salas ativos.");
-
                     insertMensagemWithNavigate(refMensagem, "Erro ao buscar disciplinas, professores ou salas ativos.", false, "/turma");
 
                     return;
@@ -66,10 +80,10 @@ function TurmaInserir({ title }) {
                 const professoresResponse = await responseProfessor.json();
                 const salasResponse = await responseSala.json();              
 
-                if (disciplinasResponse.length === 0 || professoresResponse.length === 0 || salasResponse.length === 0) {
+                if (disciplinasResponse.length === 0 || professoresResponse.length === 0 || salasResponse.length === 0 || !turma) {
                     setDisable(true);
 
-                    insertMensagemWithNavigate(refMensagem, "Não há disciplinas, professores ou salas ativos.", false, "/turma");
+                    insertMensagemWithNavigate(refMensagem, "Não há disciplinas, professores, salas ativos ou turma não encontrada.", false, "/turma");
 
                     return;
                 }
@@ -77,6 +91,21 @@ function TurmaInserir({ title }) {
                 setDisciplinas(disciplinasResponse);
                 setProfessores(professoresResponse);
                 setSalas(salasResponse);
+
+                setFormValues({
+                    ...formValues,
+                    nome: turma.nome,
+                    diaSemana: turma.diaSemana,
+                    //00:00:00 -> 00:00
+                    horarioInicio: turma.horarioInicio.replace(/^(\d{2}:\d{2}):\d{2}$/, "$1"),
+                    horarioTermino: turma.horarioTermino.replace(/^(\d{2}:\d{2}):\d{2}$/, "$1"),
+                    idDisciplina: turma.disciplina.idDisciplina,
+                    idProfessor: turma.professor.idProfessor,
+                    idSala: turma.sala.idSala
+                });
+
+                inputRefs.nome.current.focus();
+
             } catch (error) {
                 setDisable(true);
 
@@ -97,20 +126,6 @@ function TurmaInserir({ title }) {
             [id]: value
         }));
     };
-
-    function clearInputsAndFocusFirst() {
-        setFormValues({
-            nome: "",
-            diaSemana: "",
-            horarioInicio: "",
-            horarioTermino: "",
-            idDisciplina: "",
-            idProfessor: "",
-            idSala: ""
-        });
-        
-        inputRefs.nome.current.focus();
-    }
 
     function validaInputs(nome, diaSemana, horarioInicio, horarioTermino, idDisciplina, idProfessor, idSala) {
         let mensagens = [];
@@ -180,28 +195,29 @@ function TurmaInserir({ title }) {
                 return;
             }
 
-            const response = await apiTurma.criarTurma(nome, diaSemana, horarioInicio, horarioTermino, idDisciplina, idProfessor, idSala);
+            const response = await apiTurma.alterarTurma(id, nome, diaSemana, horarioInicio, horarioTermino, idDisciplina, idProfessor, idSala);
 
             if(response.status !== 200) {
                 const { error } = await response.json();
 
-                console.error("Erro ao inserir turma:", error);
-                insertMensagem(refMensagem, "Erro ao inserir turma.", false);
+                console.error("Erro ao atualizar turma:", error);
+                insertMensagemWithNavigate(refMensagem, "Erro ao atualizar turma.", false, "/turma");
 
                 return;
             }
 
-            insertMensagem(refMensagem, "Turma inserida com sucesso.", true);
-            clearInputsAndFocusFirst();
+            insertMensagemWithNavigate(refMensagem, "Turma atualizada com sucesso.", true, "/turma");
         } catch (error) {
-            console.error("Erro ao inserir turma:", error);
-            insertMensagem(refMensagem, "Erro ao inserir turma.", false);
+            console.error("Erro ao atualizar turma:", error);
+            insertMensagemWithNavigate(refMensagem, "Erro ao atualizar turma.", false, "/turma");
         }
+
+        setDisable(true);
     }
 
     return (
         <Inserir
-            titulo="Inserir Turma"
+            titulo="Editar Turma"
             buttonVoltar={<Link to="/turma" className="buttonVoltar button">Voltar</Link>}
             inputs={[
                 <div className="form__containerElement" key="nome">

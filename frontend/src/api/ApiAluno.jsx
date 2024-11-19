@@ -75,6 +75,30 @@ class ApiAluno {
 
         return response;
     }
+
+    async matricularAluno(idAluno, idTurma) {
+        const response = await fetch(`${this.#url}/link`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ idAluno, idTurma })
+        });
+
+        return response;
+    }
+
+    async desmatricularAluno(idAluno, idTurma) {
+        const response = await fetch(`${this.#url}/unlink`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ idAluno, idTurma })
+        });
+
+        return response;
+    }
 }
 
 export default ApiAluno;

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import MostrarInativos from "../components/MostrarInativos";
+import Mostrar from "../components/Mostrar";
 import ApiAluno from "../api/ApiAluno";
 import { useEffect, useRef, useState } from "react";
 import { formataCPF, formataTelefone, insertMensagem, useDocumentTitle } from "../utils/helpers";
@@ -107,12 +107,17 @@ function AlunoMostrarInativos({ title }) {
     }
 
     return (
-        <MostrarInativos
+        <Mostrar
             titulo={"Mostrar alunos inativos"}
             buttonVoltar={<Link to="/aluno" className="buttonVoltar button">Voltar</Link>}
             columns={columns}
             data={getData()}
-            handleEnableClick={handleEnableClick}
+            buttons={[
+                {
+                    label: "Ativar",
+                    onClick: handleEnableClick,
+                },
+            ]}
             handlePesquisar={handlePesquisar}
             divMensagem={<div ref={ refMensagem } className="mensagem mensagem--hidden"></div>}
         />

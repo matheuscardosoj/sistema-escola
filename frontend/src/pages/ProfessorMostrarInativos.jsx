@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import MostrarInativos from "../components/MostrarInativos";
+import Mostrar from "../components/Mostrar";
 import ApiProfessor from "../api/ApiProfessor";
 import { useEffect, useRef, useState } from "react";
 import { formataCPF, formataTelefone, insertMensagem, useDocumentTitle } from "../utils/helpers";
@@ -111,16 +111,22 @@ function ProfessorMostrarInativos({ title }) {
             setProfessoresInativos(professores);
         } catch (error) {
             console.error("Erro ao buscar professores filtrados:", error);
+            insertMensagem(refMensagem, "Erro ao buscar professores filtrados.", false);
         }
     }
 
     return (
-        <MostrarInativos
+        <Mostrar
             titulo={"Mostrar professores inativos"}
             buttonVoltar={<Link to="/professor" className="buttonVoltar button">Voltar</Link>}
             columns={columns}
             data={getData()}
-            handleEnableClick={handleEnableClick}
+            buttons={[
+                {
+                    label: "Ativar",
+                    onClick: handleEnableClick,
+                },
+            ]}
             handlePesquisar={handlePesquisar}
             divMensagem={<div ref={ refMensagem } className="mensagem mensagem--hidden"></div>}
         />

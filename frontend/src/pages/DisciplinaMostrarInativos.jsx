@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import MostrarInativos from "../components/MostrarInativos";
+import Mostrar from "../components/Mostrar";
 import ApiDisciplina from "../api/ApiDisciplina";
 import { useEffect, useRef, useState } from "react";
 import { insertMensagem, useDocumentTitle } from "../utils/helpers";
@@ -111,12 +111,17 @@ function DisciplinaMostrarInativos({ title }) {
     }
 
     return (
-        <MostrarInativos
+        <Mostrar
             titulo="Mostrar disciplinas inativas"
             buttonVoltar={<Link to="/disciplina" className="buttonVoltar button">Voltar</Link>}
             columns={columns}
             data={getData()}
-            handleEnableClick={handleEnableClick}
+            buttons={[
+                {
+                    label: "Ativar",
+                    onClick: handleEnableClick,
+                },
+            ]}
             handlePesquisar={handlePesquisar} 
             divMensagem={<div ref={ refMensagem } className="mensagem mensagem--hidden"></div>}
         />

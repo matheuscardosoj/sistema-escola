@@ -182,24 +182,24 @@ class ControllerSala {
             },
         });
 
-        if (turmas) {
-            turmas.forEach(async (turma) => {
+        if (turmas && turmas.length > 0) {
+            for (const turma of turmas) {
                 turma.status = 'inativo';
                 await turma.save();
 
-                const alunoHasTurma = await AlunoHasTurma.findAll({
+                const alunosHasTurmas = await AlunoHasTurma.findAll({
                     where: {
                         idTurma: turma.idTurma,
                     },
                 });
 
-                if (alunoHasTurma) {
-                    alunoHasTurma.forEach(async (aluno) => {
-                        aluno.status = 'inativo';
-                        await aluno.save();
-                    });
+                if (alunosHasTurmas && alunosHasTurmas.length > 0) {
+                    for (const alunoHasTurma of alunosHasTurmas) {
+                        alunoHasTurma.status = 'inativo';
+                        await alunoHasTurma.save();
+                    }
                 }
-            });
+            }            
         }
 
         return res.json(sala);

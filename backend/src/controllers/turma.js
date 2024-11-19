@@ -32,6 +32,9 @@ class ControllerTurma {
             return res.status(400).json({ error: 'Preencha todos os campos' });
         }
 
+        console.log(req.body);
+        
+
         const disciplina = await Disciplina.findByPk(idDisciplina);
         const professor = await Professor.findByPk(idProfessor);
         const sala = await Sala.findByPk(idSala);
@@ -89,6 +92,8 @@ class ControllerTurma {
                 {
                     model: Aluno,
                     as: 'alunos',
+                    // through: { attributes: [] },
+                    required: false,
                 }
             ],
         });
@@ -121,6 +126,8 @@ class ControllerTurma {
                 {
                     model: Aluno,
                     as: 'alunos',
+                    through: { attributes: [] },
+                    required: false,
                 }
             ],
         });
@@ -170,9 +177,15 @@ class ControllerTurma {
                     {
                         model: Aluno,
                         as: 'alunos',
+                        status: 'ativo',
                         where: {
                             status: 'ativo',
-                        }
+                        },
+                        through: { 
+                            where: { status: 'ativo' },
+                            attributes: [],
+                        },
+                        required: false,
                     }
                 ],
             });
@@ -203,10 +216,6 @@ class ControllerTurma {
                     {
                         model: Sala,
                         as: 'sala',
-                    },
-                    {
-                        model: Aluno,
-                        as: 'alunos',
                     }
                 ],
             });
@@ -240,6 +249,10 @@ class ControllerTurma {
                     {
                         model: Aluno,
                         as: 'alunos',
+                        through: { 
+                            attributes: [],
+                        },
+                        required: false,
                     }
                 ],
             });
@@ -279,6 +292,14 @@ class ControllerTurma {
                 {
                     model: Aluno,
                     as: 'alunos',
+                    where: {
+                        status: 'ativo',
+                    },
+                    through: { 
+                        where: { status: 'ativo' },
+                        attributes: [],
+                    },
+                    required: false,
                 }
             ],
         });
@@ -310,10 +331,6 @@ class ControllerTurma {
                     model: Sala,
                     as: 'sala',
                 },
-                {
-                    model: Aluno,
-                    as: 'alunos',
-                }
             ],
         });
 
@@ -400,6 +417,7 @@ class ControllerTurma {
         console.log('Recebendo requisição PUT em /turma/disable/:id');
 
         const { id } = req.params;
+
         const turma = await Turma.findByPk(id);
 
         if (!turma) {
@@ -423,6 +441,179 @@ class ControllerTurma {
         }
 
         return res.json(turma);
+    }
+
+    async showTurmasWithAluno(req, res) {
+        console.log('Recebendo requisição GET em /turma/withAluno/:id');
+
+        const { id: idAluno } = req.params;
+        const { filtro } = req.query;
+
+        const aluno = await Aluno.findByPk(idAluno);
+
+        if (!aluno) {
+            return res.status(400).json({ error: 'Aluno não encontrado' });
+        }
+
+        const turmasComAluno = await AlunoHasTurma.findAll({
+            where: {
+                idAluno,
+                status: 'ativo',
+            }
+        });
+
+        const idsTurma = turmasComAluno.map((turma) => turma.idTurma);
+
+        if (!filtro) {
+            const turmas = await Turma.findAll({
+                where: {
+                    status: 'ativo',
+                    idTurma: {
+                        [Op.in]: idsTurma,
+                    },
+                },
+                order: ['idTurma'],
+                attributes: {
+                    exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+                },
+                include: [
+                    {
+                        model: Disciplina,
+                        as: 'disciplina',
+                    },
+                    {
+                        model: Professor,
+                        as: 'professor',
+                    },
+                    {
+                        model: Sala,
+                        as: 'sala',
+                    },
+                ],
+            });
+
+            return res.json(turmas);
+        }
+
+        const turmas = await Turma.findAll({
+            where: {
+                status: 'ativo',
+                idTurma: {
+                    [Op.in]: idsTurma,
+                },
+                [Op.or]: [
+                    { nome: { [Op.iLike]: `%${filtro}%` } },
+                    { diaSemana: { [Op.iLike]: `%${filtro}%` } },
+                ],
+            },
+            order: ['idTurma'],
+            attributes: {
+                exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+            },
+            include: [
+                {
+                    model: Disciplina,
+                    as: 'disciplina',
+                },
+                {
+                    model: Professor,
+                    as: 'professor',
+                },
+                {
+                    model: Sala,
+                    as: 'sala',
+                },
+            ],
+        });
+
+        return res.json(turmas);
+    }
+
+
+    async showTurmasWithoutAluno(req, res) {
+        console.log('Recebendo requisição GET em /turma/withoutAluno/:id');
+
+        const { id: idAluno } = req.params;
+        const { filtro } = req.query;
+
+        const aluno = await Aluno.findByPk(idAluno);
+
+        if (!aluno) {
+            return res.status(400).json({ error: 'Aluno não encontrado' });
+        }
+
+        const turmasSemAluno = await AlunoHasTurma.findAll({
+            where: {
+                idAluno,
+                status: 'ativo',
+            }
+        });
+        
+        const idsTurma = turmasSemAluno.map((turma) => turma.idTurma);
+
+        if(!filtro) {
+            const turmas = await Turma.findAll({
+                where: {
+                    status: 'ativo',
+                    idTurma: {
+                        [Op.notIn]: idsTurma,
+                    },
+                },
+                order: ['idTurma'],
+                attributes: {
+                    exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+                },
+                include: [
+                    {
+                        model: Disciplina,
+                        as: 'disciplina',
+                    },
+                    {
+                        model: Professor,
+                        as: 'professor',
+                    },
+                    {
+                        model: Sala,
+                        as: 'sala',
+                    },
+                ],
+            });
+
+            return res.json(turmas);
+        }
+
+        const turmas = await Turma.findAll({
+            where: {
+                status: 'ativo',
+                idTurma: {
+                    [Op.notIn]: idsTurma,
+                },
+                [Op.or]: [
+                    { nome: { [Op.iLike]: `%${filtro}%` } },
+                    { diaSemana: { [Op.iLike]: `%${filtro}%` } },
+                ],
+            },
+            order: ['idTurma'],
+            attributes: {
+                exclude: ['idDisciplina', 'idProfessor', 'idSala'],
+            },
+            include: [
+                {
+                    model: Disciplina,
+                    as: 'disciplina',
+                },
+                {
+                    model: Professor,
+                    as: 'professor',
+                },
+                {
+                    model: Sala,
+                    as: 'sala',
+                },
+            ],
+        });        
+
+        return res.json(turmas);
     }
 }
 

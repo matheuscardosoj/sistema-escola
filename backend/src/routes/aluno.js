@@ -10,6 +10,8 @@ routerAluno.put('/disable/:id', ControllerAluno.disable);
 routerAluno.put('/update/:id', ControllerAluno.update);
 routerAluno.post('/create', ControllerAluno.store);
 routerAluno.post('/filter', ControllerAluno.showFilter);
+routerAluno.post('/link', ControllerAluno.linkAlunoTurma);
+routerAluno.post('/unlink', ControllerAluno.unlinkAlunoTurma);
 routerAluno.get('/:id', ControllerAluno.show);
 routerAluno.get('/', ControllerAluno.index);
 

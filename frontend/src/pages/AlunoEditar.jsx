@@ -39,6 +39,8 @@ function AlunoEditar({ title }) {
                 });
 
                 setDisabled(false);
+
+                inputRefs.nome.current.focus();
             } catch (error) {
                 setDisabled(true);
 

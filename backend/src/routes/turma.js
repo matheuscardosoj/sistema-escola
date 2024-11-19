@@ -3,6 +3,8 @@ import ControllerTurma from '../controllers/turma.js';
 
 const routerTurma = Router();
 
+routerTurma.get('/withoutAluno/:id', ControllerTurma.showTurmasWithoutAluno);
+routerTurma.get('/withAluno/:id', ControllerTurma.showTurmasWithAluno);
 routerTurma.get('/actives', ControllerTurma.showActives);
 routerTurma.get('/inactives', ControllerTurma.showInactives);
 routerTurma.put('/activate/:id', ControllerTurma.activate);

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import CustomTable from './CustomTable';
 
-function Gerenciar({ titulo, columns, data, handleEditClick, handleDisableClick, handleInsertClick, handleShowInactiveClick, handlePesquisar, divMensagem }) {
+function Gerenciar({ titulo, columns, data, buttonsActionsAdicionais, handleEditClick, handleDisableClick, handleInsertClick, handleShowInactiveClick, handlePesquisar, divMensagem }) {
     return (
         <>
             <Link className="buttonVoltar button" to="/">
@@ -48,6 +48,8 @@ function Gerenciar({ titulo, columns, data, handleEditClick, handleDisableClick,
                                 label: "Desativar",
                                 onClick: handleDisableClick,
                             },
+
+                            ...(buttonsActionsAdicionais ? buttonsActionsAdicionais : [])
                         ]}
                     />
 

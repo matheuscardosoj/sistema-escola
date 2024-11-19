@@ -40,6 +40,8 @@ function ProfessorEditar({ title }) {
                 });
 
                 setDisabled(false);
+
+                inputRefs.nome.current.focus();
             } catch (error) {
                 setDisabled(true);
 
@@ -179,7 +181,7 @@ function ProfessorEditar({ title }) {
             inputs={[
                 <div className="form__containerElement" key="nome">
                     <label htmlFor="nome">Nome:</label>
-                    <input type="text" id="nome" ref={inputRefs.nome} onChange={handleInputChange} value={formValues.nome} disabled={disabled}/>
+                    <input type="text" id="nome" ref={inputRefs.nome} onChange={handleInputChange} value={formValues.nome} disabled={disabled} />
                 </div>,
 
                 <div className="form__containerElement" key="cpf">

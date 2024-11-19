@@ -119,7 +119,7 @@ function DisciplinaInserir({ title }) {
             inputs={[
                 <div className="form__containerElement" key="nome">
                     <label htmlFor="nome">Nome:</label>
-                    <input type="text" id="nome" ref={inputRefs.nome} value={formValues.nome} onChange={handleInputChange} />
+                    <input type="text" id="nome" ref={inputRefs.nome} value={formValues.nome} onChange={handleInputChange} autoFocus />
                 </div>,
 
                 <div className="form__containerElement" key="codigo">

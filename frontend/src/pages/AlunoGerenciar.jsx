@@ -104,6 +104,14 @@ function AlunoGerenciar({ title }) {
         navigate('/aluno/inativos');
     }
 
+    function handleMatricularClick(id) {
+        navigate('/aluno/matricular/' + id);
+    }
+
+    function handleDesmatricularClick(id) {
+        navigate('/aluno/desmatricular/' + id);
+    }
+
     function getData() {
         return Array.isArray(alunos) ? alunos.map(aluno => ({
             id: aluno.idAluno,
@@ -119,6 +127,10 @@ function AlunoGerenciar({ title }) {
             titulo={"Gerenciar Alunos"}
             columns={columns}
             data={getData()}
+            buttonsActionsAdicionais={[
+                { id: 'button-matricula', label: 'Matricular', onClick: handleMatricularClick },
+                { id: 'button-desmatricular', label: 'Desmatricular', onClick: handleDesmatricularClick }
+            ]}
             handleEditClick={handleEditClick}
             handleDisableClick={handleDisableClick}
             handleInsertClick={handleInsertClick}

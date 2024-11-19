@@ -3,7 +3,7 @@ import { InputAdornment, TextField } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import CustomTable from "./CustomTable";
 
-function MostrarInativos({ titulo, buttonVoltar, columns, data, handleEnableClick, handlePesquisar, divMensagem }) {
+function Mostrar({ titulo, buttonVoltar, columns, data, buttons, handlePesquisar, divMensagem }) {
     return (
         <>
             {buttonVoltar}
@@ -36,12 +36,7 @@ function MostrarInativos({ titulo, buttonVoltar, columns, data, handleEnableClic
                     <CustomTable
                         columns={columns}
                         rows={data}
-                        buttons={[
-                            {
-                                label: "Ativar",
-                                onClick: handleEnableClick,
-                            },
-                        ]}
+                        buttons={buttons}
                     />
                 </form>
 
@@ -51,4 +46,4 @@ function MostrarInativos({ titulo, buttonVoltar, columns, data, handleEnableClic
     );
 }
 
-export default MostrarInativos;
+export default Mostrar;

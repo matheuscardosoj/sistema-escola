@@ -22,6 +22,10 @@ import AlunoMostrarInativos from './pages/AlunoMostrarInativos.jsx';
 import AlunoEditar from './pages/AlunoEditar.jsx';
 import TurmaGerenciar from './pages/TurmaGerenciar.jsx';
 import TurmaInserir from './pages/TurmaInserir.jsx';
+import TurmaMostrarInativos from './pages/TurmaMostrarInativos.jsx';
+import TurmaEditar from './pages/TurmaEditar.jsx';
+import AlunoMatricular from './pages/AlunoMatricular.jsx';
+import AlunoDesmatricular from './pages/AlunoDesmatricular.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -45,13 +49,15 @@ createRoot(document.getElementById('root')).render(
 
                 <Route path='/turma' element={<TurmaGerenciar title={'Gerenciar Turmas'} />} />
                 <Route path='/turma/inserir' element={<TurmaInserir title={'Inserir Turma'} />} />
-                {/* <Route path='turma/inativos' element={<TurmaMostrarInativos title={'Turmas Inativas'} />} /> */}
-                {/* <Route path='turma/editar/:id' element={<TurmaEditar title={'Editar Turma'} />} /> */}
+                <Route path='turma/inativos' element={<TurmaMostrarInativos title={'Turmas Inativas'} />} />
+                <Route path='turma/editar/:id' element={<TurmaEditar title={'Editar Turma'} />} />
 
                 <Route path='/aluno' element={<AlunoGerenciar title={'Gerenciar Alunos'} />} />
                 <Route path='aluno/inserir' element={<AlunoInserir title={'Inserir Aluno'} />} />
                 <Route path='aluno/inativos' element={<AlunoMostrarInativos title={'Alunos Inativos'} />} />
                 <Route path='aluno/editar/:id' element={<AlunoEditar title={'Editar Aluno'} />} />
+                <Route path='aluno/matricular/:id' element={<AlunoMatricular title={'Matricular Aluno'} />} />
+                <Route path='aluno/desmatricular/:id' element={<AlunoDesmatricular title={'Desmatricular Aluno'} />} />
 
                 <Route path='*' element={<NotFould title={'404 Not Found'} />} />
             </Routes>

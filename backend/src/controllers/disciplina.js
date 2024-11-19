@@ -192,8 +192,8 @@ class ControllerDisciplina {
             },
         });
 
-        if (turmas) {
-            turmas.forEach(async (turma) => {
+        if (turmas && turmas.length > 0) {
+            for (const turma of turmas) {
                 turma.status = 'inativo';
                 await turma.save();
 
@@ -203,13 +203,13 @@ class ControllerDisciplina {
                     },
                 });
 
-                if (alunosHasTurma) {
-                    alunosHasTurma.forEach(async (alunoHasTurma) => {
+                if (alunosHasTurma && alunosHasTurma.length > 0) {
+                    for (const alunoHasTurma of alunosHasTurma) {
                         alunoHasTurma.status = 'inativo';
                         await alunoHasTurma.save();
-                    });
+                    }
                 }
-            });
+            }
         }
 
         return res.json(disciplina);

@@ -241,45 +241,46 @@ class ControllerProfessor {
 
     async disable(req, res) {
         console.log('Recebendo requisição PUT em /professor/disable/:id');
-
+    
         const { id } = req.params;
         const professor = await Professor.findByPk(id);
-
+    
         if (!professor) {
             return res.status(404).json({ error: 'Professor não encontrado.' });
         }
 
         professor.status = 'inativo';
         await professor.save();
-
+    
         const turmas = await Turma.findAll({
             where: {
                 idProfessor: professor.idProfessor,
             },
         });
-
-        if (turmas) {
-            turmas.forEach(async (turma) => {
+    
+        if (turmas && turmas.length > 0) {
+            for (const turma of turmas) {
                 turma.status = 'inativo';
                 await turma.save();
-
+    
                 const alunosHasTurma = await AlunoHasTurma.findAll({
                     where: {
                         idTurma: turma.idTurma,
                     },
                 });
 
-                if (alunosHasTurma) {
-                    alunosHasTurma.forEach(async (alunoHasTurma) => {
+                if (alunosHasTurma && alunosHasTurma.length > 0) {
+                    for (const alunoHasTurma of alunosHasTurma) {
                         alunoHasTurma.status = 'inativo';
                         await alunoHasTurma.save();
-                    });
+                    }
                 }
-            });
+            }
         }
-
+    
         return res.json(professor);
     }
+    
 }
 
 export default new ControllerProfessor();

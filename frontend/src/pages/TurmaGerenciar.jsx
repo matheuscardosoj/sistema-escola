@@ -112,8 +112,6 @@ function TurmaGerenciar({ title }) {
 
     function getData() {
         return Array.isArray(turmas) ? turmas.map((turma) => {
-            console.log(turma);
-
             return {
                 id: turma.idTurma,
                 nome: turma.nome,

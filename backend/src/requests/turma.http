@@ -70,3 +70,6 @@ PUT http://localhost:5050/turma/disable/2
 ### Ativa turma 2
 PUT http://localhost:5050/turma/activate/1
 
+### Ver turmas que aluno 2 não está vinculado
+GET http://localhost:5050/turma/withoutAluno/2
+

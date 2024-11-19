@@ -115,7 +115,7 @@ function SalaInserir({ title }) {
             inputs={[
                 <div className="form__containerElement" key="nome">
                     <label htmlFor="nome">Nome:</label>
-                    <input type="text" id="nome" ref={inputRefs.nome} value={formValues.nome} onChange={handleInputChange} className="form__input" />
+                    <input type="text" id="nome" ref={inputRefs.nome} value={formValues.nome} onChange={handleInputChange} className="form__input" autoFocus />
                 </div>,
 
                 <div className="form__containerElement" key="local">

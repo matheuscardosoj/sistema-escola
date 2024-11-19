@@ -148,7 +148,7 @@ function ProfessorInserir({ title }) {
             inputs={[
                 <div className="form__containerElement" key="nome">
                     <label htmlFor="nome">Nome:</label>
-                    <input type="text" id="nome" ref={inputRefs.nome} onChange={handleInputChange} value={formValues.nome}/>
+                    <input type="text" id="nome" ref={inputRefs.nome} onChange={handleInputChange} value={formValues.nome} autoFocus/>
                 </div>,
 
                 <div className="form__containerElement" key="cpf">
