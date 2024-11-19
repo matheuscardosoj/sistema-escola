@@ -30,13 +30,13 @@ class ApiTurma {
         return response;
     }
 
-    async criarTurma(nome, anoSemestre, horaInicio, horaTermino, idSala, idDisciplina, idProfessor) {
+    async criarTurma(nome, diaSemana, horarioInicio, horarioTermino, idSala, idDisciplina, idProfessor) {
         const response = await fetch(`${this.#url}/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ nome, anoSemestre, horaInicio, horaTermino, idSala, idDisciplina, idProfessor })
+            body: JSON.stringify({ nome, diaSemana, horarioInicio, horarioTermino, idSala, idDisciplina, idProfessor })
         });
 
         return response;
@@ -64,13 +64,13 @@ class ApiTurma {
         return response;
     }
 
-    async alterarTurma(idTurma, nome, anoSemestre, horaInicio, horaTermino, idSala, idDisciplina, idProfessor) {
+    async alterarTurma(idTurma, nome, diaSemana, horarioInicio, horarioTermino, idSala, idDisciplina, idProfessor) {
         const response = await fetch(`${this.#url}/update/${idTurma}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ nome, anoSemestre, horaInicio, horaTermino, idSala, idDisciplina, idProfessor })
+            body: JSON.stringify({ nome, diaSemana, horarioInicio, horarioTermino, idSala, idDisciplina, idProfessor })
         });
 
         return response;

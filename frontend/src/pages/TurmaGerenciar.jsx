@@ -45,7 +45,7 @@ function TurmaGerenciar({ title }) {
         }
 
         const turmas = await response.json();
-        setTurmas(turmas);
+        setTurmas(turmas);        
     }
 
     async function handlePesquisar(event) {
@@ -112,8 +112,10 @@ function TurmaGerenciar({ title }) {
 
     function getData() {
         return Array.isArray(turmas) ? turmas.map((turma) => {
+            console.log(turma);
+
             return {
-                id: turma.id,
+                id: turma.idTurma,
                 nome: turma.nome,
                 diaSemana: turma.diaSemana,
                 horarioInicio: turma.horarioInicio,
@@ -121,7 +123,7 @@ function TurmaGerenciar({ title }) {
                 sala: turma.sala.nome,
                 disciplina: turma.disciplina.nome,
                 professor: turma.professor.nome,
-                alunos: turma.alunos.map((aluno) => aluno.nome).join(', ')
+                alunos: turma.alunos.length > 0 ? turma.alunos.map((aluno) => aluno.nome).join(', ') : 'Nenhum aluno'
             };
         }) : [];
     }

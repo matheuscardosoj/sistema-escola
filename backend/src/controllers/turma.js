@@ -89,7 +89,6 @@ class ControllerTurma {
                 {
                     model: Aluno,
                     as: 'alunos',
-                    required: true,
                 }
             ],
         });
@@ -122,7 +121,6 @@ class ControllerTurma {
                 {
                     model: Aluno,
                     as: 'alunos',
-                    required: true,
                 }
             ],
         });
@@ -172,7 +170,6 @@ class ControllerTurma {
                     {
                         model: Aluno,
                         as: 'alunos',
-                        required: true,
                         where: {
                             status: 'ativo',
                         }
@@ -210,7 +207,6 @@ class ControllerTurma {
                     {
                         model: Aluno,
                         as: 'alunos',
-                        required: true,
                     }
                 ],
             });
@@ -244,7 +240,6 @@ class ControllerTurma {
                     {
                         model: Aluno,
                         as: 'alunos',
-                        required: true,
                     }
                 ],
             });
@@ -272,25 +267,18 @@ class ControllerTurma {
                 {
                     model: Disciplina,
                     as: 'disciplina',
-                    required: true,
                 },
                 {
                     model: Professor,
                     as: 'professor',
-                    required: true,
                 },
                 {
                     model: Sala,
                     as: 'sala',
-                    required: true,
                 },
                 {
                     model: Aluno,
                     as: 'alunos',
-                    required: true,
-                    where: {
-                        status: 'ativo',
-                    }
                 }
             ],
         });
@@ -313,22 +301,18 @@ class ControllerTurma {
                 {
                     model: Disciplina,
                     as: 'disciplina',
-                    required: true,
                 },
                 {
                     model: Professor,
                     as: 'professor',
-                    required: true,
                 },
                 {
                     model: Sala,
                     as: 'sala',
-                    required: true,
                 },
                 {
                     model: Aluno,
                     as: 'alunos',
-                    required: true
                 }
             ],
         });

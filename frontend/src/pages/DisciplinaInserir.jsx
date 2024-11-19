@@ -97,8 +97,10 @@ function DisciplinaInserir({ title }) {
 
             if (response.status !== 200) {
                 const { error } = await response.json();
+
                 console.error("Erro ao inserir disciplina:", error);
                 insertMensagem(refMensagem, "Erro ao inserir disciplina.", false);
+                
                 return;
             }
 
@@ -108,7 +110,7 @@ function DisciplinaInserir({ title }) {
             console.error("Erro ao inserir disciplina:", error);
             insertMensagem(refMensagem, "Erro ao inserir disciplina.", false);
         }
-    };
+    }
 
     return (
         <Inserir
