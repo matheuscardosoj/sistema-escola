@@ -433,11 +433,11 @@ class ControllerTurma {
             },
         });
 
-        if (alunosHasTurma) {
-            alunosHasTurma.forEach(async (alunoHasTurma) => {
+        if (alunosHasTurma && alunosHasTurma.length > 0) {
+            for (const alunoHasTurma of alunosHasTurma) {
                 alunoHasTurma.status = 'inativo';
                 await alunoHasTurma.save();
-            });
+            }
         }
 
         return res.json(turma);
