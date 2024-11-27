@@ -30,7 +30,7 @@ function AlunoEditar({ title }) {
                 }
 
                 const aluno = await response.json();
-                
+
                 setFormValues({
                     nome: aluno.nome,
                     cpf: formataCPF(aluno.cpf),
@@ -107,7 +107,7 @@ function AlunoEditar({ title }) {
             valido = false;
         }
 
-        if(nome.length < 3) {
+        if (nome.length < 3) {
             mensagens.push("O nome deve conter no mínimo 3 caracteres.");
             valido = false;
         }
@@ -166,30 +166,30 @@ function AlunoEditar({ title }) {
     return (
         <Editar
             titulo="Editar Aluno"
-            buttonVoltar={<Link to="/professor" className="buttonVoltar button">Voltar</Link>}
+            buttonVoltar={<Link to="/aluno" className="buttonVoltar button">Voltar</Link>}
             buttonEditar={<button className="button" id="buttonEnviar" onClick={handleEnviarClick} disabled={disabled}>Enviar</button>}
             inputs={[
                 <div className="form__containerElement" key="nome">
                     <label htmlFor="nome">Nome:</label>
-                    <input type="text" id="nome" ref={inputRefs.nome} onChange={handleInputChange} value={formValues.nome} disabled={disabled}/>
+                    <input type="text" id="nome" ref={inputRefs.nome} onChange={handleInputChange} value={formValues.nome} disabled={disabled} />
                 </div>,
 
                 <div className="form__containerElement" key="cpf">
                     <label htmlFor="cpf">CPF:</label>
-                    <input type="text" id="cpf" ref={inputRefs.cpf} onChange={handleInputChange} value={formValues.cpf} disabled={disabled}/>
+                    <input type="text" id="cpf" ref={inputRefs.cpf} onChange={handleInputChange} value={formValues.cpf} disabled={disabled} />
                 </div>,
 
                 <div className="form__containerElement" key="endereco">
                     <label htmlFor="endereco">Endereço:</label>
-                    <input type="text" id="endereco" ref={inputRefs.endereco} onChange={handleInputChange} value={formValues.endereco} disabled={disabled}/>
+                    <input type="text" id="endereco" ref={inputRefs.endereco} onChange={handleInputChange} value={formValues.endereco} disabled={disabled} />
                 </div>,
 
                 <div className="form__containerElement" key="telefone">
                     <label htmlFor="telefone">Telefone:</label>
-                    <input type="text" id="telefone" ref={inputRefs.telefone} onChange={handleInputChange} value={formValues.telefone} disabled={disabled}/>
+                    <input type="text" id="telefone" ref={inputRefs.telefone} onChange={handleInputChange} value={formValues.telefone} disabled={disabled} />
                 </div>
             ]}
-            divMensagem={<div className="mensagem mensagem--hidden" ref={ refMensagem }></div>}
+            divMensagem={<div className="mensagem mensagem--hidden" ref={refMensagem}></div>}
         />
     );
 }

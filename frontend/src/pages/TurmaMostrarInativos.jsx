@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Mostrar from "../components/Mostrar";
 import ApiTurma from "../api/ApiTurma";
 import { useEffect, useRef, useState } from "react";
-import { formataCPF, formataTelefone, insertMensagem, useDocumentTitle } from "../utils/helpers";
+import { insertMensagem, useDocumentTitle } from "../utils/helpers";
 
 const apiTurma = new ApiTurma();
 
@@ -34,7 +34,7 @@ function TurmaMostrarInativos({ title }) {
     async function updateTurmasInativas() {
         try {
             const response = await apiTurma.pegarTurmasInativas();
-            
+
             if (response.status !== 200) {
                 const { error } = await response.json();
 
@@ -46,7 +46,7 @@ function TurmaMostrarInativos({ title }) {
             }
 
             const turmasInativas = await response.json();
-            
+
             setTurmasInativas(turmasInativas);
         } catch (error) {
             console.error("Erro ao buscar turmas inativas:", error);
@@ -78,8 +78,8 @@ function TurmaMostrarInativos({ title }) {
                 const { error } = await response.json();
 
                 console.error("Erro ao ativar turma:", error);
-                insertMensagem(refMensagem, "Erro ao ativar turma.", false);
-                
+                insertMensagem(refMensagem, error, false);
+
                 return;
             }
 
@@ -94,7 +94,7 @@ function TurmaMostrarInativos({ title }) {
     async function handlePesquisar(event) {
         const pesquisa = event.target.value;
 
-        if(pesquisa.trim() === '') {
+        if (pesquisa.trim() === '') {
             updateTurmasInativas();
             return;
         }
@@ -133,7 +133,7 @@ function TurmaMostrarInativos({ title }) {
                 },
             ]}
             handlePesquisar={handlePesquisar}
-            divMensagem={<div ref={ refMensagem } className="mensagem mensagem--hidden"></div>}
+            divMensagem={<div ref={refMensagem} className="mensagem mensagem--hidden"></div>}
         />
     );
 }
