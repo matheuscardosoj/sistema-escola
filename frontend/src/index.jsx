@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home.jsx';
 import DisciplinaGerenciar from './pages/DisciplinaGerenciar.jsx';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import DisciplinaInserir from './pages/DisciplinaInserir.jsx';
 import DisciplinaMostrarInativos from './pages/DisciplinaMostrarInativos.jsx';
 import DisciplinaEditar from './pages/DisciplinaEditar.jsx';
